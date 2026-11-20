@@ -23,3 +23,11 @@ test('the scale-transformation exercises accept the derived answers',()=>{
   assert.equal(status.textContent,'Верно!',id);
  }
 });
+
+test('chapter filter keeps original exercise indices and hides the chapter-one case',()=>{
+ vm.runInContext("workbook('3')",ctx);assert.match(node.innerHTML,/№ 3\.2/);assert.doesNotMatch(node.innerHTML,/№ [1245]\./);assert.equal(node.hidden,true);
+ const status={};ctx.form={elements:{answer:{value:'1'}},querySelector:()=>status};
+ vm.runInContext("checkBook(form,olympBookTasks.findIndex(x=>x.id==='2.2'))",ctx);assert.match(status.textContent,/неверно/);
+ ctx.form.elements.answer.value='0';vm.runInContext("checkBook(form,olympBookTasks.findIndex(x=>x.id==='2.2'))",ctx);assert.equal(status.textContent,'Верно!');
+ vm.runInContext('workbook()',ctx);assert.equal(node.hidden,false);assert.equal((node.innerHTML.match(/№ /g)||[]).length,42);
+});
