@@ -30,3 +30,29 @@
   });
   followLink();
 })();
+
+// Interactive models start paused; a time step is also available without motion.
+for (const [id,brake] of [['read-brake',true],['read-swing',false]]) {
+  const note=document.getElementById(id), box=document.createElement('section');
+  box.className='motion-lab';
+  box.innerHTML=`<h4>Лаборатория движения</h4><p>${brake?'Предскажи остановочный путь, затем запусти торможение. Время реакции здесь равно нулю.':'Измени период. За сколько секунд груз вернётся к правому краю?'}</p>
+    <label>${brake?'Начальная скорость':'Период колебаний'} <input type="range" min="${brake?4:1}" max="${brake?20:5}" step="${brake?1:0.5}" value="${brake?12:2}"> <output></output></label>
+    <svg viewBox="0 0 320 65" aria-hidden="true"><path d="M14 44H306" stroke="#557782"/><circle cy="34" r="9" fill="#bf623a"/></svg>
+    <p class="motion-reading"></p><div class="buttons"><button type="button">Запустить</button><button type="button">Шаг времени</button><button type="button">Сначала</button></div>`;
+  note.querySelector('.shelf-source').before(box);
+  const slider=box.querySelector('input'), [play,step,reset]=box.querySelectorAll('button');
+  let time=0,frame=0,previous=0;
+  function draw(){
+    const v=Number(slider.value), end=brake?v/4:2*v;
+    time=Math.min(time,end);
+    const x=brake?v*time-2*time*time:Math.cos(2*Math.PI*time/v);
+    box.querySelector('circle').setAttribute('cx',brake?15+x*5.8:160+130*x);
+    box.querySelector('output').textContent=v+(brake?' m/s':' s');
+    box.querySelector('.motion-reading').textContent=`t = ${time.toFixed(2)} s · x = ${x.toFixed(2)} m · `+(brake?`v = ${(v-4*time).toFixed(2)} m/s · a = −4 m/s²`:`A = 1 m · f = ${(1/v).toFixed(2)} Hz`);
+    return time>=end;
+  }
+  function pause(){cancelAnimationFrame(frame);frame=0;play.textContent='Запустить'}
+  function tick(now){if(!note.open||!box.getClientRects().length){pause();return}time+=(now-previous)/1000;previous=now;if(draw())pause();else frame=requestAnimationFrame(tick)}
+  play.onclick=()=>{if(frame){pause();return}if(draw())time=0;previous=performance.now();play.textContent='Приостановить';frame=requestAnimationFrame(tick)};
+  step.onclick=()=>{pause();time+=0.25;draw()};slider.oninput=reset.onclick=()=>{pause();time=0;draw()};draw();
+}
