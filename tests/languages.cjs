@@ -29,5 +29,5 @@ test('chapter filter keeps original exercise indices and hides the chapter-one c
  const status={};ctx.form={elements:{answer:{value:'1'}},querySelector:()=>status};
  vm.runInContext("checkBook(form,olympBookTasks.findIndex(x=>x.id==='2.2'))",ctx);assert.match(status.textContent,/неверно/);
  ctx.form.elements.answer.value='0';vm.runInContext("checkBook(form,olympBookTasks.findIndex(x=>x.id==='2.2'))",ctx);assert.equal(status.textContent,'Верно!');
- vm.runInContext('workbook()',ctx);assert.equal(node.hidden,false);assert.equal((node.innerHTML.match(/№ /g)||[]).length,42);
+ vm.runInContext('workbook()',ctx);assert.equal(node.hidden,false);assert.equal((node.innerHTML.match(/№ /g)||[]).length,55);
 });
