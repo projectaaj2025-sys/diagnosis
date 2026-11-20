@@ -5755,5 +5755,121 @@ const languageCatalog = {
  "Шаг времени": [
   "Step time",
   "Уақыт қадамы"
+ ],
+ "ИИ-наставник по результатам диагностики": [
+  "AI tutor for diagnostic results",
+  "Диагностика нәтижелері бойынша ЖИ тәлімгері"
+ ],
+ "Как подключить свой ключ": [
+  "How to connect your own key",
+  "Өз кілтіңді қалай қосуға болады"
+ ],
+ "Пройди диагностику и открой план. Выбери цель, число недель и нагрузку. Без ответов наставник предложит стартовую проверку, а не вывод об уровне.": [
+  "Complete the diagnostic and open the plan. Choose a goal, weeks and workload. Without answers the tutor suggests a starting assessment, not a level estimate.",
+  "Диагностиканы өтіп, жоспарды аш. Мақсатты, апта санын және жүктемені таңда. Жауаптар болмаса, тәлімгер деңгейді бағаламай, бастапқы тексеріс ұсынады."
+ ],
+ "Для Gemini открой Google AI Studio → Get API key. Войди в свой аккаунт, выбери или создай проект и создай отдельный ключ. Проверь доступ к Gemini API, квоты и условия тарифа проекта.": [
+  "For Gemini open Google AI Studio → Get API key. Sign in, choose or create a project, and create a dedicated key. Check Gemini API access, quotas and your project pricing.",
+  "Gemini үшін Google AI Studio → Get API key бөлімін аш. Аккаунтыңа кіріп, жобаны таңда немесе құр да, бөлек кілт жаса. Gemini API рұқсатын, квотаны және жоба тарифін тексер."
+ ],
+ "Для OpenAI или Anthropic создай ключ в консоли своего поставщика. Подписка на чат не заменяет доступ к API. Установи доступные лимиты расходов и не используй общий ключ класса.": [
+  "For OpenAI or Anthropic create a key in the provider console. A chat subscription does not grant API credit. Set available spending limits and do not use a shared classroom key.",
+  "OpenAI немесе Anthropic кілтін өз провайдеріңнің консолінде жаса. Чат жазылымы API теңгерімін бермейді. Қолжетімді шығын шектерін орнат және сыныпқа ортақ кілт қолданба."
+ ],
+ "Вставь ключ ниже. По знакомому префиксу сайт предложит поставщика, но не проверяет ключ на разных сервисах. Если формат неоднозначен, выбери поставщика сам. Проверь название перед отправкой.": [
+  "Paste the key below. A familiar prefix suggests a provider; the site never tests a key across services. For ambiguous formats select the provider yourself. Check the destination before sending.",
+  "Кілтті төменге енгіз. Белгілі префикс бойынша сайт провайдерді ұсынады, бірақ кілтті әртүрлі сервистерде сынамайды. Пішімі белгісіз болса, провайдерді өзің таңда. Жібермей тұрып атауын тексер."
+ ],
+ "При необходимости замени модель на её точный API ID из кабинета. Раскрой запрос: отправятся цель, сводка по темам и черновик плана, но не имя, ответы или протокол исследования. Нажми кнопку только если согласен передать эти данные выбранному сервису. Возможна плата по его тарифу.": [
+  "If needed replace the model with its exact API ID from your console. Preview the prompt: it includes your goal, topic totals and draft plan, not your name, answers or research log. Send only if you agree to share this with the selected provider. API charges may apply.",
+  "Қажет болса, кабинеттегі модельдің нақты API ID мәнін енгіз. Сұрауды аш: мақсат, тақырыптар қорытындысы және жоспар жобасы жіберіледі, есім, жауаптар мен зерттеу хаттамасы жіберілмейді. Осы деректерді таңдаған сервиске беруге келіссең ғана жібер. API ақылы болуы мүмкін."
+ ],
+ "Ключ используется только в этой вкладке и передаётся напрямую выбранному API. Не вводи его на чужом устройстве. После работы нажми «Очистить ключ». При утечке отзови ключ в кабинете поставщика.": [
+  "The key is used only in this tab and sent directly to the selected API. Avoid entering it on shared devices. Clear it after use. Revoke leaked keys in the provider console.",
+  "Кілт тек осы қойындыда қолданылады және таңдалған API-ге тікелей беріледі. Бөтен құрылғыда енгізбе. Жұмыстан соң кілтті тазала. Кілт ашылып қалса, оны провайдер кабинетінде қайтарып ал."
+ ],
+ "Личный API-ключ": [
+  "Personal API key",
+  "Жеке API кілті"
+ ],
+ "Поставщик": [
+  "Provider",
+  "Провайдер"
+ ],
+ "Определить автоматически": [
+  "Detect automatically",
+  "Автоматты анықтау"
+ ],
+ "Получатель запроса": [
+  "Request destination",
+  "Сұрау алушысы"
+ ],
+ "Модель (API ID)": [
+  "Model (API ID)",
+  "Модель (API ID)"
+ ],
+ "Посмотреть отправляемый запрос": [
+  "Preview outgoing prompt",
+  "Жіберілетін сұрауды көру"
+ ],
+ "Отправить сводку и получить разбор": [
+  "Send summary and get feedback",
+  "Қорытындыны жіберіп, талдау алу"
+ ],
+ "Очистить ключ": [
+  "Clear key",
+  "Кілтті тазалау"
+ ],
+ "Выбери поставщика вручную": [
+  "Select the provider manually",
+  "Провайдерді қолмен таңда"
+ ],
+ "Проверь идентификатор модели.": [
+  "Check the model ID.",
+  "Модель идентификаторын тексер."
+ ],
+ "Ожидаем ответ модели…": [
+  "Waiting for the model…",
+  "Модель жауабын күтудеміз…"
+ ],
+ "Проверь ключ, модель и настройки API.": [
+  "Check the key, model and API settings.",
+  "Кілтті, модельді және API баптауларын тексер."
+ ],
+ "Ключ отклонён. Проверь поставщика и ключ.": [
+  "Key rejected. Check the provider and key.",
+  "Кілт қабылданбады. Провайдер мен кілтті тексер."
+ ],
+ "Нет доступа. Проверь ограничения ключа и разрешения.": [
+  "Access denied. Check key restrictions and permissions.",
+  "Рұқсат жоқ. Кілт шектеулері мен рұқсаттарды тексер."
+ ],
+ "Модель недоступна. Укажи модель из своего кабинета.": [
+  "Model unavailable. Enter a model from your console.",
+  "Модель қолжетімсіз. Кабинеттегі модельді көрсет."
+ ],
+ "Лимит запросов или квота исчерпаны.": [
+  "Rate limit or quota exceeded.",
+  "Сұрау шегі немесе квота таусылды."
+ ],
+ "Сервис временно недоступен. Попробуй позже.": [
+  "Service unavailable. Try again later.",
+  "Сервис уақытша қолжетімсіз. Кейін қайтала."
+ ],
+ "Модель не вернула текст.": [
+  "The model returned no text.",
+  "Модель мәтін қайтармады."
+ ],
+ "Рекомендации модели. Сверяй расчёты с учебником.": [
+  "Model suggestions. Check calculations against the textbook.",
+  "Модель ұсыныстары. Есептеулерді оқулықпен тексер."
+ ],
+ "Время ожидания истекло.": [
+  "Request timed out.",
+  "Күту уақыты аяқталды."
+ ],
+ "Не удалось связаться с API. Проверь сеть и доступ из браузера.": [
+  "Cannot reach the API. Check your network and browser access.",
+  "API-ге қосылу мүмкін болмады. Желіні және браузер рұқсатын тексер."
  ]
 };
