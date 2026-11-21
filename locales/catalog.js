@@ -1,6 +1,11 @@
 // Russian source text → English, Kazakh. Shared by the UI, lessons and answer reviews.
 const languageCatalog = {
- "Весь год": ["Full year", "Жыл бойы"],
+ "Для ключа не разрешён этот сайт. Проверь список разрешённых сайтов в настройках ключа.": ["This site is not allowed by the key. Check the allowed websites in your key settings.","Кілт бұл сайтқа рұқсат бермейді. Кілт баптауындағы рұқсатты сайттар тізімін тексер."],
+ "Для этого проекта или ключа не разрешён Gemini API.": ["Gemini API is not enabled for this project or key.","Бұл жоба не кілт үшін Gemini API рұқсат етілмеген."],
+ "Весь год": [
+  "Full year",
+  "Жыл бойы"
+ ],
  "ФизЛаб — диагностика по физике": [
   "PhysLab — physics diagnostics",
   "ФизЛаб — физика диагностикасы"
@@ -6168,5 +6173,69 @@ const languageCatalog = {
  "При сравнении смотри на число ответов, а не только на проценты.": [
   "Compare response counts as well as percentages.",
   "Пайызбен бірге жауап санын да салыстыр."
+ ],
+ "ИИ-наставник по физике": [
+  "AI physics tutor",
+  "Физика бойынша ЖИ тәлімгері"
+ ],
+ "Для вопросов по теории и задач диагностика не нужна. Для разбора результатов выбери режим диагностики.": [
+  "You can ask about theory and problems without a diagnostic. Select diagnostic review for your assessment results.",
+  "Теория мен есептерге диагностика қажет емес. Нәтижені талдауға диагностика режимін таңда."
+ ],
+ "Проверить подключение": [
+  "Test connection",
+  "Қосылымды тексеру"
+ ],
+ "Проверка отправляет короткий запрос без данных ученика и расходует квоту выбранной модели.": [
+  "Testing sends a short request without learner data and uses the selected model’s quota.",
+  "Тексеру оқушы деректерінсіз қысқа сұрау жіберіп, таңдалған модель квотасын пайдаланады."
+ ],
+ "Режим наставника": [
+  "Tutoring mode",
+  "Тәлімгер режимі"
+ ],
+ "Вопрос по теории": [
+  "Theory question",
+  "Теория сұрағы"
+ ],
+ "Решаем по шагам": [
+  "Work step by step",
+  "Қадамдап шығару"
+ ],
+ "Разбор диагностики": [
+  "Diagnostic review",
+  "Диагностиканы талдау"
+ ],
+ "Вопрос или твой следующий шаг": [
+  "Your question or next step",
+  "Сұрағың немесе келесі қадамың"
+ ],
+ "Отправляются вопрос, выбранная тема и недавние реплики этого диалога. Не вводи имена, ключи или другие личные данные.": [
+  "Your question, chosen topic and recent turns in this conversation are sent. Do not include names, keys or other personal data.",
+  "Сұрақ, тақырып және осы диалогтың соңғы хабарлары жіберіледі. Аты-жөнді, кілтті немесе басқа жеке деректерді жазба."
+ ],
+ "Отправить наставнику": [
+  "Send to tutor",
+  "Тәлімгерге жіберу"
+ ],
+ "Новый диалог": [
+  "New conversation",
+  "Жаңа диалог"
+ ],
+ "Подключение проверено: модель ответила.": [
+  "Connection verified: the model responded.",
+  "Қосылым тексерілді: модель жауап берді."
+ ],
+ "Формат ключа не соответствует выбранному поставщику.": [
+  "The key format does not match the selected provider.",
+  "Кілт пішімі таңдалған провайдерге сәйкес емес."
+ ],
+ "Удали API-ключ из текста вопроса.": [
+  "Remove the API key from your question.",
+  "Сұрақ мәтінінен API кілтін өшір."
+ ],
+ "Ключ остаётся в памяти вкладки до очистки или перезагрузки. Проверь получателя и точный API ID модели. Раскрой предварительный просмотр перед отправкой. В режиме диагностики отправляется сводка, в учебном диалоге — вопрос и контекст. Возможна плата по тарифу поставщика.": [
+  "The key stays in tab memory until cleared or reloaded. Check the destination and exact model ID. Preview the request before sending. Diagnostic review sends a summary; tutoring sends your question and context. Provider charges may apply.",
+  "Кілт өшіргенше немесе бетті жаңартқанша қойынды жадында қалады. Алушы мен модельдің API ID атауын тексер. Жібермей тұрып сұрауды қара. Диагностика режимінде қорытынды, оқу диалогында сұрақ пен контекст жіберіледі. Провайдер ақы алуы мүмкін."
  ]
 };

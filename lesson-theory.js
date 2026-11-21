@@ -132,3 +132,368 @@ const paragraphTheory = {
   "11.1": ["Уравнение гармонического движения связывает координату и время. Амплитуда задаёт высоту волны на графике, период — расстояние по оси времени между соседними вершинами, начальная фаза — где на кривой находится точка при запуске часов. График не изображает форму траектории груза: сам груз может двигаться по прямой.", "The harmonic motion equation relates position to time. Amplitude sets the graph height, period the time between adjacent peaks, and initial phase the point on the curve when the clock starts. The graph is not the path of the mass: the mass can move along a straight line.", "Гармоникалық қозғалыс теңдеуі координатаны уақытпен байланыстырады. Амплитуда график биіктігін, период көрші шыңдардың уақыт аралығын, бастапқы фаза сағат қосылғандағы нүктені анықтайды. График жүктің траекториясы емес: жүк түзу бойымен қозғала алады."],
   "11.24": ["Полное внутреннее отражение возможно при переходе из оптически более плотной среды в менее плотную. При критическом угле преломлённый луч идёт вдоль границы; при большем угле распространяющегося преломлённого луча уже нет. Угол измеряют от нормали внутри первой среды.", "Total internal reflection requires propagation from higher to lower refractive index. At the critical angle the refracted ray runs along the interface; beyond it no propagating refracted ray exists. Measure incidence from the normal in the first medium.", "Толық ішкі шағылу сыну көрсеткіші жоғары ортадан төмен ортаға өткенде мүмкін. Шекті бұрышта сынған сәуле шекара бойымен кетеді, одан үлкен бұрышта таралатын сынған сәуле жоқ. Бұрыш бірінші ортадағы нормальдан өлшенеді."]
 };
+
+// Adapted from the highlighted boxes; page numbers refer to the printed textbook.
+const bookDefinitions={
+ "7.1": [
+  [
+   8,
+   [
+    "Физическое тело — отдельный предмет, имеющий форму и объём. Вещество — материал, из которого образовано тело. При физическом явлении не образуется другое вещество.",
+    "A physical body is a distinct object with shape and volume. A substance is the material of a body. A physical change does not produce a new substance.",
+    "Физикалық дене — пішіні мен көлемі бар жеке нәрсе. Зат — денені құрайтын материал. Физикалық құбылыс кезінде басқа зат түзілмейді."
+   ]
+  ]
+ ],
+ "8.1": [
+  [
+   6,
+   [
+    "Тепловое движение — беспорядочное движение атомов и молекул вещества.",
+    "Thermal motion is the random motion of the atoms and molecules of matter.",
+    "Жылулық қозғалыс — зат атомдары мен молекулаларының ретсіз қозғалысы."
+   ]
+  ],
+  [
+   8,
+   [
+    "Броуновское движение — непрерывное беспорядочное движение взвешенных в жидкости или газе мелких частиц из-за ударов молекул среды.",
+    "Brownian motion is the continuous random motion of small suspended particles caused by molecular impacts in a liquid or gas.",
+    "Броундық қозғалыс — сұйықта не газда қалқып жүрген ұсақ бөлшектердің орта молекулаларының соққысынан ретсіз, үздіксіз қозғалуы."
+   ]
+  ],
+  [
+   8,
+   [
+    "Диффузия — взаимное проникновение частиц веществ вследствие их теплового движения.",
+    "Diffusion is the intermingling of particles of substances through thermal motion.",
+    "Диффузия — жылулық қозғалыс салдарынан зат бөлшектерінің өзара енуі."
+   ]
+  ]
+ ],
+ "8.2": [
+  [
+   11,
+   [
+    "Температура — физическая величина, характеризующая тепловое состояние тела.",
+    "Temperature is a physical quantity describing a body's thermal state.",
+    "Температура — дененің жылулық күйін сипаттайтын физикалық шама."
+   ]
+  ],
+  [
+   12,
+   [
+    "Тепловое равновесие — состояние тел в тепловом контакте, при котором их температуры равны и нет суммарной передачи теплоты.",
+    "Thermal equilibrium is the state of bodies in thermal contact with equal temperatures and no net heat transfer.",
+    "Жылулық тепе-теңдік — жанасқан денелердің температуралары тең болып, қорытқы жылу алмасу болмайтын күй."
+   ]
+  ]
+ ],
+ "8.3": [
+  [
+   16,
+   [
+    "Внутренняя энергия — сумма энергии теплового движения частиц тела и потенциальной энергии их взаимодействия.",
+    "Internal energy is the sum of the thermal kinetic energy of a body's particles and the potential energy of their interactions.",
+    "Ішкі энергия — дене бөлшектерінің жылулық қозғалыс энергиясы мен өзара әрекеттесуінің потенциалдық энергиясының қосындысы."
+   ]
+  ],
+  [
+   19,
+   [
+    "Теплопередача — передача энергии от более нагретого тела к менее нагретому вследствие разности температур.",
+    "Heat transfer is the transfer of energy from a hotter body to a colder body due to a temperature difference.",
+    "Жылу берілу — температура айырмасынан энергияның ыстық денеден салқын денеге өтуі."
+   ]
+  ]
+ ],
+ "8.4": [
+  [
+   21,
+   [
+    "Теплопроводность — перенос энергии от более нагретых частей тела к менее нагретым за счёт движения и взаимодействия частиц, без общего течения вещества.",
+    "Conduction transfers energy from hotter regions to colder ones through particle motion and interactions without bulk flow.",
+    "Жылуөткізгіштік — зат тұтас ақпай, бөлшектердің қозғалысы мен әрекеттесуі арқылы энергияның ыстық бөліктен салқын бөлікке берілуі."
+   ]
+  ],
+  [
+   23,
+   [
+    "Конвекция — перенос энергии потоками жидкости или газа.",
+    "Convection is energy transport by the bulk motion of a liquid or gas.",
+    "Конвекция — сұйық не газ ағындарының энергия тасымалдауы."
+   ]
+  ],
+  [
+   24,
+   [
+    "Излучение как способ теплопередачи — испускание, перенос и поглощение энергии электромагнитных волн.",
+    "Radiative heat transfer involves emission, transport and absorption of electromagnetic energy.",
+    "Сәуле арқылы жылу берілу электромагниттік энергияның шығарылуын, тасымалдануын және жұтылуын қамтиды."
+   ]
+  ]
+ ],
+ "9.1": [
+  [
+   6,
+   [
+    "Механическое движение — изменение положения тела относительно других тел с течением времени. Кинематика описывает это движение, не рассматривая его причин.",
+    "Mechanical motion is a change of position relative to other bodies over time. Kinematics describes it without considering its causes.",
+    "Механикалық қозғалыс — дененің басқа денелерге қатысты орнының уақыт бойынша өзгеруі. Кинематика қозғалысты себептерін қарастырмай сипаттайды."
+   ]
+  ],
+  [
+   8,
+   [
+    "Материальная точка — модель тела, формой и размерами которого в данной задаче можно пренебречь.",
+    "A point particle models a body whose shape and size can be neglected for the problem at hand.",
+    "Материалдық нүкте — берілген есепте пішіні мен өлшемін елемеуге болатын дененің моделі."
+   ]
+  ]
+ ],
+ "9.2": [
+  [
+   16,
+   [
+    "Проекция вектора на ось — величина со знаком, равная разности координат конца и начала вектора на этой оси.",
+    "A vector component along an axis is the signed difference between its endpoint and starting coordinates on that axis.",
+    "Вектордың осьтегі проекциясы — сол осьтегі соңғы және бастапқы нүкте координаталарының таңбалы айырмасы."
+   ]
+  ]
+ ],
+ "9.3": [
+  [
+   20,
+   [
+    "Среднее ускорение — изменение вектора скорости, делённое на промежуток времени, за который оно произошло.",
+    "Average acceleration is the change in the velocity vector divided by the elapsed time.",
+    "Орташа үдеу — жылдамдық векторы өзгерісінің сол өзгеріс болған уақытқа қатынасы."
+   ]
+  ]
+ ],
+ "10.2": [
+  [
+   10,
+   [
+    "Погрешность измерения характеризует отклонение измеренного значения от истинного. На практике истинное значение обычно неизвестно и погрешность приходится оценивать.",
+    "Measurement error is the deviation of a measured value from the true value. In practice the true value is usually unknown and the error must be estimated.",
+    "Өлшеу қатесі өлшенген мәннің шын мәннен ауытқуын сипаттайды. Шын мән әдетте белгісіз болғандықтан, қатені бағалайды."
+   ]
+  ]
+ ],
+ "10.4": [
+  [
+   23,
+   [
+    "Относительная скорость — скорость тела в подвижной системе отсчёта. Переносная скорость здесь — скорость поступательно движущейся системы относительно неподвижной.",
+    "Relative velocity is the body's velocity in the moving frame. Here transport velocity is the translating frame's velocity relative to the fixed frame.",
+    "Салыстырмалы жылдамдық — дененің қозғалмалы жүйедегі жылдамдығы. Мұндағы тасымал жылдамдық — ілгерілемелі жүйенің қозғалмайтын жүйеге қатысты жылдамдығы."
+   ]
+  ]
+ ],
+ "11.1": [
+  [
+   7,
+   [
+    "Фаза гармонического колебания — угловая величина, определяющая, на каком этапе цикла находится система в данный момент.",
+    "The phase of a harmonic oscillation is the angle specifying the system's current stage in its cycle.",
+    "Гармоникалық тербеліс фазасы — жүйенің осы сәтте циклдің қай бөлігінде екенін анықтайтын бұрыштық шама."
+   ]
+  ],
+  [
+   9,
+   [
+    "Сдвиг фаз — разность фаз двух гармонических колебаний одинаковой частоты, записанных через одну и ту же тригонометрическую функцию.",
+    "Phase shift is the difference in phase between equal-frequency harmonic oscillations written with the same trigonometric function.",
+    "Фазалық ығысу — бірдей тригонометриялық функциямен жазылған жиіліктері тең тербелістер фазаларының айырымы."
+   ]
+  ]
+ ]
+};
+const bookDiagrams={
+ "7.10": [
+  [
+   "motion-graphs",
+   3,
+   [
+    "Сравни строки ускорения, скорости и координаты в одном столбце. Один столбец описывает одно движение.",
+    "Read acceleration, velocity and position down one column. Each column describes a single motion.",
+    "Үдеу, жылдамдық және координата жолдарын бір бағанмен салыстыр. Бір баған бір қозғалысты сипаттайды."
+   ]
+  ]
+ ],
+ "9.3": [
+  [
+   "motion-graphs",
+   3,
+   [
+    "Сравни строки ускорения, скорости и координаты в одном столбце. Один столбец описывает одно движение.",
+    "Read acceleration, velocity and position down one column. Each column describes a single motion.",
+    "Үдеу, жылдамдық және координата жолдарын бір бағанмен салыстыр. Бір баған бір қозғалысты сипаттайды."
+   ]
+  ]
+ ],
+ "9.4": [
+  [
+   "motion-graphs",
+   3,
+   [
+    "Сравни строки ускорения, скорости и координаты в одном столбце. Один столбец описывает одно движение.",
+    "Read acceleration, velocity and position down one column. Each column describes a single motion.",
+    "Үдеу, жылдамдық және координата жолдарын бір бағанмен салыстыр. Бір баған бір қозғалысты сипаттайды."
+   ]
+  ]
+ ],
+ "10.3": [
+  [
+   "motion-graphs",
+   3,
+   [
+    "Сравни строки ускорения, скорости и координаты в одном столбце. Один столбец описывает одно движение.",
+    "Read acceleration, velocity and position down one column. Each column describes a single motion.",
+    "Үдеу, жылдамдық және координата жолдарын бір бағанмен салыстыр. Бір баған бір қозғалысты сипаттайды."
+   ]
+  ]
+ ],
+ "10.21": [
+  [
+   "isoprocesses",
+   7,
+   [
+    "Каждый столбец сохраняет одну величину. Сначала прочитай подписи осей: одна и та же изотерма по-разному выглядит в координатах p–V и V–T.",
+    "One quantity is fixed in each column. Read the axes first: the same isotherm looks different in p–V and V–T coordinates.",
+    "Әр бағанда бір шама тұрақты. Алдымен осьтерді оқы: бір изотерма p–V және V–T координаталарында әртүрлі көрінеді."
+   ]
+  ]
+ ],
+ "8.10": [
+  [
+   "heat-stages",
+   7,
+   [
+    "Наклонные участки соответствуют изменению температуры, горизонтальные — фазовому переходу при постоянном давлении.",
+    "Sloping sections show temperature change; plateaus mark a phase transition at constant pressure.",
+    "Көлбеу бөліктер температура өзгерісін, көлденең бөліктер тұрақты қысымдағы фазалық ауысуды көрсетеді."
+   ]
+  ]
+ ],
+ "8.11": [
+  [
+   "heat-stages",
+   7,
+   [
+    "Наклонные участки соответствуют изменению температуры, горизонтальные — фазовому переходу при постоянном давлении.",
+    "Sloping sections show temperature change; plateaus mark a phase transition at constant pressure.",
+    "Көлбеу бөліктер температура өзгерісін, көлденең бөліктер тұрақты қысымдағы фазалық ауысуды көрсетеді."
+   ]
+  ]
+ ],
+ "8.12": [
+  [
+   "heat-stages",
+   7,
+   [
+    "Наклонные участки соответствуют изменению температуры, горизонтальные — фазовому переходу при постоянном давлении.",
+    "Sloping sections show temperature change; plateaus mark a phase transition at constant pressure.",
+    "Көлбеу бөліктер температура өзгерісін, көлденең бөліктер тұрақты қысымдағы фазалық ауысуды көрсетеді."
+   ]
+  ]
+ ],
+ "9.25": [
+  [
+   "mechanical-oscillations",
+   11,
+   [
+    "Сопоставь координату и скорость в один момент времени. В крайней точке скорость равна нулю, а потенциальная энергия максимальна.",
+    "Compare position and velocity at the same instant. At a turning point speed vanishes and potential energy is greatest.",
+    "Бір мезеттегі координата мен жылдамдықты салыстыр. Шеткі нүктеде жылдамдық нөл, потенциалдық энергия ең үлкен."
+   ]
+  ]
+ ],
+ "11.1": [
+  [
+   "mechanical-oscillations",
+   11,
+   [
+    "Сопоставь координату и скорость в один момент времени. В крайней точке скорость равна нулю, а потенциальная энергия максимальна.",
+    "Compare position and velocity at the same instant. At a turning point speed vanishes and potential energy is greatest.",
+    "Бір мезеттегі координата мен жылдамдықты салыстыр. Шеткі нүктеде жылдамдық нөл, потенциалдық энергия ең үлкен."
+   ]
+  ]
+ ],
+ "11.3": [
+  [
+   "mechanical-oscillations",
+   11,
+   [
+    "Сопоставь координату и скорость в один момент времени. В крайней точке скорость равна нулю, а потенциальная энергия максимальна.",
+    "Compare position and velocity at the same instant. At a turning point speed vanishes and potential energy is greatest.",
+    "Бір мезеттегі координата мен жылдамдықты салыстыр. Шеткі нүктеде жылдамдық нөл, потенциалдық энергия ең үлкен."
+   ]
+  ],
+  [
+   "electrical-oscillations",
+   11,
+   [
+    "При максимальном модуле заряда конденсатора ток на мгновение исчезает. Сравни графики энергии обоих полей вдоль одной вертикали времени.",
+    "At maximum capacitor charge magnitude the current briefly vanishes. Compare both field energies at the same time coordinate.",
+    "Конденсатор зарядының модулі ең үлкен сәтте ток нөл. Екі өрістің энергиясын бір уақыт мезетінде салыстыр."
+   ]
+  ]
+ ],
+ "9.28": [
+  [
+   "electrical-oscillations",
+   11,
+   [
+    "При максимальном модуле заряда конденсатора ток на мгновение исчезает. Сравни графики энергии обоих полей вдоль одной вертикали времени.",
+    "At maximum capacitor charge magnitude the current briefly vanishes. Compare both field energies at the same time coordinate.",
+    "Конденсатор зарядының модулі ең үлкен сәтте ток нөл. Екі өрістің энергиясын бір уақыт мезетінде салыстыр."
+   ]
+  ]
+ ],
+ "11.2": [
+  [
+   "electrical-oscillations",
+   11,
+   [
+    "При максимальном модуле заряда конденсатора ток на мгновение исчезает. Сравни графики энергии обоих полей вдоль одной вертикали времени.",
+    "At maximum capacitor charge magnitude the current briefly vanishes. Compare both field energies at the same time coordinate.",
+    "Конденсатор зарядының модулі ең үлкен сәтте ток нөл. Екі өрістің энергиясын бір уақыт мезетінде салыстыр."
+   ]
+  ]
+ ],
+ "7.16": [
+  [
+   "gravity",
+   5,
+   [
+    "В знаменателе стоит расстояние между центрами, а не высота над поверхностью.",
+    "The denominator uses centre-to-centre distance, not height above the surface.",
+    "Бөлімде беттен биіктік емес, центрлер аралығы тұр."
+   ]
+  ]
+ ],
+ "9.17": [
+  [
+   "gravity",
+   5,
+   [
+    "В знаменателе стоит расстояние между центрами, а не высота над поверхностью.",
+    "The denominator uses centre-to-centre distance, not height above the surface.",
+    "Бөлімде беттен биіктік емес, центрлер аралығы тұр."
+   ]
+  ]
+ ],
+ "10.8": [
+  [
+   "gravity",
+   5,
+   [
+    "В знаменателе стоит расстояние между центрами, а не высота над поверхностью.",
+    "The denominator uses centre-to-centre distance, not height above the surface.",
+    "Бөлімде беттен биіктік емес, центрлер аралығы тұр."
+   ]
+  ]
+ ]
+};
