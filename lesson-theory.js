@@ -497,3 +497,123 @@ const bookDiagrams={
   ]
  ]
 };
+
+for(const [lesson,diagram] of Object.entries({
+ "9.19": [
+  "throw-range",
+  4,
+  [
+   "Траектория при равной высоте старта и финиша.",
+   "Trajectory for equal launch and landing heights.",
+   "Бастапқы және соңғы биіктіктер тең болғандағы траектория."
+  ]
+ ],
+ "10.6": [
+  "throw-range",
+  4,
+  [
+   "Траектория при равной высоте старта и финиша.",
+   "Trajectory for equal launch and landing heights.",
+   "Бастапқы және соңғы биіктіктер тең болғандағы траектория."
+  ]
+ ],
+ "9.22": [
+  "work-area",
+  13,
+  [
+   "Площадь под графиком: сначала укажи оси, затем определяй физическую величину.",
+   "Area under a graph: identify both axes before assigning physical meaning.",
+   "График астындағы аудан: алдымен осьтерді анықтап, кейін физикалық мағынасын тап."
+  ]
+ ],
+ "10.22": [
+  "work-area",
+  13,
+  [
+   "Площадь под графиком: сначала укажи оси, затем определяй физическую величину.",
+   "Area under a graph: identify both axes before assigning physical meaning.",
+   "График астындағы аудан: алдымен осьтерді анықтап, кейін физикалық мағынасын тап."
+  ]
+ ],
+ "8.26": [
+  "circuit-combinations",
+  9,
+  [
+   "Последовательное и параллельное соединение: сравни общие токи и напряжения.",
+   "Series and parallel circuits: compare shared currents and voltages.",
+   "Тізбектей және параллель қосылыста ортақ ток пен кернеуді салыстыр."
+  ]
+ ],
+ "10.36": [
+  "circuit-combinations",
+  9,
+  [
+   "Последовательное и параллельное соединение: сравни общие токи и напряжения.",
+   "Series and parallel circuits: compare shared currents and voltages.",
+   "Тізбектей және параллель қосылыста ортақ ток пен кернеуді салыстыр."
+  ]
+ ],
+ "8.38": [
+  "geometry-optics",
+  12,
+  [
+   "Углы отражения и преломления отсчитывают от нормали.",
+   "Angles of reflection and refraction are measured from the normal.",
+   "Шағылу және сыну бұрыштары нормальдан өлшенеді."
+  ]
+ ],
+ "8.40": [
+  "geometry-optics",
+  12,
+  [
+   "Углы отражения и преломления отсчитывают от нормали.",
+   "Angles of reflection and refraction are measured from the normal.",
+   "Шағылу және сыну бұрыштары нормальдан өлшенеді."
+  ]
+ ],
+ "11.22": [
+  "geometry-optics",
+  12,
+  [
+   "Углы отражения и преломления отсчитывают от нормали.",
+   "Angles of reflection and refraction are measured from the normal.",
+   "Шағылу және сыну бұрыштары нормальдан өлшенеді."
+  ]
+ ],
+ "11.24": [
+  "geometry-optics",
+  12,
+  [
+   "Углы отражения и преломления отсчитывают от нормали.",
+   "Angles of reflection and refraction are measured from the normal.",
+   "Шағылу және сыну бұрыштары нормальдан өлшенеді."
+  ]
+ ],
+ "11.19": [
+  "wave-optics",
+  12,
+  [
+   "Сравни условия максимума и минимума интенсивности при сложении волн.",
+   "Compare conditions for intensity maxima and minima in wave superposition.",
+   "Толқындар қосылғанда қарқын максимумдары мен минимумдарының шарттарын салыстыр."
+  ]
+ ],
+ "11.20": [
+  "wave-optics",
+  12,
+  [
+   "Сравни условия максимума и минимума интенсивности при сложении волн.",
+   "Compare conditions for intensity maxima and minima in wave superposition.",
+   "Толқындар қосылғанда қарқын максимумдары мен минимумдарының шарттарын салыстыр."
+  ]
+ ],
+ "11.21": [
+  "wave-optics",
+  12,
+  [
+   "Сравни условия максимума и минимума интенсивности при сложении волн.",
+   "Compare conditions for intensity maxima and minima in wave superposition.",
+   "Толқындар қосылғанда қарқын максимумдары мен минимумдарының шарттарын салыстыр."
+  ]
+ ]
+}))(bookDiagrams[lesson] ||= []).push(diagram);

@@ -41,6 +41,7 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
   const rules=new Map(paragraphRules.flatMap(([keys,formula,usage])=>keys.map(key=>[key,{formula,usage}])));
   const byConcept = rows => new Map(rows.flatMap(([keys,text]) => keys.split(' ').map(key => [key,text])));
   const foundations=byConcept(lessonFoundations), explanations=byConcept(lessonExplanations), history=byConcept(lessonHistory);
+  const comparisons=new Map(contrastTables.flatMap(([keys,...content])=>keys.split(' ').map(k=>[k,content])));
   const fields=[];
 
   function index(){return language==='kk'?2:language==='en'?1:0}
@@ -98,17 +99,20 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       const standalone=paragraphActivities[id].intro;
       const theory=tag(card,'section',null,'reader-theory');
       tag(theory,'h4',['Сначала разберёмся','Understanding the idea','Алдымен түсініп алайық']);
+      if(!bookDefinitions[id]){const box=tag(theory,'aside',null,'reader-definition');tag(box,'strong',['Ключевое понятие','Key concept','Негізгі ұғым']);tag(box,'p',lessonGlossary[key])}
       for(const [p,definition] of bookDefinitions[id]||[]){const box=tag(theory,'aside',null,'reader-definition');tag(box,'strong',[`Определение · с. ${p}`,`Definition · p. ${p}`,`Анықтама · ${p}-б.`]);tag(box,'p',definition)}
       tag(theory,'p',standalone || foundations.get(key));
       const extension=paragraphTheory[id] || (!standalone && explanations.get(key));
       if(extension)tag(theory,'p',extension);
+      if(standaloneMath[id]){tag(theory,'h4',['Количественная связь','Quantitative relation','Сандық байланыс']);tag(theory,'p',standaloneLegends[id]);tag(theory,'div',null,'law model-equation').innerHTML=standaloneMath[id]}
+      if(comparisons.has(key)){const [title,first,second]=comparisons.get(key),table=tag(theory,'table',null,'reader-table');tag(table,'caption',title);const row=tag(table,'tr');tag(row,'th',['Сравнение','Comparison','Салыстыру']);tag(row,'th',['Физический смысл','Physical meaning','Физикалық мағына']);for(const [i,text] of [first,second].entries()){const r=tag(table,'tr');tag(r,'th',String(i+1));tag(r,'td',text)}}
       if(history.has(key)){const aside=tag(theory,'aside',null,'reader-history');tag(aside,'strong',['Из истории физики','From the history of physics','Физика тарихынан']);tag(aside,'p',history.get(key))}
 
       for(const [name,p,caption] of bookDiagrams[id]||[]){const figure=tag(theory,'figure',null,'source-diagram'),link=tag(figure,'a'),image=tag(link,'img');link.href=image.src=`assets/table-${name}.jpg`;link.target='_blank';link.rel='noopener';image.loading='lazy';image.alt=caption[index()];picker.addEventListener('change',()=>{image.alt=caption[picker.value==='en'?1:picker.value==='kk'?2:0]});tag(figure,'figcaption',caption);tag(figure,'small',[`Источник: «Курс физики в таблицах», с. ${p} · увеличить ↗`,`Source: Physics in Tables (Russian), p. ${p} · enlarge ↗`,`Дереккөз: «Курс физики в таблицах», ${p}-б. · үлкейту ↗`])}
       const ask=tag(theory,'a',['Обсудить этот урок с ИИ-наставником →','Discuss this lesson with the AI tutor →','Сабақты ЖИ тәлімгермен талқылау →'],'plan-link');ask.href='#ai-tutor';ask.dataset.askLesson=id;
       if(!standalone){tag(card,'p',idea);
       const si=sketches.findIndex(s=>s[0].split(' ').includes(key));if(si>=0){const [,path,l,r]=sketches[si];const figure=tag(card,'figure',null,'worked-figure');figure.innerHTML=`<svg aria-hidden="true" viewBox="0 0 255 99"><path d="${path}" fill="none" stroke="#416975" stroke-width="2.5"/><text x="25" y="94">${l}</text><text x="190" y="94">${r}</text></svg>`;tag(figure,'figcaption',legend[si])}
-      const rule=rules.get(key);tag(card,'h4',['Модель и условия применения','Model and assumptions','Модель және қолданылу шарттары']);tag(card,'div',null,'law model-equation').innerHTML=formattedLaws[rule.formula];tag(card,'p',rule.usage);tag(card,'h4',ui.example);tag(card,'p',example,'law');
+      const rule=rules.get(key);tag(card,'h4',['Модель и условия применения','Model and assumptions','Модель және қолданылу шарттары']);tag(card,'div',null,'law model-equation').innerHTML=formattedLaws[rule.formula];tag(card,'p',rule.usage);tag(card,'h4',ui.example);tag(card,'p',example);if(workedMath[key])tag(card,'div',null,'law model-equation').innerHTML=workedMath[key];
       }
       if(paragraphExtensions[id]){const [extra,calc]=paragraphExtensions[id];tag(card,'h4',ui.more);tag(card,'p',extra);tag(card,'p',calc,'law')}
       if(topicSupplement[id]){const [q,law,ex]=topicSupplement[id];tag(card,'h4',q);tag(card,'p',law,'law');tag(card,'p',ex)}
