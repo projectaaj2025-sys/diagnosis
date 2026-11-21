@@ -1,3 +1,9 @@
+const requestedLanguage = new URLSearchParams(location.search).get('lang');
+const playerLanguage = ['en','kk'].includes(requestedLanguage) ? requestedLanguage : 'ru';
+const languageIndex = ['ru','en','kk'].indexOf(playerLanguage);
+document.documentElement.lang = playerLanguage;
+function instrumentText(text){return instrumentLabels[text]?.[languageIndex-1] ?? text}
+function unit(text){return (playerLanguage==='en'?instrumentUnits:playerLanguage==='kk'?instrumentKkUnits:{})[text] ?? text}
 const TAU = Math.PI * 2, D2R = Math.PI / 180, R2D = 180 / Math.PI;
 const app = document.getElementById('app');
 const $ = (s, r = document) => r.querySelector(s);
@@ -9,7 +15,7 @@ function fmt(x, n = 2) {
   let s = x.toFixed(n);
   if (s.indexOf('.') >= 0) s = s.replace(/0+$/, '').replace(/\.$/, '');
   s = s.replace(/^-0(\.0+)?$/, '0');
-  return s.replace('.', ',');   // русская запись: десятичный разделитель — запятая
+  return playerLanguage==='en'?s:s.replace('.', ',');   // русская запись: десятичный разделитель — запятая
 }
 
 function sci(x, n = 2) {
@@ -278,7 +284,7 @@ function mountSim(hostId, simId) {
         <div>
           ${stageHead(def, simId)}
           <div class="canvasbox"><canvas id="cv_${simId}"></canvas></div>
-          <div class="simhint">${def.hint ? '💡 ' + def.hint + ' ' : ''}<b>${SIM_DEMOS[simId] ? 'Кнопка «Пуск» сама пройдёт все значения — смотрите, как меняется результат.' : 'Кнопка «Пуск» запускает модель, «Пауза» останавливает её.'}</b></div>
+          <div class="simhint">${def.hint ? '💡 ' + (languageIndex ? experimentLibrary[simId].guide[languageIndex] : def.hint) + ' ' : ''}<b>${instrumentText(SIM_DEMOS[simId] ? 'Кнопка «Пуск» сама пройдёт все значения — смотрите, как меняется результат.' : 'Кнопка «Пуск» запускает модель, «Пауза» останавливает её.')}</b></div>
         </div>
         <div>
           <div class="ctrls" id="ct_${simId}"></div>
@@ -290,28 +296,28 @@ function mountSim(hostId, simId) {
   /* элементы управления */
   let html = '';
   (def.params || []).forEach(p => {
-    html += `<div class="ctrl"><label><span>${p.label}</span><b id="lb_${simId}_${p.key}">${fmt(st.p[p.key], p.dec === undefined ? 1 : p.dec)}${p.unit ? ' ' + p.unit : ''}</b></label>
-      <input type="range" min="${p.min}" max="${p.max}" step="${p.step}" value="${st.p[p.key]}" data-k="${p.key}" data-dec="${p.dec === undefined ? 1 : p.dec}" data-unit="${p.unit || ''}"></div>`;
+    html += `<div class="ctrl"><label><span>${instrumentText(p.label)}</span><b id="lb_${simId}_${p.key}">${fmt(st.p[p.key], p.dec === undefined ? 1 : p.dec)}${p.unit ? ' ' + unit(p.unit) : ''}</b></label>
+      <input type="range" min="${p.min}" max="${p.max}" step="${p.step}" value="${st.p[p.key]}" data-k="${p.key}" data-dec="${p.dec === undefined ? 1 : p.dec}" data-unit="${unit(p.unit || '')}"></div>`;
   });
   (def.selects || []).forEach(s => {
-    html += `<div class="ctrl"><label><span>${s.label}</span></label><select class="sbtn" data-sel="${s.key}" style="width:100%">
-      ${s.options.map(o => `<option value="${o.v}" ${o.v === st.p[s.key] ? 'selected' : ''}>${o.label}</option>`).join('')}</select></div>`;
+    html += `<div class="ctrl"><label><span>${instrumentText(s.label)}</span></label><select class="sbtn" data-sel="${s.key}" style="width:100%">
+      ${s.options.map(o => `<option value="${o.v}" ${o.v === st.p[s.key] ? 'selected' : ''}>${instrumentText(o.label)}</option>`).join('')}</select></div>`;
   });
   if ((def.actions || []).length) {
     html += `<div class="ctrl"><div class="segbtns">` + def.actions.map((a, i) =>
-      `<button class="sbtn ${a.primary ? 'pri' : ''}" data-act="${i}">${a.label}</button>`).join('') + `</div></div>`;
+      `<button class="sbtn ${a.primary ? 'pri' : ''}" data-act="${i}">${instrumentText(a.label)}</button>`).join('') + `</div></div>`;
   }
   if (!def.static) {
     html += `<div class="ctrl"><div class="segbtns">
-      <button class="sbtn" data-play="1">▶ Пуск</button>
-      <button class="sbtn" data-reset="1">↺ Сброс</button></div></div>`;
+      <button class="sbtn" data-play="1">${instrumentText('▶ Пуск')}</button>
+      <button class="sbtn" data-reset="1">${instrumentText('↺ Сброс')}</button></div></div>`;
   }
-  html += `<div class="ctrl"><label><span>Масштаб кадра <i style="color:#8fa3c0;font-style:normal">— крупнее подписи</i></span></label>
+  html += `<div class="ctrl"><label><span>${instrumentText('Масштаб кадра')} <i style="color:#8fa3c0;font-style:normal">${instrumentText('— крупнее подписи')}</i></span></label>
     <div class="segbtns zoombar">
       <button class="sbtn on" data-zoom="1">100 %</button>
       <button class="sbtn" data-zoom="1.25">125 %</button>
       <button class="sbtn" data-zoom="1.5">150 %</button>
-      <button class="sbtn" data-theater="1">⛶ Во весь экран</button>
+      <button class="sbtn" data-theater="1">${instrumentText('⛶ Во весь экран')}</button>
     </div></div>`;
   ctrls.innerHTML = html;
 
@@ -369,7 +375,7 @@ function mountSim(hostId, simId) {
     const fresh = Object.assign({ t: 0 }, def.init ? def.init() : {}); fresh.p = Object.assign({}, st.p);
     Object.keys(st).forEach(k => delete st[k]); Object.assign(st, fresh);
     syncControls();
-    if (ACTIVE) { ACTIVE.paused = false; if (playB) playB.textContent = '⏸ Пауза'; }
+    if (ACTIVE) { ACTIVE.paused = false; if (playB) playB.textContent = instrumentText('⏸ Пауза'); }
     if (def.draw && ACTIVE) def.draw(ACTIVE.ctx, st, ACTIVE.w, ACTIVE.h);
   });
 
@@ -434,9 +440,9 @@ function mountSim(hostId, simId) {
 function updatePlayLabel(a) {
   const b = a && a.playB; if (!b) return;
   const demo = SIM_DEMOS[a.simId];
-  if (demo) b.textContent = (a.demo && !a.demo.done && !a.paused) ? '⏹ Стоп' : '▶ Пуск';
-  else if (a.def && a.def.step) b.textContent = a.paused ? '▶ Пуск' : '⏸ Пауза';
-  else b.textContent = a.paused ? '▶ Пуск' : '⏸ Пауза';
+  if (demo) b.textContent = (a.demo && !a.demo.done && !a.paused) ? instrumentText('⏹ Стоп') : instrumentText('▶ Пуск');
+  else if (a.def && a.def.step) b.textContent = a.paused ? instrumentText('▶ Пуск') : instrumentText('⏸ Пауза');
+  else b.textContent = a.paused ? instrumentText('▶ Пуск') : instrumentText('⏸ Пауза');
   b.classList.toggle('pri', !a.paused);
 }
 
@@ -450,7 +456,7 @@ function attachZoom(host) {
   const def = SIMS[simId] || {};
   if (!box.querySelector('.fsbtn')) {
     const b = document.createElement('button');
-    b.className = 'fsbtn'; b.type = 'button'; b.innerHTML = '⛶ Во весь экран';
+    b.className = 'fsbtn'; b.type = 'button'; b.innerHTML = instrumentText('⛶ Во весь экран');
     box.appendChild(b);
   }
   const btn = box.querySelector('.fsbtn');
@@ -464,7 +470,7 @@ function attachZoom(host) {
   const on = () => box.classList.contains('theater') || fsEl() === box;
   const paint = () => {
     const on2 = on();
-    const label = on2 ? '✕ Выйти (Esc)' : '⛶ Во весь экран';
+    const label = on2 ? instrumentText('✕ Выйти (Esc)') : instrumentText('⛶ Во весь экран');
     if (btn) btn.innerHTML = label;
     host.querySelectorAll('button[data-theater]').forEach(b => { b.classList.toggle('on', on2); b.innerHTML = label; });
     document.body.classList.toggle('theater-open', on2);
@@ -476,7 +482,7 @@ function attachZoom(host) {
     if (!panel) {
       panel = document.createElement('div');
       panel.className = 'theater-panel';
-      panel.innerHTML = `<div class="theater-head">${(def.title || 'Симулятор')}<span>ползунки и вывод — здесь же</span></div>`;
+      panel.innerHTML = `<div class="theater-head">${(def.title || 'Симулятор')}<span>${instrumentText('ползунки и вывод — здесь же')}</span></div>`;
       box.appendChild(panel);
     }
     loose.forEach(el => { if (el) panel.appendChild(el); });
@@ -528,8 +534,8 @@ function stageHead(def, simId) {
   const t = (def && def.title) || 'Симулятор';
   const icon = (t.match(/^\s*([^\p{L}\p{N}\s]+)/u) || ['', '🔬'])[1];
   const name = t.replace(/^\s*[^\p{L}\p{N}\s]+\s*/u, '').trim() || t;
-  return `<div class="stagehead"><span class="dot"></span>${icon} ${name}<span class="stagesub">${def && def.kind === 'html' ? 'интерактивная модель · нажимайте и двигайте' : 'живая модель · ползунки справа'}</span></div>`;
+  return `<div class="stagehead"><span class="dot"></span>${icon} ${name}<span class="stagesub">${instrumentText(def && def.kind === 'html' ? 'интерактивная модель · нажимайте и двигайте' : 'живая модель · ползунки справа')}</span></div>`;
 }
 // Standalone local player. Only the instrument named by the allowlisted registry is mounted.
 const requested=new URLSearchParams(location.search).get('sim');
-if(Object.hasOwn(SIMS,requested)){document.title=SIMS[requested].title;mountSim('app',requested);if(ACTIVE)requestAnimationFrame(loop)}else app.textContent='Выберите симулятор в конспекте.';
+if(Object.hasOwn(SIMS,requested)){if(languageIndex)SIMS[requested].title=experimentLibrary[requested].title[languageIndex];document.title=SIMS[requested].title;mountSim('app',requested);if(ACTIVE)requestAnimationFrame(loop)}else app.textContent=instrumentText('Выберите симулятор в конспекте.');
