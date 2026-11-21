@@ -27,3 +27,19 @@ test('article investigations use real lesson ids, translated explanations and re
  const models=load('lesson-investigations.js','lessonInvestigations'),index=load('paragraphs-data.js','textbookIndex');for(const [id,m] of Object.entries(models)){const [g,n]=id.split('.');assert.ok(index[g][n-1]);for(const t of [m.title,m.story,m.check])assert.ok(t.length===3&&t.every(Boolean));const ys=m.values.map(m.calculate);assert.ok(ys.every(Number.isFinite)&&new Set(ys).size>1,id);if(m.paint)m.values.forEach((v,i)=>assert.doesNotMatch(m.paint(v,ys[i]),/NaN|Infinity/))}
  assert.equal(models['7.24'].calculate(800),8);assert.equal(models['11.9'].calculate(2),10);assert.equal(models['8.32'].calculate(2),6);assert.equal(models['9.27'].calculate(1),1);
 });
+test('all 228 paragraphs have distinct original article leads in all supported languages',()=>{
+ const articles=load('lesson-articles.js','lessonArticles'),book=load('paragraphs-data.js','textbookIndex');
+ const ids=Object.entries(book).flatMap(([g,rows])=>rows.map((_,i)=>`${g}.${i+1}`));assert.deepEqual(Object.keys(articles),ids);
+ for(const [id,[hook,answer]] of Object.entries(articles)){for(const field of [hook,answer]){assert.equal(field.length,3,id);assert.ok(field.every(t=>t.trim().length>15),id);assert.doesNotMatch(field[1],/[а-яё]/i,id)}}
+ for(let lang=0;lang<3;lang++)assert.equal(new Set(Object.values(articles).map(row=>row[0][lang])).size,228);
+});
+test('paragraph-specific trial settings are ordered and yield finite, changing results',()=>{
+ const trials=load('lesson-articles.js','articleTrials'),articles=load('lesson-articles.js','lessonArticles');
+ for(const [id,[axis,x,output,conditions,compute]] of Object.entries(trials)){assert.ok(articles[id]&&axis&&output&&conditions,id);assert.ok(x.length>=5&&x.every((v,i)=>!i||v>x[i-1]),id);const ys=x.map(compute);assert.ok(ys.every(Number.isFinite)&&new Set(ys).size>1,id)}
+ assert.equal(trials['7.9'][4](30),3);assert.equal(trials['10.13'][4](2),3);assert.equal(trials['11.50'][4](550),.1);
+});
+test('experiment directions and apparatus are matched to the same trial data',()=>{
+ const trials=load('lesson-articles.js','articleTrials'),guides=load('lesson-articles.js','articleTrialGuides'),drawings=load('lesson-articles.js','articleDrawings');assert.deepEqual(Object.keys(guides),Object.keys(trials));
+ for(const [id,guide] of Object.entries(guides)){assert.equal(guide.length,3,id);assert.ok(guide.every(Boolean),id)}
+ for(const [id,draw] of Object.entries(drawings))for(const x of trials[id][1]){const svg=draw(x,trials[id][4](x));assert.doesNotMatch(svg,/NaN|Infinity|undefined/);assert.ok(svg.includes('<'))}
+});

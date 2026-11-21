@@ -83,13 +83,13 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
     slider.oninput=draw;picker.addEventListener('change',draw);draw();
   }
   function mountInvestigation(host,m){
-    const box=tag(host,'section',null,'scene-box');tag(box,'h4',m.title);tag(box,'p',m.check);
+    const box=tag(host,'section',null,'scene-box');tag(box,'h4',m.title);tag(box,'p',m.check);if(m.conditions)tag(box,'p',m.conditions,'model-fixed');
     const control=tag(box,'label');tag(control,'b',m.axis);const input=tag(control,'input');Object.assign(input,{type:'range',min:0,max:m.values.length-1,step:1,value:0});
     const output=tag(box,'output');const image=tag(box,'div',null,'scene-drawing');
     const results=m.values.map(m.calculate),lo=Math.min(0,...results),hi=Math.max(0,...results);
     const xp=x=>35+250*(x-m.values[0])/(m.values.at(-1)-m.values[0]),yp=y=>115-95*(y-lo)/(hi-lo||1);
     const tr=s=>Array.isArray(s)?s[picker.value==='kk'?2:picker.value==='en'?1:0]:s;
-    function draw(){const i=Number(input.value),x=m.values[i],y=results[i];output.textContent=`${tr(m.axis)}: ${x} → ${tr(m.output)}: ${Number(y.toPrecision(4))}`;
+    function draw(){const i=Number(input.value),x=m.values[i],y=results[i];output.textContent=`${tr(m.axis)}: ${x} → ${tr(m.output)}: ${Number((Math.abs(y)<1e-12?0:y).toPrecision(4))}`;
       image.innerHTML=`<svg viewBox="0 0 320 145" aria-hidden="true">${m.paint?m.paint(x,y):`<path d="M35 16V118H290" fill="none" stroke="#829397"/><polyline points="${m.values.map((v,j)=>xp(v)+','+yp(results[j])).join(' ')}" fill="none" stroke="#387783" stroke-width="2"/><circle cx="${xp(x)}" cy="${yp(y)}" r="6" fill="#ad532c"/><text x="32" y="139">${m.values[0]}</text><text x="276" y="139">${m.values.at(-1)}</text>`}</svg>`}
     input.oninput=draw;picker.addEventListener('change',draw);draw();
   }
@@ -125,16 +125,47 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       const labels=[['Конспект','Lesson','Конспект'],['Практикум','Practice','Практикум']];
       const panes=[lesson,practice],lab=Object.values(engineeringLabs).find(sim=>sim.ids.includes(id));
       const experiments=Object.entries(experimentLibrary).filter(([,m])=>m.lesson===id);
-      let mounted=false;{labels.push(['Симулятор','Simulator','Симулятор']);const slot=tag(card,'div');slot.id=`lab-${grade}-${num}`;panes.push(slot)}
+      labels.push(['Симулятор','Simulator','Симулятор']);
+      const slot=tag(card,'div');slot.id=`lab-${grade}-${num}`;panes.push(slot);
       const buttons=labels.map(t=>tag(switches,'button',t));
-      function select(i){if(i===2&&!mounted){const host=panes[2];tag(host,'h4',title);
-        if(lessonInvestigations[id])mountInvestigation(host,lessonInvestigations[id]);
+      // The article and simulator sit above the detailed notes. Reusing the same
+      // panel for both views preserves slider, iframe and engineering lab state.
+      const opening=tag(card,'article',null,'lesson-case article-opening');
+      card.insertBefore(opening,lesson);card.insertBefore(slot,lesson);
+      const [hook,mechanism]=lessonArticles[id];
+      tag(opening,'h4',hook);tag(opening,'p',mechanism);
+      const inline=tag(opening,'button');
+      const expandLabel=tag(inline,'span',['Проверить в опыте','Try the experiment','Тәжірибеде тексеру']);
+      const collapseLabel=tag(inline,'span',['Свернуть опыт','Close experiment','Тәжірибені жинау']);
+      inline.type='button';inline.setAttribute('aria-controls',slot.id);
+      let mounted=false, inlineOpen=false;
+      function mount(){if(mounted)return;const host=slot;tag(host,'h4',title);
+        const trial=articleTrials[id];
+        if(trial){const [axis,values,output,conditions,calculate]=trial;
+          mountInvestigation(host,{title:['Измени условие и сравни результат','Change the input and compare results','Шартты өзгертіп, нәтижені салыстыр'],axis,values,output,check:articleTrialGuides[id],conditions,calculate,paint:articleDrawings[id]});}
+        else if(lessonInvestigations[id])mountInvestigation(host,lessonInvestigations[id]);
         else if(paragraphScenes[id])mountScene(host,id);
         else if(!lab&&!primaryInstrumentByLesson[id])mountSimulator(host,paragraphActivities[id].graph||key);
         if(lab)mountEngineering(host,lab,picker);
         experiments.sort(([a],[b])=>Number(b===primaryInstrumentByLesson[id])-Number(a===primaryInstrumentByLesson[id]));
         for(const [key,m] of experiments){const tile=tag(panes[2],'section',null,'experiment-card');tile.dataset.experiment=key;if(key!==primaryInstrumentByLesson[id])tag(tile,'small',['Межпредметный опыт','Cross-curricular experiment','Пәнаралық тәжірибе']);tag(tile,'h4',m.title);tag(tile,'p',m.guide);const actions=tag(tile,'div',null,'buttons');const launch=tag(actions,'button',['Запустить опыт','Run experiment','Тәжірибені ашу']);launch.type='button';const url=()=>'instruments/player.html?sim='+key+'&lang='+picker.value;const full=tag(actions,'a',['Открыть отдельно ↗','Open separately ↗','Бөлек ашу ↗'],'plan-link');full.href=url();picker.addEventListener('change',()=>{full.href=url();if(liveExperiment?.button===launch){liveExperiment.frame.src=url();liveExperiment.frame.title=m.title[picker.value==='en'?1:picker.value==='kk'?2:0]}});full.target='_blank';full.rel='noopener';launch.onclick=()=>{stopExperiment();const frame=document.createElement('iframe');frame.title=m.title[index()];frame.setAttribute('sandbox','allow-scripts');frame.src=url();frame.className='experiment-frame';tile.append(frame);launch.hidden=true;liveExperiment={frame,button:launch};frame.focus()}}
-        mounted=true}panes.forEach((pane,j)=>{pane.dataset.readerPane='';pane.hidden=j!==i;buttons[j].setAttribute('aria-pressed',String(j===i))})}
+        mounted=true;
+      }
+      function select(i){
+        const showLab=i===2||(i===0&&inlineOpen);
+        opening.hidden=i!==0;
+        panes.forEach((pane,j)=>{pane.dataset.readerPane='';pane.hidden=j===2?!showLab:j!==i;buttons[j].setAttribute('aria-pressed',String(j===i))});
+        inline.setAttribute('aria-expanded',String(i===0&&inlineOpen));
+        expandLabel.hidden=inlineOpen;collapseLabel.hidden=!inlineOpen;
+        if(showLab)mount();
+      }
+      inline.onclick=()=>{
+        inlineOpen=!inlineOpen;select(0);
+        const primary=primaryInstrumentByLesson[id];
+        if(inlineOpen&&primary&&!articleTrials[id]&&!lessonInvestigations[id]&&!paragraphScenes[id]&&!lab){
+          slot.querySelector(`[data-experiment="${primary}"] button:not([hidden])`)?.click();
+        }
+      };
       buttons.forEach((b,i)=>{b.type='button';b.onclick=()=>select(i)});select(0);
       const standalone=paragraphActivities[id].intro;
       const theory=tag(lesson,'section',null,'reader-theory');
