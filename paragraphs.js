@@ -37,6 +37,8 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
   const legend=[['Сравни площади при одной нагрузке','Compare areas for the same load','Бір жүктемедегі аудандарды салыстыр'],['Площадь под графиком скорости — путь при движении вперёд','Area under a forward speed trace gives distance','Алға қозғалыста жылдамдық графигінің астындағы аудан — жол'],['Сложение направленных отрезков','Adding directed segments','Бағытталған кесінділерді қосу'],['Крайнее положение и положение равновесия','Extreme and equilibrium positions','Шеткі және тепе-теңдік күйлері'],['Однородное поле между параллельными пластинами','Uniform field between parallel plates','Параллель пластиналар арасындағы біртекті өріс'],['Горизонтальный бросок без сопротивления','Horizontal launch without drag','Кедергісіз көлденең лақтыру'],['Силы по разные стороны от опоры','Forces on opposite sides of a support','Тіректің екі жағындағы күштер'],['Углы от нормали к зеркалу','Angles relative to the mirror normal','Айна нормалінен өлшенген бұрыштар'],['Луч на границе двух сред','Ray at an interface','Екі ортаның шекарасындағы сәуле'],['Сечения одной трубки тока','Cross sections along a stream tube','Ағын түтігінің қималары'],['Периодическое изменение смещения','Periodic variation of displacement','Ығысудың периодты өзгерісі'],['Два положения наблюдателя','Two observer positions','Бақылаушының екі орны'],['Вес и выталкивающая сила','Weight and buoyant force','Ауырлық және Архимед күштері'],['Две ветви между общими узлами','Two branches between shared nodes','Ортақ түйіндер арасындағы екі тармақ'],['Прямые лучи и край тени','Straight rays and shadow edge','Түзу сәулелер және көлеңке шеті'],['Скорость по касательной, ускорение к центру','Tangential velocity, inward acceleration','Жанама жылдамдық, центрге бағытталған үдеу'],['Силы на теле у горизонтальной опоры','Forces on a body at a horizontal support','Көлденең тіректегі денеге әсер ететін күштер']];
   const picker=document.getElementById('language');
   let language='ru';try{language=localStorage.getItem('physlab-language')||language}catch{}
+  const bookIds={7:1523,8:348,9:451,10:531,11:803};
+  const rules=new Map(paragraphRules.flatMap(([keys,formula,usage])=>keys.map(key=>[key,{formula,usage}])));
   const fields=[];
   const experiments=new Map(paragraphExperiments.flatMap(([keys,text])=>keys.map(key=>[key,text])));
   function index(){return language==='kk'?2:language==='en'?1:0}
@@ -52,11 +54,12 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       tag(card,'p',idea);
       const si=sketches.findIndex(s=>s[0].split(' ').includes(key));if(si>=0){const [,path,l,r]=sketches[si];const figure=tag(card,'figure',null,'worked-figure');figure.innerHTML=`<svg aria-hidden="true" viewBox="0 0 255 99"><path d="${path}" fill="none" stroke="#416975" stroke-width="2.5"/><text x="25" y="94">${l}</text><text x="190" y="94">${r}</text></svg>`;tag(figure,'figcaption',legend[si])}
       const lab=tag(card,'aside',null,'paragraph-lab');tag(lab,'strong',ui.experiment);tag(lab,'p',experiments.get(key));
-      tag(card,'h4',ui.example);tag(card,'p',example,'law');
+      const rule=rules.get(key);tag(card,'h4',['Модель и условия применения','Model and assumptions','Модель және қолданылу шарттары']);tag(card,'p',rule.formula,'law');tag(card,'p',rule.usage);tag(card,'h4',ui.example);tag(card,'p',example,'law');
       if(paragraphExtensions[id]){const [extra,calc]=paragraphExtensions[id];tag(card,'h4',ui.more);tag(card,'p',extra);tag(card,'p',calc,'law')}
+      if(topicSupplement[id]){const [q,law,ex]=topicSupplement[id];tag(card,'h4',q);tag(card,'p',law,'law');tag(card,'p',ex)}
       tag(card,'h4',ui.check);tag(card,'p',check);const reveal=tag(card,'details');tag(reveal,'summary',ui.answer);tag(reveal,'p',answer,'law');
       if(extended[id])tag(card,'a',ui.detail,'plan-link').href='#'+extended[id];
-      tag(card,'footer',ui.source.map((s,i)=>`${s} · ${grade} · § ${num} · ${ui.page[i]} ${page}`),'shelf-source');
+      const src=tag(card,'footer',ui.source.map((s,i)=>`${s} · ${grade} · § ${num} · ${ui.page[i]} ${page}`),'shelf-source'); const link=tag(card,'a',['Страница книги ↗','Book details ↗','Кітап беті ↗'],'plan-link');link.href=`https://okulyk.kz/fizika/${bookIds[grade]}/`;link.target='_blank';link.rel='noopener noreferrer';
     }
     tag(wrap,'h4',ui.extra);
   }

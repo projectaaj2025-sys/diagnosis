@@ -31,3 +31,6 @@ test('chapter filter keeps original exercise indices and hides the chapter-one c
  ctx.form.elements.answer.value='0';vm.runInContext("checkBook(form,olympBookTasks.findIndex(x=>x.id==='2.2'))",ctx);assert.equal(status.textContent,'Верно!');
  vm.runInContext('workbook()',ctx);assert.equal(node.hidden,false);assert.equal((node.innerHTML.match(/№ /g)||[]).length,55);
 });
+test('exam tracks are distinct, translated, and never request more than their available items',()=>{
+ for(const track of ['IGCSE','CSAT','all']){ctx.track=track;const r=vm.runInContext(`(()=>{mode='exams';examTrack=track;minutes=20;return [length(),...examPool().map(x=>Boolean(languageCatalog[x.raw.split('|')[0]]&&languageCatalog[x.solution]&&Number.isFinite(x.key)))]})()`,ctx);assert.equal(r[0],track==='all'?16:8);assert(r.slice(1).every(Boolean));}
+});

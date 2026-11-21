@@ -1,12 +1,176 @@
 const panel=document.querySelector('#panel'),title=document.querySelector('#setup h2'),label=document.querySelector('#setup small');
 const $=s=>panel.querySelector(s),focusPanel=()=>document.querySelector('#setup').scrollIntoView();
-const routes={school:['01','Школьник','По программе 7–11 классов'],adult:['02','Взрослый','Физика повседневной жизни'],olymp:['03','Олимпиада','Модели и нестандартные задачи'],sat:['04','SAT Physics','Пробник по архивным темам']};
-let expanded=false,mode='school',grade=7,ageMode=false,age=13,minutes=5,deck,log,target,item,choice,initialTopics;
+const routes={school:['01','Школьник','По программе 7–11 классов'],adult:['02','Взрослый','Физика повседневной жизни'],olymp:['03','Олимпиада','Модели и нестандартные задачи'],exams:['04','Международные экзамены','Практика IGCSE и Сунын']};
+let expanded=false,mode='school',grade=7,ageMode=false,age=13,minutes=10,deck,log,target,item,choice,initialTopics;
 let quarter=0;
 const scoped=()=>mode==='school'&&!ageMode&&quarter>0;
+const examTasks=[
+ {
+  "exam": "IGCSE",
+  "topic": "Измерения",
+  "raw": "Толщина стопки из 50 одинаковых карточек равна 12 мм. Найди толщину одной карточки, пренебрегая зазорами.|0.24 мм",
+  "unit": "мм",
+  "key": 0.24,
+  "level": 7,
+  "skill": "Расчёт",
+  "solution": "Толщина делится на число карточек: 12/50 = 0,24 мм. Измерение стопки уменьшает вклад ошибки шкалы."
+ },
+ {
+  "exam": "IGCSE",
+  "topic": "Плотность",
+  "raw": "Камень массой 54 г поднял уровень в мензурке с 30 до 48 мл. Какова средняя плотность камня?|3 г/см³",
+  "unit": "г/см³",
+  "key": 3.0,
+  "level": 7,
+  "skill": "Расчёт",
+  "solution": "Объём равен разности показаний: 18 см³. Плотность 54/18 = 3 г/см³."
+ },
+ {
+  "exam": "IGCSE",
+  "topic": "Тепловые явления",
+  "raw": "В теплоизолированном сосуде 0,1 кг воды нагрели на 20 °C. Сколько энергии получила вода при c = 4200 Дж/(кг·К)?|8400 Дж",
+  "unit": "Дж",
+  "key": 8400.0,
+  "level": 7,
+  "skill": "Расчёт",
+  "solution": "Фаза не меняется: Q = cmΔT = 4200·0,1·20 = 8400 Дж."
+ },
+ {
+  "exam": "IGCSE",
+  "topic": "Электрический ток",
+  "raw": "На одном резисторе напряжение 4,5 В, сопротивление 15 Ом. Найди показание идеального последовательного амперметра.|0.3 А",
+  "unit": "А",
+  "key": 0.3,
+  "level": 7,
+  "skill": "Расчёт",
+  "solution": "Амперметр пропускает ток ветви: I = U/R = 4,5/15 = 0,3 А."
+ },
+ {
+  "exam": "IGCSE",
+  "topic": "Волновое движение",
+  "raw": "Гребни проходят мимо буйка с частотой 5 Гц. Волна движется со скоростью 4 м/с. Найди расстояние между соседними гребнями.|0.8 м",
+  "unit": "м",
+  "key": 0.8,
+  "level": 7,
+  "skill": "Расчёт",
+  "solution": "За один период гребень сдвигается на длину волны: λ = v/f = 4/5 = 0,8 м."
+ },
+ {
+  "exam": "IGCSE",
+  "topic": "Энергия",
+  "raw": "Мотор получил 240 Дж электрической энергии и поднял груз, совершив 180 Дж полезной работы. Найди КПД в процентах.|75 %",
+  "unit": "%",
+  "key": 75.0,
+  "level": 7,
+  "skill": "Расчёт",
+  "solution": "КПД = полезная работа / затраченная энергия · 100% = 180/240 · 100% = 75%."
+ },
+ {
+  "exam": "IGCSE",
+  "topic": "Оптика",
+  "raw": "Луч образует угол 55° с поверхностью плоского зеркала. Каков угол отражения, отсчитанный от нормали?|35 °",
+  "unit": "°",
+  "key": 35.0,
+  "level": 7,
+  "skill": "Расчёт",
+  "solution": "С нормалью луч образует 90° − 55° = 35°. Угол отражения равен этому углу."
+ },
+ {
+  "exam": "IGCSE",
+  "topic": "Работа и мощность",
+  "raw": "Подъёмник равномерно поднимает груз весом 90 Н на высоту 2 м за 10 с. Найди полезную мощность.|18 Вт",
+  "unit": "Вт",
+  "key": 18.0,
+  "level": 7,
+  "skill": "Расчёт",
+  "solution": "Работа против тяжести 90·2 = 180 Дж. Деление на 10 с даёт 18 Вт."
+ },
+ {
+  "exam": "CSAT",
+  "topic": "Законы сохранения",
+  "raw": "Вправо движется тележка массой 3 кг со скоростью 2 м/с, навстречу ей едет тележка массой 1 кг со скоростью 2 м/с. После сцепления найди скорость по модулю.|1 м/с",
+  "unit": "м/с",
+  "key": 1.0,
+  "level": 9,
+  "skill": "Расчёт",
+  "solution": "Возьми вправо за плюс. Суммарный импульс 3·2 − 1·2 = 4 кг·м/с. Делим на 4 кг: 1 м/с."
+ },
+ {
+  "exam": "CSAT",
+  "topic": "Кинематика",
+  "raw": "Скорость тела линейно меняется от +6 до −6 м/с за 4 с. Найди весь путь, а не перемещение.|12 м",
+  "unit": "м",
+  "key": 12.0,
+  "level": 9,
+  "skill": "Расчёт",
+  "solution": "Две половины графика образуют треугольники с основанием 2 с. Складываем площади по модулю: 2·(6·2/2) = 12 м."
+ },
+ {
+  "exam": "CSAT",
+  "topic": "Динамика",
+  "raw": "На гладком столе два соприкасающихся бруска массами 1 и 3 кг. Сила 8 Н толкает первый ко второму. Каков модуль силы взаимодействия брусков?|6 Н",
+  "unit": "Н",
+  "key": 6.0,
+  "level": 9,
+  "skill": "Расчёт",
+  "solution": "Ускорение системы 8/(1+3) = 2 м/с². Второй брусок ускоряет только контактная сила: 3·2 = 6 Н."
+ },
+ {
+  "exam": "CSAT",
+  "topic": "Электрический ток",
+  "raw": "Резисторы 6 Ом и 3 Ом соединены параллельно с идеальным источником 3 В. Ветвь 6 Ом отключили. Найди мощность оставшейся ветви.|3 Вт",
+  "unit": "Вт",
+  "key": 3.0,
+  "level": 9,
+  "skill": "Расчёт",
+  "solution": "Напряжение идеального источника не зависит от тока. На 3 Ом остаётся 3 В: P = 3²/3 = 3 Вт."
+ },
+ {
+  "exam": "CSAT",
+  "topic": "Термодинамика",
+  "raw": "За цикл газ получил 200 Дж от нагревателя и отдал 140 Дж холодильнику. Найди суммарную работу газа.|60 Дж",
+  "unit": "Дж",
+  "key": 60.0,
+  "level": 9,
+  "skill": "Расчёт",
+  "solution": "В конце цикла внутренняя энергия прежняя. Поэтому работа равна чистой теплоте: 200 − 140 = 60 Дж."
+ },
+ {
+  "exam": "CSAT",
+  "topic": "Колебания",
+  "raw": "Длину идеального математического маятника увеличили в 16 раз. Во сколько раз возрастёт период малых колебаний при прежнем g?|4 раз",
+  "unit": "раз",
+  "key": 4.0,
+  "level": 9,
+  "skill": "Расчёт",
+  "solution": "Период пропорционален квадратному корню из длины. Отношение периодов равно √16 = 4."
+ },
+ {
+  "exam": "CSAT",
+  "topic": "Волновое движение",
+  "raw": "Длина волны уменьшилась от 3 м до 1,5 м в той же среде при неизменной скорости. Изначально частота была 4 Гц. Какова новая частота?|8 Гц",
+  "unit": "Гц",
+  "key": 8.0,
+  "level": 9,
+  "skill": "Расчёт",
+  "solution": "Скорость была 4·3 = 12 м/с и сохранилась. Новая частота 12/1,5 = 8 Гц."
+ },
+ {
+  "exam": "CSAT",
+  "topic": "Энергия",
+  "raw": "Тележка потеряла 24 Дж потенциальной энергии при спуске. Из них 9 Дж перешло в тепло. На сколько джоулей выросла кинетическая энергия, если других превращений нет?|15 Дж",
+  "unit": "Дж",
+  "key": 15.0,
+  "level": 9,
+  "skill": "Расчёт",
+  "solution": "Баланс энергии: потеря потенциальной энергии равна приросту кинетической и нагреву. Получаем 24 − 9 = 15 Дж."
+ }
+];
+let examTrack="all", attemptId;
+const examPool=()=>examTasks.filter(x=>examTrack==="all"||x.exam===examTrack);
 const requested=()=>({5:8,10:15,20:25}[minutes]);
-const length=()=>scoped()?Math.min(requested(),termPool().length):requested();
-const scopeLabel=()=>scoped()?`${grade} класс · ${quarter} четверть`:routes[mode][1];
+const length=()=>mode==='exams'?Math.min(requested(),examPool().length):scoped()?Math.min(requested(),termPool().length):requested();
+const scopeLabel=()=>mode==='exams'?`IGCSE / CSAT · ${examTrack}`:scoped()?`${grade} класс · ${quarter} четверть`:routes[mode][1];
 const basic=Object.entries(bank).flatMap(([g,groups])=>groups.flatMap(([topic,...tasks])=>tasks.map((raw,i)=>({topic,raw,level:(+g-7)*2+i,grade:+g}))));
 function extra(topic,level,...tasks){return tasks.map(raw=>({topic,level,raw}))}
 const life=[...extra('Домашняя электрика',2,'Чайник мощностью 2 кВт работает 6 минут. Какую энергию учтёт счётчик?|0,2 кВт·ч|12 кВт·ч|2 кВт·ч|0,02 кВт·ч','Лампы в квартире работают независимо. Как они соединены?|Параллельно|Последовательно|Через одну нить|Без источника'),...extra('Транспорт',3,'При той же силе торможения скорость автомобиля удвоилась. Как изменится тормозной путь?|Увеличится в 4 раза|Удвоится|Не изменится|Уменьшится вдвое','Автобус прошёл 30 км за полчаса и стоял ещё полчаса. Средняя скорость за весь час?|30 км/ч|60 км/ч|15 км/ч|0 км/ч'),...extra('Тепло в быту',2,'Почему металлическая ручка кажется холоднее деревянной в той же комнате?|Быстрее отводит тепло руки|Всегда холоднее воздуха|Имеет меньшую массу|Не проводит тепло','Почему испарение пота охлаждает кожу?|На испарение нужна энергия|Вода отражает весь свет|Воздух перестаёт двигаться|Растёт давление'),...extra('Давление в быту',2,'Почему широкие лямки рюкзака удобнее при той же нагрузке?|Меньше давление на плечи|Меньше масса рюкзака|Выше сила тяжести|Меньше площадь контакта','В каком месте неподвижной воды избыточное давление больше?|На большей глубине|У поверхности|В середине независимо от глубины|Везде одинаково')];
@@ -52,10 +216,10 @@ function checkDrill(form){
 function analyser(topics){
  const group=(rows)=>{let n=rows.length,r=rows.filter(x=>x.ok).length;return {n,r,p:n?Math.round(100*r/n):null}};
  const all=group(log),seen=topics.filter(t=>t.n).length;
- const color=g=>!g.n?'empty':g.n===1&&!g.r?'tentative':g.r===g.n?'strong':!g.r?'weak':'mixed';
+ const color=g=>!g.n?'empty':g.n<3?'tentative':g.r===g.n?'strong':!g.r?'weak':'mixed';
  reportTopics=topics.map(t=>t.topic);
- const cell=(rows,t,k)=>{const g=group(rows),id=`${t}:${k}`,d=drills.get(id);return `<td class="tile ${color(g)}"><button class="cellbtn" aria-label="${reportTopics[t]}: ${skills[k]}, открыть практику" onclick="openCell(${t},${k})"><b>${g.n?g.p+'%':'—'}</b><span>${g.n?`${g.r} из ${g.n}`:'нет данных'}</span>${g.n===1&&!g.r?'<small>Пока мало данных</small>':''}<span id="drill-${t}-${k}">${drillScore(d)}</span></button></td>`};
- return `<section class="atlas"><div class="atlas-banner"><div><small>АНАЛИТИКА / ${scopeLabel().toUpperCase()}</small><h3>Профиль знаний</h3><p>Проверено тем: <b>${seen} из ${topics.length}</b> · Ответов: <b>${all.n} из ${length()}</b></p></div><div class="dial" style="--pct:${all.p||0}%"><b>${all.p===null?'—':all.p+'%'}</b></div></div><div class="skillstrip">${skills.map(skill=>{let g=group(log.filter(x=>x.skill===skill));return `<div><strong>${skill}</strong><span>${g.r} / ${g.n} верно</span><meter min="0" max="100" value="${g.p||0}"></meter></div>`}).join('')}</div><h3>Карта по темам и навыкам</h3><p>Нажми на ячейку для разбора и практики. Каждая ячейка показывает долю верных ответов и размер выборки. Один ответ — наблюдение, а не окончательная оценка навыка.</p><div class="legend"><span class="strong">Все верно</span><span class="mixed">Часть верно</span><span class="weak">Есть трудности</span><span class="tentative">Пока мало данных</span><span class="empty">Не проверено</span></div><div class="matrixwrap" tabindex="0" aria-label="Карта результатов по темам"><table class="matrix"><thead><tr><th>Тема</th>${skills.map(s=>`<th scope="col">${s}</th>`).join('')}<th>Итого</th></tr></thead><tbody>${topics.map((t,ti)=>{const rows=log.filter(x=>x.topic===t.topic);return `<tr><th scope="row">${t.topic}</th>${skills.map((k,ki)=>cell(rows.filter(x=>x.skill===k),ti,ki)).join('')}<td>${t.n?t.r+' / '+t.n:'—'}</td></tr>`}).join('')}</tbody></table></div><section id="cellpractice" hidden tabindex="-1"></section>${log.length?`<h4>Ход диагностики</h4><div class="trail">${log.map((x,i)=>`<a href="#task-${i}" class="${x.ok?'strong':'weak'}" aria-label="Задание ${i+1}: ${x.ok?'верно':'ошибка'}, открыть решение">${i+1}${x.ok?' ✓':' ×'}</a>`).join('')}</div>`:''}</section>`;
+ const cell=(rows,t,k)=>{const g=group(rows),id=`${t}:${k}`,d=drills.get(id);return `<td class="tile ${color(g)}"><button class="cellbtn" aria-label="${reportTopics[t]}: ${skills[k]}, открыть практику" onclick="openCell(${t},${k})"><b>${g.n?g.p+'%':'—'}</b><span>${g.n?`${g.r} из ${g.n}`:'нет данных'}</span>${g.n>0&&g.n<3?'<small>Пока мало данных</small>':''}<span id="drill-${t}-${k}">${drillScore(d)}</span></button></td>`};
+ return `<section class="atlas"><div class="atlas-banner"><div><small>АНАЛИТИКА / ${scopeLabel().toUpperCase()}</small><h3>Профиль знаний</h3><p>Проверено тем: <b>${seen} из ${topics.length}</b> · Ответов: <b>${all.n} из ${length()}</b></p></div><div class="dial" style="--pct:${all.p||0}%"><b>${all.p===null?'—':all.p+'%'}</b></div></div><div class="skillstrip">${skills.map(skill=>{let g=group(log.filter(x=>x.skill===skill));return `<div><strong>${skill}</strong><span>${g.r} / ${g.n} верно</span><meter min="0" max="100" value="${g.p||0}"></meter></div>`}).join('')}</div><h3>Карта по темам и навыкам</h3>${all.n?`<p>Вес одного ответа в этой попытке: <b>${(100/all.n).toFixed(1)} п.п.</b> При сравнении смотри на число ответов, а не только на проценты.</p>`:''}<p>Нажми на ячейку для разбора и практики. Каждая ячейка показывает долю верных ответов и размер выборки. Один ответ — наблюдение, а не окончательная оценка навыка.</p><div class="legend"><span class="strong">Все верно</span><span class="mixed">Часть верно</span><span class="weak">Есть трудности</span><span class="tentative">Пока мало данных</span><span class="empty">Не проверено</span></div><div class="matrixwrap" tabindex="0" aria-label="Карта результатов по темам"><table class="matrix"><thead><tr><th>Тема</th>${skills.map(s=>`<th scope="col">${s}</th>`).join('')}<th>Итого</th></tr></thead><tbody>${topics.map((t,ti)=>{const rows=log.filter(x=>x.topic===t.topic);return `<tr><th scope="row">${t.topic}</th>${skills.map((k,ki)=>cell(rows.filter(x=>x.skill===k),ti,ki)).join('')}<td>${t.n?t.r+' / '+t.n:'—'}</td></tr>`}).join('')}</tbody></table></div><section id="cellpractice" hidden tabindex="-1"></section>${log.length?`<h4>Ход диагностики</h4><div class="trail">${log.map((x,i)=>`<a href="#task-${i}" class="${x.ok?'strong':'weak'}" aria-label="Задание ${i+1}: ${x.ok?'верно':'ошибка'}, открыть решение">${i+1}${x.ok?' ✓':' ×'}</a>`).join('')}</div>`:''}</section>`;
 }
 function enterNumber(input){const text=input.value.trim();choice=/^[+-]?(?:\d+(?:[.,]\d*)?|[.,]\d+)$/.test(text)&&Number.isFinite(Number(text.replace(',','.')))?text:null;$('#next').disabled=choice===null}
 // An explicit whitelist of curriculum sections: adaptive difficulty never widens the scope.
@@ -74,11 +238,11 @@ function termPicker(){return `<section class="term-picker"><h3><span class="idx"
 function encouragement(wins,weak){if(!log.length)return 'Можно начать с одного вопроса. Даже короткая попытка поможет выбрать тему для практики.';if(!weak)return `В этой попытке все ответы верны! Попробуй объяснить решение по теме «${log[0].topic}» своими словами — это следующий шаг к уверенному пониманию.`;return `${wins.length?`У тебя уже есть верный ответ по теме «${wins[0].topic}».`:'Ошибки в диагностике — не оценка, а подсказка для следующей попытки.'} Выбери одну задачу по теме «${weak.topic}», прочитай разбор и реши её ещё раз без подсказки. Начни с этого небольшого шага.`}
 function heading(a,b){label.innerHTML='<i></i> МОДУЛЬ 01 / '+a;title.textContent=b}
 function btn(text,active,fn){return `<button aria-pressed="${active}" class="${active?'sel':''}" onclick="${fn}">${text}</button>`}
-function setup(){heading('НАСТРОЙКА','ПАРАМЕТРЫ ДИАГНОСТИКИ');panel.innerHTML=`<div class="row"><div class="field">${(mode==='school'||mode==='adult')?`<h3><span class="idx">/01</span>${ageMode?'Укажи возраст':'Выбери класс'}</h3>${ageMode&&mode==='school'?`<p><label for="age">ВОЗРАСТ, ЛЕТ</label> <input id="age" type="number" min="11" max="18" value="${age}" oninput="age=this.value"></p>`:`<div class="buttons grades">${[7,8,9,10,11].map(g=>btn(g,mode==='school'&&grade===g,`mode='school';grade=${g};setup()`)).join('')}${btn('Взрослый',mode==='adult',`mode='adult';ageMode=false;setup()`)}</div>`}<button class="link" onclick="mode='school';ageMode=!ageMode;setup()">${ageMode?'Выбрать класс':'Не знаю класс — указать возраст'}</button>`:`<h3>${routes[mode][1]}</h3><p>${{adult:'Начнём с привычных ситуаций: счёт за свет, транспорт и тепло в доме.',olymp:'Начнём с нестандартной задачи. Если сложно, вернёмся к опорным законам.',sat:'Фиксированная подборка по школьной физике. Без подсказок и адаптации; не официальный SAT.'}[mode]}</p>`}</div><div class="field"><h3><span class="idx">/02</span>Длительность</h3><div class="buttons times">${[5,10,20].map(m=>btn(m+' мин',minutes===m,`minutes=${m};setup()`)).join('')}</div></div></div><details class="advanced" ${expanded?'open':''} ontoggle="expanded=this.open"><summary><b>Дополнительные настройки</b><span>${routes[mode][1]}</span></summary>${mode==='school'&&!ageMode?termPicker():''}<div class="routes">${Object.entries(routes).map(([k,[n,t,d]])=>btn(`<small>МАРШРУТ / ${n}</small><b>${t}</b><span>${d}</span>`,mode===k,`mode='${k}';setup()`)).join('')}</div></details><div class="action"><span>◷ &nbsp; Вопросов: ${length()} · Без таймера</span><button class="primary" onclick="start()">Начать ${mode==='sat'?'пробник':'диагностику'} →</button></div>`}
+function setup(){heading('НАСТРОЙКА','ПАРАМЕТРЫ ДИАГНОСТИКИ');panel.innerHTML=`<div class="row"><div class="field">${(mode==='school'||mode==='adult')?`<h3><span class="idx">/01</span>${ageMode?'Укажи возраст':'Выбери класс'}</h3>${ageMode&&mode==='school'?`<p><label for="age">ВОЗРАСТ, ЛЕТ</label> <input id="age" type="number" min="11" max="18" value="${age}" oninput="age=this.value"></p>`:`<div class="buttons grades">${[7,8,9,10,11].map(g=>btn(g,mode==='school'&&grade===g,`mode='school';grade=${g};setup()`)).join('')}${btn('Взрослый',mode==='adult',`mode='adult';ageMode=false;setup()`)}</div>`}<button class="link" onclick="mode='school';ageMode=!ageMode;setup()">${ageMode?'Выбрать класс':'Не знаю класс — указать возраст'}</button>`:`<h3>${routes[mode][1]}</h3><p>${{adult:'Начнём с привычных ситуаций: счёт за свет, транспорт и тепло в доме.',olymp:'Начнём с нестандартной задачи. Если сложно, вернёмся к опорным законам.',exams:'Авторские тренировочные задания по мотивам экзаменов, не официальные варианты или прогноз оценки.'}[mode]}</p>${mode==='exams'?`<div class="buttons">${['all','IGCSE','CSAT'].map(x=>btn(x==='all'?'Смешанный набор':x==='CSAT'?'CSAT · 수능':x,examTrack===x,`examTrack='${x}';setup()`)).join('')}</div>`:''}`}</div><div class="field"><h3><span class="idx">/02</span>Длительность</h3><div class="buttons times">${[5,10,20].map(m=>btn(m+' мин',minutes===m,`minutes=${m};setup()`)).join('')}</div></div></div><details class="advanced" ${expanded?'open':''} ontoggle="expanded=this.open"><summary><b>Дополнительные настройки</b><span>${routes[mode][1]}</span></summary>${mode==='school'&&!ageMode?termPicker():''}<div class="routes">${Object.entries(routes).map(([k,[n,t,d]])=>btn(`<small>МАРШРУТ / ${n}</small><b>${t}</b><span>${d}</span>`,mode===k,`mode='${k}';setup()`)).join('')}</div></details><div class="action"><span>◷ &nbsp; Вопросов: ${length()} · Без таймера</span><button class="primary" onclick="start()">Начать ${mode==='exams'?'пробник':'диагностику'} →</button></div>`}
 const shuffle=a=>{let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-function start(){if(mode==='school'&&ageMode){if(!$('#age').value||!$('#age').checkValidity()){$('#age').required=true;$('#age').reportValidity();return}grade=Math.max(7,Math.min(11,Math.round(age)-6))}drills.clear();activeDrill=null;log=[];target=mode==='olymp'?9:mode==='adult'?2:(grade-7)*2+1;deck=shuffle(mode==='adult'?[...life,...basic.filter(x=>x.grade<=9)]:mode==='olymp'?[...challenges,...olympBookTasks,...basic.filter(x=>x.grade>=9)]:mode==='sat'?basic.filter(x=>x.grade>=9):basic);deck=shuffle([...deck,...visualTasks.filter(x=>mode==='school'&&x.grade===grade),...reasoning.filter(x=>mode==='adult'?x.grade<=9:mode==='school'||x.grade>=9),...multipleChoice.filter(x=>mode==='adult'?x.grade<=9:mode==='school'||x.grade>=9),...numberTasks().map(x=>({...x,skill:'Расчёт'}))]);initialTopics=[...new Set((mode==='school'?basic.filter(x=>x.grade===grade):mode==='adult'?life:mode==='olymp'?challenges:deck.slice(0,length())).map(x=>x.topic))];if(scoped()){deck=shuffle(termPool());initialTopics=[...curriculum[grade][quarter-1]]}question();focusPanel()}
+function start(){attemptId=crypto.randomUUID();if(mode==='school'&&ageMode){if(!$('#age').value||!$('#age').checkValidity()){$('#age').required=true;$('#age').reportValidity();return}grade=Math.max(7,Math.min(11,Math.round(age)-6))}drills.clear();activeDrill=null;log=[];target=mode==='olymp'?9:mode==='adult'?2:(grade-7)*2+1;deck=shuffle(mode==='adult'?[...life,...basic.filter(x=>x.grade<=9)]:mode==='olymp'?[...challenges,...olympBookTasks,...basic.filter(x=>x.grade>=9)]:mode==='exams'?basic.filter(x=>x.grade>=9):basic);deck=shuffle([...deck,...visualTasks.filter(x=>mode==='school'&&x.grade===grade),...reasoning.filter(x=>mode==='adult'?x.grade<=9:mode==='school'||x.grade>=9),...multipleChoice.filter(x=>mode==='adult'?x.grade<=9:mode==='school'||x.grade>=9),...numberTasks().map(x=>({...x,skill:'Расчёт'}))]);if(mode==='exams')deck=shuffle(examPool());initialTopics=[...new Set((mode==='school'?basic.filter(x=>x.grade===grade):mode==='adult'?life:mode==='olymp'?challenges:deck.slice(0,length())).map(x=>x.topic))];if(scoped()){deck=shuffle(termPool());initialTopics=[...curriculum[grade][quarter-1]]}question();focusPanel()}
 let shownAt=0;
-function question(){shownAt=performance.now();const score=x=>Math.abs(x.level-target)+Math.min(4,log.filter(r=>r.topic===x.topic).length)*1.1+(log.at(-1)?.topic===x.topic?2:0)-(initialTopics.includes(x.topic)?0.6:0);if(mode!=='sat')deck.sort((a,b)=>score(a)-score(b));const numeric=log.length%4===1;const desired=['Понимание','Расчёт','Теория','Понимание','Расчёт','Расчёт','Понимание','Теория'][log.length%8];const multi=log.length%8===3;let idx=deck.findIndex(x=>Boolean(x.keys)===multi&&Boolean(x.unit)===numeric&&x.skill===desired);if(idx<0)idx=deck.findIndex(x=>Boolean(x.unit)===numeric);if(mode==='school'&&log.length===0){const vi=deck.findIndex(x=>x.diagram&&x.grade===grade);if(vi>=0)idx=vi}item=deck.splice(Math.max(idx,0),1)[0];choice=null;const [q,...opts]=item.raw.split('|');heading(mode==='sat'?'ПРОБНИК':'ПРОВЕРКА',item.topic.toUpperCase());panel.innerHTML=`<small>${scopeLabel().toUpperCase()} · ${item.skill.toUpperCase()} · ВОПРОС ${log.length+1} ИЗ ${length()}</small><div class="progress"><b style="width:${100*log.length/length()}%"></b></div><h3>${q}</h3>${illustration(item)}${item.unit?`<div class="number-answer"><label for="numberInput">Ответ в ${item.unit}</label><input id="numberInput" type="text" inputmode="decimal" autocomplete="off" placeholder="Введи число" oninput="enterNumber(this)"></div>`:`${item.keys?'<p class="multi-hint">Отметь все верные варианты. Ответ засчитывается только при полном совпадении.</p>':''}<div class="answers">${shuffle(opts).map(x=>item.keys?`<label class="multi-option"><input type="checkbox" value="${opts.indexOf(x)}" onchange="pickMany()"><span>${x}</span></label>`:`<button value="${opts.indexOf(x)}" onclick="pick(this)">${x}</button>`).join('')}</div>`}<label class="certainty">Уверенность перед проверкой <select id="certainty"><option value="">Не отмечено</option><option value="guess">Предполагаю</option><option value="unsure">Сомневаюсь</option><option value="explain">Могу объяснить</option></select></label><div class="action"><button onclick="result()">Завершить досрочно</button><button class="primary" id="next" disabled onclick="advance()">${log.length+1===length()?'Показать результат':'Следующий вопрос'} →</button></div>`}
+function question(){shownAt=performance.now();const score=x=>Math.abs(x.level-target)+Math.min(4,log.filter(r=>r.topic===x.topic).length)*1.1+(log.at(-1)?.topic===x.topic?2:0)-(initialTopics.includes(x.topic)?0.6:0);if(mode!=='exams')deck.sort((a,b)=>score(a)-score(b));const numeric=log.length%4===1;const desired=['Понимание','Расчёт','Теория','Понимание','Расчёт','Расчёт','Понимание','Теория'][log.length%8];const multi=log.length%8===3;let idx=deck.findIndex(x=>Boolean(x.keys)===multi&&Boolean(x.unit)===numeric&&x.skill===desired);if(idx<0)idx=deck.findIndex(x=>Boolean(x.unit)===numeric);if(mode==='school'&&log.length===0){const vi=deck.findIndex(x=>x.diagram&&x.grade===grade);if(vi>=0)idx=vi}if(mode==='school'&&log.length%3===1){const unseen=deck.findIndex(x=>initialTopics.includes(x.topic)&&!log.some(r=>r.topic===x.topic));if(unseen>=0)idx=unseen}if(mode==='school'&&log.length%3===2){const probe=log.find(r=>!r.ok&&log.filter(x=>x.topic===r.topic&&x.skill===r.skill).length===1&&deck.some(x=>x.topic===r.topic&&x.skill===r.skill&&x.raw!==r.raw));if(probe)idx=deck.findIndex(x=>x.topic===probe.topic&&x.skill===probe.skill&&x.raw!==probe.raw)}item=deck.splice(Math.max(idx,0),1)[0];choice=null;const [q,...opts]=item.raw.split('|');heading(mode==='exams'?'ПРОБНИК':'ПРОВЕРКА',item.topic.toUpperCase());panel.innerHTML=`<small>${item.exam||scopeLabel().toUpperCase()} · ${item.skill.toUpperCase()} · ВОПРОС ${log.length+1} ИЗ ${length()}</small><div class="progress"><b style="width:${100*log.length/length()}%"></b></div><h3>${q}</h3>${illustration(item)}${item.unit?`<div class="number-answer"><label for="numberInput">Ответ в ${item.unit}</label><input id="numberInput" type="text" inputmode="decimal" autocomplete="off" placeholder="Введи число" oninput="enterNumber(this)"></div>`:`${item.keys?'<p class="multi-hint">Отметь все верные варианты. Ответ засчитывается только при полном совпадении.</p>':''}<div class="answers">${shuffle(opts).map(x=>item.keys?`<label class="multi-option"><input type="checkbox" value="${opts.indexOf(x)}" onchange="pickMany()"><span>${x}</span></label>`:`<button value="${opts.indexOf(x)}" onclick="pick(this)">${x}</button>`).join('')}</div>`}<label class="certainty">Уверенность перед проверкой <select id="certainty"><option value="">Не отмечено</option><option value="guess">Предполагаю</option><option value="unsure">Сомневаюсь</option><option value="explain">Могу объяснить</option></select></label><div class="action"><button onclick="result()">Завершить досрочно</button><button class="primary" id="next" disabled onclick="advance()">${log.length+1===length()?'Показать результат':'Следующий вопрос'} →</button></div>`}
 function pick(b){panel.querySelectorAll('.answers button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');choice=item.raw.split('|')[Number(b.value)+1];$('#next').disabled=false}
 function pickMany(){const values=[...panel.querySelectorAll('.multi-option input:checked')].map(el=>item.raw.split('|')[Number(el.value)+1]);choice=values.length?values:null;$('#next').disabled=choice===null}
 function advance(){if(choice===null)return;let [q,key]=item.raw.split('|'),ok=item.unit?Number(choice.replace(',','.'))===item.key:choice===key;if(item.keys){ok=Array.isArray(choice)&&choice.length===item.keys.length&&item.keys.every(k=>choice.includes(k));key=item.keys.join('; ');choice=choice.join('; ')}if(item.unit)choice+=' '+item.unit;log.push({...item,q,key,choice,ok,confidence:$('#certainty').value||null,elapsedMs:Math.round(performance.now()-shownAt)});target=Math.max(0,Math.min(10,target+(ok?1:-2)));log.length===length()?result():question()}
@@ -96,7 +260,7 @@ function levelCard(){
  const [level,detail]=knowledgeLevel(log),scope=scoped()?`${scopeLabel()} · только темы четверти`:mode==='school'?`Старт: ${grade} класс · по проверенным темам`:`${scopeLabel()} · по проверенным темам`;
  return `<section class="level-card"><small>ИТОГ ДИАГНОСТИКИ</small><h3>Примерный уровень знаний по физике</h3><strong>${level}</strong><p>${detail}</p><p>${scope}. Верных ответов: ${log.filter(a=>a.ok).length} из ${log.length}.</p><details><summary>Как понимать результат?</summary><p>Ориентир учитывает долю верных ответов и сложность решённых заданий. ${log.length<15?'Выборка короткая: результат особенно чувствителен к отдельным ответам. ':''}Это не школьная отметка и не оценка всего курса. Дополнительная практика не меняет исходный уровень.</p></details></section>`;
 }
-function result(){recordMap(log,scoped()?scopeLabel():mode==='school'?`${grade} класс · весь курс`:scopeLabel());heading('РЕЗУЛЬТАТ','ТЕПЛОВАЯ КАРТА ТЕМ');let topics=[...new Set([...initialTopics,...log.map(x=>x.topic)])].map(topic=>{let a=log.filter(x=>x.topic===topic);return {topic,n:a.length,r:a.filter(x=>x.ok).length}});let weak=topics.filter(x=>x.r<x.n).sort((a,b)=>Number(a.n===1)-Number(b.n===1)||a.r/a.n-b.r/b.n||b.n-a.n)[0],first=log.find(x=>!x.ok&&x.topic===weak?.topic),wins=log.filter(x=>x.ok);panel.innerHTML=`${levelCard()}<div class="encouragement"><small>СЛЕДУЮЩИЙ ШАГ</small><p>${encouragement(wins,weak)}</p></div>${analyser(topics)}${researchSummary()}<p><a class="plan-link" href="#study-plan">Открыть план обучения по этой карте ↓</a> · <a class="plan-link" href="#ai-tutor">ИИ-наставник по результатам диагностики</a></p><aside><small>ПЕРСОНАЛЬНЫЙ ПЛАН</small><h3>С чего начать</h3>${first?`<ol><li>${weak.n===1?'Уточни результат по теме':'Начни с темы'} «${weak.topic}»: ${weak.r} из ${weak.n} верно.</li><li>Разбери задачу: «${first.q}» Твой ответ: ${first.choice}. Верный: <b>${first.key}</b>. Запиши закон, который объясняет этот ответ.</li><li>Реши две похожие задачи без подсказок и повтори проверку.</li></ol>`:!log.length?'<p>Начни с короткой диагностики: без ответов персональный план построить нельзя.</p>':'<p>Ошибок в проверенных задачах нет. Попробуй более длинную проверку или выбери олимпиадный маршрут. Для самостоятельной практики используй архив задач ниже.</p>'}</aside>${log.length?`<section class="solutions"><h3>Задачи и решения</h3>${log.map((x,i)=>`<article id="task-${i}"><small>${i+1} / ${x.skill.toUpperCase()} / ${x.ok?'ВЕРНО':'ЕСТЬ ОШИБКА'}</small><h4>${x.q}</h4>${illustration(x)}<p>Твой ответ: ${x.choice} · Правильный ответ: <b>${x.key}</b></p><p>${x.solution}</p></article>`).join('')}</section>`:''}<button class="primary" onclick="setup();focusPanel()">Выбрать новую проверку →</button>`;focusPanel()}setup();
+function result(){recordMap(log,scoped()?scopeLabel():mode==='school'?`${grade} класс · весь курс`:scopeLabel());heading('РЕЗУЛЬТАТ','ТЕПЛОВАЯ КАРТА ТЕМ');let topics=[...new Set([...initialTopics,...log.map(x=>x.topic)])].map(topic=>{let a=log.filter(x=>x.topic===topic);return {topic,n:a.length,r:a.filter(x=>x.ok).length}});globalThis.profileAttempt?.(attemptId,scoped()?scopeLabel():mode==='school'?`${grade} класс · весь курс`:scopeLabel(),planner.cells);let weak=topics.filter(x=>x.r<x.n).sort((a,b)=>Number(a.n===1)-Number(b.n===1)||a.r/a.n-b.r/b.n||b.n-a.n)[0],first=log.find(x=>!x.ok&&x.topic===weak?.topic),wins=log.filter(x=>x.ok);panel.innerHTML=`${levelCard()}<div class="encouragement"><small>СЛЕДУЮЩИЙ ШАГ</small><p>${encouragement(wins,weak)}</p></div>${analyser(topics)}${researchSummary()}<p><a class="plan-link" href="#accounts">Сохранить карту между занятиями →</a></p><p><a class="plan-link" href="#study-plan">Открыть план обучения по этой карте ↓</a> · <a class="plan-link" href="#ai-tutor">ИИ-наставник по результатам диагностики</a></p><aside><small>ПЕРСОНАЛЬНЫЙ ПЛАН</small><h3>С чего начать</h3>${first?`<ol><li>${weak.n===1?'Уточни результат по теме':'Начни с темы'} «${weak.topic}»: ${weak.r} из ${weak.n} верно.</li><li>Разбери задачу: «${first.q}» Твой ответ: ${first.choice}. Верный: <b>${first.key}</b>. Запиши закон, который объясняет этот ответ.</li><li>Реши две похожие задачи без подсказок и повтори проверку.</li></ol>`:!log.length?'<p>Начни с короткой диагностики: без ответов персональный план построить нельзя.</p>':'<p>Ошибок в проверенных задачах нет. Попробуй более длинную проверку или выбери олимпиадный маршрут. Для самостоятельной практики используй архив задач ниже.</p>'}</aside>${log.length?`<section class="solutions"><h3>Задачи и решения</h3>${log.map((x,i)=>`<article id="task-${i}"><small>${i+1} / ${x.skill.toUpperCase()} / ${x.ok?'ВЕРНО':'ЕСТЬ ОШИБКА'}</small><h4>${x.q}</h4>${illustration(x)}<p>Твой ответ: ${x.choice} · Правильный ответ: <b>${x.key}</b></p><p>${x.solution}</p></article>`).join('')}</section>`:''}<button class="primary" onclick="setup();focusPanel()">Выбрать новую проверку →</button>`;focusPanel()}setup();
 
 function researchSummary(){
  if(!log.length)return '';
