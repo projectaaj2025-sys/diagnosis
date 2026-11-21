@@ -1,0 +1,4 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('fs'),vm=require('vm');
+const [lessons,checks]=vm.runInNewContext(fs.readFileSync(require.resolve('../visual-lessons.js'),'utf8')+';[visualLessons,visualFollowups]');
+test('five visual experiments have translated explanations, worked steps, transfer questions and finite readings',()=>{assert.equal(Object.keys(lessons).length,5);for(const [key,v] of Object.entries(lessons)){const [,q,a]=checks[key];for(const row of [v.title,v.idea,...v.steps,q,a])assert(row.length===3&&row.every(Boolean));for(let n=v.range[0];n<=v.range[1];n++){const [svg,readout]=v.draw(n);assert(svg&&readout&&!/Infinity|NaN|undefined/.test(svg+readout))}}});
+test('readouts agree with worked examples',()=>{for(const [k,expected] of Object.entries({density:'4 g/cm³',lens:'15 cm',fall:'20 m',full:'5 V',induce:'0.6 V'}))assert(lessons[k].draw(lessons[k].range[2])[1].includes(expected))});

@@ -56,3 +56,11 @@ for (const [id,brake] of [['read-brake',true],['read-swing',false]]) {
   play.onclick=()=>{if(frame){pause();return}if(draw())time=0;previous=performance.now();play.textContent='Приостановить';frame=requestAnimationFrame(tick)};
   step.onclick=()=>{pause();time+=0.25;draw()};slider.oninput=reset.onclick=()=>{pause();time=0;draw()};draw();
 }
+// Search the complete index, not just the currently visible term.
+(()=>{
+ const input=document.getElementById('reader-search'),matches=document.getElementById('reader-matches');
+ const fold=s=>s.toLocaleLowerCase().replaceAll('ё','е').trim();
+ function update(){const q=fold(input.value),lang=document.getElementById('language').value,idx=lang==='en'?1:lang==='kk'?2:0;matches.replaceChildren();matches.hidden=!q;if(!q)return;
+ const list=document.createElement('ul');for(const [grade,seq] of Object.entries(textbookIndex))seq.forEach(([,titles],i)=>{const id=`${grade}.${i+1}`;if(!titles.some(t=>fold(t).includes(q))&&id!==q)return;const li=document.createElement('li'),a=document.createElement('a');a.href=`#para-${grade}-${i+1}`;a.textContent=`${id} · ${titles[idx]}`;li.append(a);list.append(li)});if(list.children.length)matches.append(list);else matches.textContent=['Ничего не найдено. Попробуй другое слово.','No matches. Try a different word.','Ештеңе табылмады. Басқа сөз енгіз.'][idx];}
+ input.addEventListener('input',update);document.getElementById('language').addEventListener('change',update);
+})();
