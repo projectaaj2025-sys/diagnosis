@@ -1,5 +1,6 @@
 // Russian source text → English, Kazakh. Shared by the UI, lessons and answer reviews.
 const languageCatalog = {
+ "Весь год": ["Full year", "Жыл бойы"],
  "ФизЛаб — диагностика по физике": [
   "PhysLab — physics diagnostics",
   "ФизЛаб — физика диагностикасы"

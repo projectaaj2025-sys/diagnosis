@@ -1,0 +1,302 @@
+// Models: concept keys, axes, fixed conditions, native MathML and calculation in the displayed units.
+const lessonModels=[
+["nature shadow",["h (m)", "s (m)", "α = 45°", "<math><mrow><mi>s</mi><mo>=</mo><mfrac><mi>h</mi><mrow><mrow><mi>tan</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>α</mi></mrow></mfrac></mrow></math>", "3"],x=>x],
+["method period",["N", "t (s)", "T = 1.6 s", "<math><mrow><mi>t</mi><mo>=</mo><mi>N</mi><mi>T</mi></mrow></math>", "1.6 · 3"],x=>1.6*x],
+["si",["v (km/h)", "v (m/s)", "1 h = 3600 s", "<math><mrow><msub><mi>v</mi><mpadded lspace=\"0\"><mi>SI</mi></mpadded></msub><mo>=</mo><mfrac><msub><mi>v</mi><mrow><mrow><mi mathvariant=\"normal\">k</mi><mspace></mspace></mrow><mrow><mi mathvariant=\"normal\">m</mi><mspace></mspace></mrow><mi>/</mi><mrow><mi mathvariant=\"normal\">h</mi><mspace></mspace></mrow></mrow></msub><mn>3.6</mn></mfrac></mrow></math>", "3/3.6"],x=>x/3.6],
+["vector frame",["x₂ (m)", "Δx (m)", "x₁ = 2 m", "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>x</mi><mo>=</mo><msub><mi>x</mi><mn>2</mn></msub><mo>−</mo><msub><mi>x</mi><mn>1</mn></msub></mrow></math>", "3-2"],x=>x-2],
+["error mass",["N", "m (g)", "m₁ = 2 g", "<math><mrow><mi>m</mi><mo>=</mo><mi>N</mi><msub><mi>m</mi><mn>1</mn></msub></mrow></math>", "2 · 3"],x=>2*x],
+["relative",["v′ (m/s)", "v (m/s)", "u = 10 m/s; v′ ←, u →", "<math><mrow><mi>v</mi><mo>=</mo><mi>u</mi><mo>−</mo><msup><mi>v</mi><mo lspace=\"0em\" rspace=\"0em\" class=\"tml-prime tml-sml-pad\">′</mo></msup></mrow></math>", "10-3"],x=>10-x],
+["uniform avg graph",["t (s)", "s (m)", "v = 3 m/s", "<math><mrow><mi>s</mi><mo>=</mo><mi>v</mi><mi>t</mi></mrow></math>", "3 · 3"],x=>3*x],
+["volume",["V₂ (mL)", "V (cm³)", "V₁ = 1 mL", "<math><mrow><mi>V</mi><mo>=</mo><msub><mi>V</mi><mn>2</mn></msub><mo>−</mo><msub><mi>V</mi><mn>1</mn></msub></mrow></math>", "3-1"],x=>x-1],
+["density planets",["V (cm³)", "ρ (g/cm³)", "m = 12 g", "<math><mrow><mi>ρ</mi><mo>=</mo><mfrac><mi>m</mi><mi>V</mi></mfrac></mrow></math>", "12/3"],x=>12/x],
+["inertia net force newton",["F₁ (N)", "aₓ (m/s²)", "F₂ = −2 N; m = 2 kg", "<math><mrow><msub><mi>a</mi><mi>x</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>F</mi><mn>1</mn></msub><mo>+</mo><msub><mi>F</mi><mn>2</mn></msub></mrow><mi>m</mi></mfrac></mrow></math>", "(3-2)/2"],x=>(x-2)/2],
+["gravity",["m (kg)", "F (N)", "g = 9.8 m/s²", "<math><mrow><mi>F</mi><mo>=</mo><mi>m</mi><mi>g</mi></mrow></math>", "9.8 · 3"],x=>9.8*x],
+["deform hooke solid",["Δℓ (cm)", "F (N)", "k = 200 N/m", "<math><mrow><mi>F</mi><mo>=</mo><mi>k</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>ℓ</mi></mrow></math>", "2 · 3"],x=>2*x],
+["friction",["F (N)", "Ffr (N)", "μₛN = 5 N; F ≤ 5 N", "<math><mrow><msub><mi>F</mi><mpadded lspace=\"0\"><mi>fr</mi></mpadded></msub><mo>=</mo><mi>F</mi></mrow></math>", "3"],x=>x],
+["state mkt",["V (L)", "n (10²³ L⁻¹)", "N = 6 × 10²³", "<math><mrow><mi>n</mi><mo>=</mo><mfrac><mi>N</mi><mi>V</mi></mfrac></mrow></math>", "6/3"],x=>6/x],
+["pressure",["S (m²)", "p (Pa)", "F⊥ = 60 N", "<math><mrow><mi>p</mi><mo>=</mo><mfrac><msub><mi>F</mi><mo lspace=\"0em\" rspace=\"0em\">⟂</mo></msub><mi>S</mi></mfrac></mrow></math>", "60/3"],x=>60/x],
+["hydro utube manometer air",["h (cm)", "Δp (Pa)", "ρ = 1000 kg/m³; g = 10 m/s²", "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>p</mi><mo>=</mo><mi>ρ</mi><mi>g</mi><mi>h</mi></mrow></math>", "100 · 3"],x=>100*x],
+["press",["S₂ (cm²)", "F₂ (N)", "S₁ = 1 cm²; F₁ = 10 N", "<math><mrow><msub><mi>F</mi><mn>2</mn></msub><mo>=</mo><msub><mi>F</mi><mn>1</mn></msub><mfrac><msub><mi>S</mi><mn>2</mn></msub><msub><mi>S</mi><mn>1</mn></msub></mfrac></mrow></math>", "10 · 3"],x=>10*x],
+["buoy float",["Vsub (L)", "Fᴀ (N)", "ρ = 1000 kg/m³; g = 10 m/s²", "<math><mrow><msub><mi>F</mi><mi>A</mi></msub><mo>=</mo><mi>ρ</mi><mi>g</mi><msub><mi>V</mi><mpadded lspace=\"0\"><mi>sub</mi></mpadded></msub></mrow></math>", "10 · 3"],x=>10*x],
+["work machine",["d (m)", "W (J)", "F = 8 N; θ = 0°", "<math><mrow><mi>W</mi><mo>=</mo><mi>F</mi><mi>d</mi><mrow><mspace width=\"0.1667em\"></mspace><mi>cos</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>θ</mi></mrow></math>", "8 · 3"],x=>8*x],
+["energy spring",["v (m/s)", "K (J)", "m = 2 kg", "<math><mrow><mi>K</mi><mo>=</mo><mfrac><mrow><mi>m</mi><msup><mi>v</mi><mn class=\"tml-sml-pad\">2</mn></msup></mrow><mn>2</mn></mfrac></mrow></math>", "3 · 3"],x=>x*x],
+["conserve fall",["t (s)", "h (m)", "v₀ = 0; g = 10 m/s²", "<math><mrow><mi>h</mi><mo>=</mo><mfrac><mrow><mi>g</mi><msup><mi>t</mi><mn class=\"tml-med-pad\">2</mn></msup></mrow><mn>2</mn></mfrac></mrow></math>", "5 · 3 · 3"],x=>5*x*x],
+["centre",["m₂ (kg)", "xс (m)", "m₁ = 1 kg; x₁ = 0; x₂ = 6 m", "<math><mrow><msub><mi>x</mi><mi>c</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>m</mi><mn>2</mn></msub><msub><mi>x</mi><mn>2</mn></msub></mrow><mrow><msub><mi>m</mi><mn>1</mn></msub><mo>+</mo><msub><mi>m</mi><mn>2</mn></msub></mrow></mfrac></mrow></math>", "6 · 3/(1+3)"],x=>6*x/(1+x)],
+["eff environment reactor",["Eᵢₙ (J)", "Euse (J)", "η = 40%", "<math><mrow><msub><mi>E</mi><mpadded lspace=\"0\"><mi>use</mi></mpadded></msub><mo>=</mo><mi>η</mi><msub><mi>E</mi><mpadded lspace=\"0\"><mi>in</mi></mpadded></msub></mrow></math>", "0.4 · 3"],x=>.4*x],
+["astro sun sky",["d (ly)", "t (yr)", "v = c", "<math><mrow><mi>t</mi><mo>=</mo><mfrac><mi>d</mi><mi>c</mi></mfrac></mrow></math>", "3"],x=>x],
+["solar orbit grav",["r/R", "g/g₀", "M = const", "<math><mrow><mfrac><mi>g</mi><msub><mi>g</mi><mn>0</mn></msub></mfrac><mo>=</mo><msup><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"true\">(</mo><mfrac><mi>R</mi><mi>r</mi></mfrac><mo fence=\"true\" form=\"postfix\" stretchy=\"true\">)</mo></mrow><mn>2</mn></msup></mrow></math>", "1/(3 · 3)"],x=>1/(x*x)],
+["calendar",["N (yr)", "Δt (d)", "365.2422 − 365 = 0.2422 d", "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>t</mi><mo>=</mo><mi>N</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>T</mi></mrow></math>", "0.2422 · 3"],x=>.2422*x],
+["diff",["t (s)", "⟨Δx²⟩ (mm²)", "D = 0.5 mm²/s; 1D", "<math><mrow><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"false\">⟨</mo><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><msup><mi>x</mi><mn class=\"tml-sml-pad\">2</mn></msup><mo fence=\"true\" form=\"postfix\" stretchy=\"false\">⟩</mo></mrow><mo>=</mo><mn>2</mn><mi>D</mi><mi>t</mi></mrow></math>", "3"],x=>x],
+["temp",["T (°C)", "T (K)", "0 °C = 273.15 K", "<math><mrow><msub><mi>T</mi><mrow><mi mathvariant=\"normal\">K</mi><mspace></mspace></mrow></msub><mo>=</mo><msub><mi>t</mi><mrow><mi mathvariant=\"normal\">C</mi><mspace></mspace></mrow></msub><mo>+</mo><mn>273.15</mn></mrow></math>", "273.15+3"],x=>273.15+x],
+["internal first",["Q (J)", "ΔU (J)", "Wby = 2 J", "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>U</mi><mo>=</mo><mi>Q</mi><mo>−</mo><msub><mi>W</mi><mpadded lspace=\"0\"><mi>by</mi></mpadded></msub></mrow></math>", "3-2"],x=>x-2],
+["transfer insulate",["L (cm)", "P (W)", "κ = 1 W/(m·K); S = 0.01 m²; ΔT = 10 K", "<math><mrow><mi>P</mi><mo>=</mo><mfrac><mrow><mi>κ</mi><mi>S</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>T</mi></mrow><mi>L</mi></mfrac></mrow></math>", "10/3"],x=>10/x],
+["cool vapour boil",["m (g)", "Q (kJ)", "L = 2260 kJ/kg (H₂O, 100 °C)", "<math><mrow><mi>Q</mi><mo>=</mo><mi>L</mi><mi>m</mi></mrow></math>", "2.26 · 3"],x=>2.26*x],
+["heat",["ΔT (K)", "Q (kJ)", "m = 1 kg; c = 4.2 kJ/(kg·K)", "<math><mrow><mi>Q</mi><mo>=</mo><mi>m</mi><mi>c</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>T</mi></mrow></math>", "4.2 · 3"],x=>4.2*x],
+["fuel",["m (kg)", "Q (MJ)", "q = 30 MJ/kg", "<math><mrow><mi>Q</mi><mo>=</mo><mi>q</mi><mi>m</mi></mrow></math>", "30 · 3"],x=>30*x],
+["balance",["m₂ (kg)", "T (°C)", "m₁ = 1 kg; T₁ = 20 °C; T₂ = 60 °C; c₁ = c₂", "<math><mrow><mi>T</mi><mo>=</mo><mfrac><mrow><msub><mi>m</mi><mn>1</mn></msub><msub><mi>T</mi><mn>1</mn></msub><mo>+</mo><msub><mi>m</mi><mn>2</mn></msub><msub><mi>T</mi><mn>2</mn></msub></mrow><mrow><msub><mi>m</mi><mn>1</mn></msub><mo>+</mo><msub><mi>m</mi><mn>2</mn></msub></mrow></mfrac></mrow></math>", "(20+60 · 3)/(1+3)"],x=>(20+60*x)/(1+x)],
+["second engine",["Qcold (J)", "Qhot (J)", "Win = 2 J", "<math><mrow><msub><mi>Q</mi><mpadded lspace=\"0\"><mi>hot</mi></mpadded></msub><mo>=</mo><msub><mi>Q</mi><mpadded lspace=\"0\"><mi>cold</mi></mpadded></msub><mo>+</mo><msub><mi>W</mi><mpadded lspace=\"0\"><mi>in</mi></mpadded></msub></mrow></math>", "3+2"],x=>x+2],
+["charge",["q₁ (nC)", "q₂ (nC)", "Σq = 0", "<math><mrow><msub><mi>q</mi><mn>2</mn></msub><mo>=</mo><mo form=\"prefix\" stretchy=\"false\">−</mo><msub><mi>q</mi><mn>1</mn></msub></mrow></math>", "-3"],x=>-x],
+["coulomb",["r (m)", "F (mN)", "F(1 m) = 9 mN", "<math><mrow><mi>F</mi><mo>=</mo><msub><mi>F</mi><mn>1</mn></msub><msup><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"true\">(</mo><mfrac><msub><mi>r</mi><mn>1</mn></msub><mi>r</mi></mfrac><mo fence=\"true\" form=\"postfix\" stretchy=\"true\">)</mo></mrow><mn>2</mn></msup></mrow></math>", "9/(3 · 3)"],x=>9/(x*x)],
+["field",["q (μC)", "F (mN)", "E = 2000 N/C", "<math><mrow><mi>F</mi><mo>=</mo><mi>q</mi><mi>E</mi></mrow></math>", "2 · 3"],x=>2*x],
+["potential equip",["d (m)", "U (V)", "E = 4 V/m; d ∥ E", "<math><mrow><mi>U</mi><mo>=</mo><mi>E</mi><mi>d</mi></mrow></math>", "4 · 3"],x=>4*x],
+["current meter electrolysis",["t (s)", "q (C)", "I = 2 A", "<math><mrow><mi>q</mi><mo>=</mo><mi>I</mi><mi>t</mi></mrow></math>", "2 · 3"],x=>2*x],
+["ohm wire metal",["R (Ω)", "I (A)", "U = 12 V", "<math><mrow><mi>I</mi><mo>=</mo><mfrac><mi>U</mi><mi>R</mi></mfrac></mrow></math>", "12/3"],x=>12/x],
+["parallel",["R₂ (Ω)", "R (Ω)", "R₁ = 6 Ω", "<math><mrow><mi>R</mi><mo>=</mo><mfrac><mrow><msub><mi>R</mi><mn>1</mn></msub><msub><mi>R</mi><mn>2</mn></msub></mrow><mrow><msub><mi>R</mi><mn>1</mn></msub><mo>+</mo><msub><mi>R</mi><mn>2</mn></msub></mrow></mfrac></mrow></math>", "6 · 3/(6+3)"],x=>6*x/(6+x)],
+["power motor",["I (A)", "P (W)", "U = 12 V", "<math><mrow><mi>P</mi><mo>=</mo><mi>U</mi><mi>I</mi></mrow></math>", "12 · 3"],x=>12*x],
+["joule fuse",["I (A)", "P (W)", "R = 3 Ω", "<math><mrow><mi>P</mi><mo>=</mo><msup><mi>I</mi><mn class=\"tml-med-pad\">2</mn></msup><mi>R</mi></mrow></math>", "3 · 3 · 3"],x=>3*x*x],
+["magnet core coil",["I (A)", "B (mT)", "n = 1000 m⁻¹; μᵣ = 1", "<math><mrow><mi>B</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><mi>n</mi><mi>I</mi></mrow></math>", "1.256637 · 3"],x=>1.256637*x],
+["ampere",["I (A)", "F (N)", "B = 0.2 T; ℓ = 0.5 m; α = 90°", "<math><mrow><mi>F</mi><mo>=</mo><mi>B</mi><mi>I</mi><mi>ℓ</mi><mrow><mspace width=\"0.1667em\"></mspace><mi>sin</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>α</mi></mrow></math>", "0.1 · 3"],x=>.1*x],
+["induce lenz",["Δt (s)", "ε (V)", "N = 20; ΔΦ = 0.1 Wb", "<math><mrow><mover><mi>ε</mi><mo stretchy=\"false\" class=\"wbk-acc\" style=\"math-depth:0;\">‾</mo></mover><mo>=</mo><mo form=\"prefix\" stretchy=\"false\">−</mo><mi>N</mi><mfrac><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mrow><mi mathvariant=\"normal\">Φ</mi><mspace></mspace></mrow></mrow><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>t</mi></mrow></mfrac></mrow></math>", "-2/3"],x=>-2/x],
+["reflect",["θᵢ (°)", "θᵣ (°)", "θᵢ ↔ n̂", "<math><mrow><msub><mi>θ</mi><mi>r</mi></msub><mo>=</mo><msub><mi>θ</mi><mi>i</mi></msub></mrow></math>", "3"],x=>x],
+["mirror",["R (cm)", "f (cm)", "θ ≈ 0", "<math><mrow><mi>f</mi><mo>=</mo><mfrac><mi>R</mi><mn>2</mn></mfrac></mrow></math>", "3/2"],x=>x/2],
+["refract disp",["n", "v (10⁸ m/s)", "c ≈ 3 × 10⁸ m/s", "<math><mrow><mi>v</mi><mo>=</mo><mfrac><mi>c</mi><mi>n</mi></mfrac></mrow></math>", "3/3"],x=>3/x],
+["lens instrument",["a (cm)", "b (cm)", "f = −2 cm", "<math><mrow><mi>b</mi><mo>=</mo><mfrac><mrow><mi>a</mi><mi>f</mi></mrow><mrow><mi>a</mi><mo>−</mo><mi>f</mi></mrow></mfrac></mrow></math>", "-2 · 3/(3+2)"],x=>-2*x/(x+2)],
+["eye",["f (m)", "D (m⁻¹)", "f > 0", "<math><mrow><mi>D</mi><mo>=</mo><mfrac><mn>1</mn><mi>f</mi></mfrac></mrow></math>", "1/3"],x=>1/x],
+["acc accdist",["t (s)", "v (m/s)", "v₀ = 10 m/s; a = −2 m/s²", "<math><mrow><mi>v</mi><mo>=</mo><msub><mi>v</mi><mn>0</mn></msub><mo>+</mo><mi>a</mi><mi>t</mi></mrow></math>", "10-2 · 3"],x=>10-2*x],
+["circle centrip",["r (m)", "aₙ (m/s²)", "v = 6 m/s", "<math><mrow><msub><mi>a</mi><mi>n</mi></msub><mo>=</mo><mfrac><msup><mi>v</mi><mn class=\"tml-sml-pad\">2</mn></msup><mi>r</mi></mfrac></mrow></math>", "36/3"],x=>36/x],
+["coords time",["Δt (h)", "Δα (°)", "ω ≈ 15 °/h", "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>α</mi><mo>=</mo><mi>ω</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>t</mi></mrow></math>", "15 · 3"],x=>15*x],
+["kepler",["a (AU)", "T (yr)", "M = M☉", "<math><mrow><msup><mi>T</mi><mn class=\"tml-med-pad\">2</mn></msup><mo>=</mo><msup><mi>a</mi><mn>3</mn></msup><mspace width=\"1em\"></mspace><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"false\">(</mo><mrow><mrow><mi mathvariant=\"normal\">y</mi><mspace></mspace></mrow><mrow><mi mathvariant=\"normal\">r</mi><mspace></mspace></mrow><mo separator=\"true\">,</mo><mrow><mi mathvariant=\"normal\">A</mi><mspace></mspace></mrow><mrow><mi mathvariant=\"normal\">U</mi><mspace></mspace></mrow></mrow><mo fence=\"true\" form=\"postfix\" stretchy=\"false\">)</mo></mrow></mrow></math>", "3^1.5"],x=>x**1.5],
+["parallax",["p (″)", "d (pc)", "1 pc ↔ 1″", "<math><mrow><msub><mi>d</mi><mpadded lspace=\"0\"><mi>pc</mi></mpadded></msub><mo>=</mo><mfrac><mn>1</mn><msub><mi>p</mi><mpadded lspace=\"0\"><mi>arcsec</mi></mpadded></msub></mfrac></mrow></math>", "1/3"],x=>1/x],
+["weightless",["a↓ (m/s²)", "N (N)", "m = 2 kg; g = 10 m/s²", "<math><mrow><mi>N</mi><mo>=</mo><mi>m</mi><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"false\">(</mo><mi>g</mi><mo>−</mo><mi>a</mi><mo fence=\"true\" form=\"postfix\" stretchy=\"false\">)</mo></mrow></mrow></math>", "2 · (10-3)"],x=>2*(10-x)],
+["momentum jet",["m (kg)", "p (kg·m/s)", "v = 3 m/s", "<math><mrow><mi>p</mi><mo>=</mo><mi>m</mi><mi>v</mi></mrow></math>", "3 · 3"],x=>3*x],
+["pendulum",["ℓ (m)", "T (s)", "g = 9.8 m/s²; θ ≈ 0", "<math><mrow><mi>T</mi><mo>=</mo><mn>2</mn><mi>π</mi><msqrt><mfrac><mi>ℓ</mi><mi>g</mi></mfrac></msqrt></mrow></math>", "2 · π · √(3/9.8)"],x=>2*Math.PI*Math.sqrt(x/9.8)],
+["resonance harmonic analogy",["t (s)", "x (m)", "A = 1 m; T = 4 s", "<math><mrow><mi>x</mi><mo>=</mo><mi>A</mi><mrow><mspace width=\"0.1667em\"></mspace><mi>cos</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mfrac><mrow><mn>2</mn><mi>π</mi><mi>t</mi></mrow><mi>T</mi></mfrac></mrow></math>", "cos(π · 3/2)"],x=>Math.cos(Math.PI*x/2)],
+["lc",["C (μF)", "T (ms)", "L = 1 H", "<math><mrow><mi>T</mi><mo>=</mo><mn>2</mn><mi>π</mi><msqrt><mrow><mi>L</mi><mi>C</mi></mrow></msqrt></mrow></math>", "2 · π · √(3)"],x=>2*Math.PI*Math.sqrt(x)],
+["wave echo",["t (s)", "d (m)", "v = 340 m/s; ⇄", "<math><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mi>v</mi><mi>t</mi></mrow><mn>2</mn></mfrac></mrow></math>", "170 · 3"],x=>170*x],
+["emwave radio photonband",["f (MHz)", "λ (m)", "c ≈ 3 × 10⁸ m/s", "<math><mrow><mi>λ</mi><mo>=</mo><mfrac><mi>c</mi><mi>f</mi></mfrac></mrow></math>", "300/3"],x=>300/x],
+["thermal",["T (10³ K)", "λmax (μm)", "b ≈ 2.90 × 10⁻³ m·K", "<math><mrow><msub><mi>λ</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mo>=</mo><mfrac><mi>b</mi><mi>T</mi></mfrac></mrow></math>", "2.9/3"],x=>2.9/x],
+["photo",["hf (eV)", "Kmax (eV)", "A = 1 eV; hf ≥ A", "<math><mrow><msub><mi>K</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mo>=</mo><mi>h</mi><mi>f</mi><mo>−</mo><mi>A</mi></mrow></math>", "3-1"],x=>x-1],
+["xray",["U (kV)", "Emax (keV)", "q = e", "<math><mrow><msub><mi>E</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mo>=</mo><mi>e</mi><mi>U</mi></mrow></math>", "3"],x=>x],
+["decay",["t/T½", "N/N₀", "N₀ ≫ 1", "<math><mrow><mfrac><mi>N</mi><msub><mi>N</mi><mn>0</mn></msub></mfrac><mo>=</mo><msup><mn>2</mn><mrow><mo form=\"prefix\" stretchy=\"false\" lspace=\"0em\" rspace=\"0em\">−</mo><mi>t</mi><mi>/</mi><msub><mi>T</mi><mrow><mn>1</mn><mi>/</mi><mn>2</mn></mrow></msub></mrow></msup></mrow></math>", "2^(-3)"],x=>2**(-x)],
+["rutherford nucleus reaction",["Z", "N", "A = 10", "<math><mrow><mi>N</mi><mo>=</mo><mi>A</mi><mo>−</mo><mi>Z</mi></mrow></math>", "10-3"],x=>10-x],
+["fusion fission rest",["Δm (u)", "E (MeV)", "1 u·c² ≈ 931.5 MeV", "<math><mrow><mi>E</mi><mo>=</mo><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>m</mi><msup><mi>c</mi><mn class=\"tml-sml-pad\">2</mn></msup></mrow></math>", "931.5 · 3"],x=>931.5*x],
+["particle",["Npair", "Nγ", "e⁺ + e⁻ → 2γ", "<math><mrow><msub><mi>N</mi><mi>γ</mi></msub><mo>=</mo><mn>2</mn><msub><mi>N</mi><mpadded lspace=\"0\"><mi>pair</mi></mpadded></msub></mrow></math>", "2 · 3"],x=>2*x],
+["model",["N", "t (s)", "T = 1.6 s", "<math><mrow><mi>t</mi><mo>=</mo><mi>N</mi><mi>T</mi></mrow></math>", "1.6 · 3"],x=>1.6*x],
+["throw",["t (s)", "x (m)", "vₓ = 8 m/s", "<math><mrow><mi>x</mi><mo>=</mo><msub><mi>v</mi><mi>x</mi></msub><mi>t</mi></mrow></math>", "8 · 3"],x=>8*x],
+["inertia2 angular",["r (m)", "I (kg·m²)", "M = 2 kg; ○", "<math><mrow><mi>I</mi><mo>=</mo><mi>M</mi><msup><mi>r</mi><mn class=\"tml-sml-pad\">2</mn></msup></mrow></math>", "2 · 3 · 3"],x=>2*x*x],
+["stable",["Δh (m)", "ΔU (J)", "m = 1 kg; g = 10 m/s²", "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>U</mi><mo>=</mo><mi>m</mi><mi>g</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>h</mi></mrow></math>", "10 · 3"],x=>10*x],
+["flow",["S (cm²)", "v (cm/s)", "Q = 12 cm³/s", "<math><mrow><mi>v</mi><mo>=</mo><mfrac><mi>Q</mi><mi>S</mi></mfrac></mrow></math>", "12/3"],x=>12/x],
+["laminar",["v (m/s)", "Re", "ρ = 1000 kg/m³; D = 0.001 m; η = 0.001 Pa·s", "<math><mrow><mpadded lspace=\"0\"><mi>Re</mi></mpadded><mo>=</mo><mfrac><mrow><mi>ρ</mi><mi>v</mi><mi>D</mi></mrow><mi>η</mi></mfrac></mrow></math>", "1000 · 3"],x=>1000*x],
+["stokes",["v (mm/s)", "F (μN)", "η = 1 Pa·s; r = 1 mm; Re ≪ 1", "<math><mrow><mi>F</mi><mo>=</mo><mn>6</mn><mi>π</mi><mi>η</mi><mi>r</mi><mi>v</mi></mrow></math>", "6 · π · 3"],x=>6*Math.PI*x],
+["stateeq isotherm",["V (L)", "p (kPa)", "p₀V₀ = 300 kPa·L; T = const", "<math><mrow><mi>p</mi><mo>=</mo><mfrac><mrow><msub><mi>p</mi><mn>0</mn></msub><msub><mi>V</mi><mn>0</mn></msub></mrow><mi>V</mi></mfrac></mrow></math>", "300/3"],x=>300/x],
+["humidity",["pv (kPa)", "φ (%)", "psat = 5 kPa", "<math><mrow><mi>φ</mi><mo>=</mo><mn>100</mn><mi>%</mi><mfrac><msub><mi>p</mi><mi>v</mi></msub><msub><mi>p</mi><mpadded lspace=\"0\"><mi>sat</mi></mpadded></msub></mfrac></mrow></math>", "20 · 3"],x=>20*x],
+["capillary",["r (mm)", "h (mm)", "σ = 0.072 N/m; θ = 0; ρ = 1000 kg/m³; g = 10 m/s²", "<math><mrow><mi>h</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>σ</mi><mrow><mspace width=\"0.1667em\"></mspace><mi>cos</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>θ</mi></mrow><mrow><mi>ρ</mi><mi>g</mi><mi>r</mi></mrow></mfrac></mrow></math>", "14.4/3"],x=>14.4/x],
+["fluxE",["Q (nC)", "Φ (V·m)", "ε₀ ≈ 8.85 × 10⁻¹² F/m", "<math><mrow><mrow><mi mathvariant=\"normal\">Φ</mi><mspace></mspace></mrow><mo>=</mo><mfrac><mi>Q</mi><msub><mi>ε</mi><mn>0</mn></msub></mfrac></mrow></math>", "3 · 1000/8.85"],x=>x*1000/8.85],
+["shield",["x (cm)", "E (V/m)", "ρfree = 0; ∂B/∂t = 0; E = 0 (conductor interior)", "<math><mrow><msub><mi>E</mi><mpadded lspace=\"0\"><mi>inside</mi></mpadded></msub><mo>=</mo><mn>0</mn></mrow></math>", "0"],x=>0],
+["capacitor capenergy",["U (V)", "W (μJ)", "C = 2 μF", "<math><mrow><mi>W</mi><mo>=</mo><mfrac><mrow><mi>C</mi><msup><mi>U</mi><mn class=\"tml-sml-pad\">2</mn></msup></mrow><mn>2</mn></mfrac></mrow></math>", "3 · 3"],x=>x*x],
+["emf full",["I (A)", "U (V)", "ε = 9 V; r = 0.5 Ω", "<math><mrow><mi>U</mi><mo>=</mo><mi>ε</mi><mo>−</mo><mi>I</mi><mi>r</mi></mrow></math>", "9-0.5 · 3"],x=>9-.5*x],
+["kirch",["I₁ (A)", "Iout (A)", "I₂ = 2 A", "<math><mrow><msub><mi>I</mi><mpadded lspace=\"0\"><mi>out</mi></mpadded></msub><mo>=</mo><msub><mi>I</mi><mn>1</mn></msub><mo>+</mo><msub><mi>I</mi><mn>2</mn></msub></mrow></math>", "3+2"],x=>x+2],
+["gascurrent",["Npair", "Ne", "X → X⁺ + e⁻", "<math><mrow><msub><mi>N</mi><mi>e</mi></msub><mo>=</mo><msub><mi>N</mi><mpadded lspace=\"0\"><mi>pair</mi></mpadded></msub></mrow></math>", "3"],x=>x],
+["lorentz",["B (T)", "r (mm)", "mv/abs(q) = 6 T·mm", "<math><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><mi>m</mi><mi>v</mi></mrow><mrow><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"false\">|</mo><mi>q</mi><mo fence=\"true\" form=\"postfix\" stretchy=\"false\">|</mo></mrow><mi>B</mi></mrow></mfrac></mrow></math>", "6/3"],x=>6/x],
+["magmat",["H (A/m)", "B (μT)", "μᵣ ≈ 1; T > T꜀", "<math><mrow><mi>B</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>μ</mi><mi>r</mi></msub><mi>H</mi></mrow></math>", "1.256637 · 3"],x=>1.256637*x],
+["inductance",["I (A)", "W (J)", "L = 0.2 H", "<math><mrow><mi>W</mi><mo>=</mo><mfrac><mrow><mi>L</mi><msup><mi>I</mi><mn class=\"tml-med-pad\">2</mn></msup></mrow><mn>2</mn></mfrac></mrow></math>", "0.1 · 3 · 3"],x=>.1*x*x],
+["generator",["t (s)", "ε (V)", "εmax = 2 V; T = 4 s", "<math><mrow><mi>ε</mi><mo>=</mo><msub><mi>ε</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mrow><mi>sin</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mfrac><mrow><mn>2</mn><mi>π</mi><mi>t</mi></mrow><mi>T</mi></mfrac></mrow></math>", "2 · sin(π · 3/2)"],x=>2*Math.sin(Math.PI*x/2)],
+["rms",["Imax (A)", "Irms (A)", "I = Imax sin(ωt)", "<math><mrow><msub><mi>I</mi><mpadded lspace=\"0\"><mi>rms</mi></mpadded></msub><mo>=</mo><mfrac><msub><mi>I</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><msqrt><mn>2</mn></msqrt></mfrac></mrow></math>", "3/√(2)"],x=>x/Math.sqrt(2)],
+["react rlc",["ω (rad/s)", "Xʟ (Ω)", "L = 2 H", "<math><mrow><msub><mi>X</mi><mi>L</mi></msub><mo>=</mo><mi>ω</mi><mi>L</mi></mrow></math>", "2 · 3"],x=>2*x],
+["impedance",["ΔX (Ω)", "Z (Ω)", "R = 3 Ω", "<math><mrow><mi>Z</mi><mo>=</mo><msqrt><mrow><msup><mi>R</mi><mn class=\"tml-med-pad\">2</mn></msup><mo>+</mo><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><msup><mi>X</mi><mn class=\"tml-med-pad\">2</mn></msup></mrow></msqrt></mrow></math>", "√(9+3 · 3)"],x=>Math.sqrt(9+x*x)],
+["acpower",["Iᵣₘₛ (A)", "P (W)", "Uᵣₘₛ = 100 V; cos φ = 0.5", "<math><mrow><mi>P</mi><mo>=</mo><mi>U</mi><mi>I</mi><mrow><mspace width=\"0.1667em\"></mspace><mi>cos</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>φ</mi></mrow></math>", "50 · 3"],x=>50*x],
+["transform",["N₂/N₁", "U₂ (V)", "U₁ = 12 V", "<math><mrow><msub><mi>U</mi><mn>2</mn></msub><mo>=</mo><msub><mi>U</mi><mn>1</mn></msub><mfrac><msub><mi>N</mi><mn>2</mn></msub><msub><mi>N</mi><mn>1</mn></msub></mfrac></mrow></math>", "12 · 3"],x=>12*x],
+["interf stand",["Δs/λ", "Δφ (rad)", "φ₀ = 0", "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>φ</mi><mo>=</mo><mn>2</mn><mi>π</mi><mfrac><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>s</mi></mrow><mi>λ</mi></mfrac></mrow></math>", "2 · π · 3"],x=>2*Math.PI*x],
+["digital",["b (bit)", "N", "b ∈ ℕ", "<math><mrow><mi>N</mi><mo>=</mo><msup><mn>2</mn><mi>b</mi></msup></mrow></math>", "2^3"],x=>2**x],
+["grating",["m", "sin θ", "λ/d = 0.15", "<math><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>θ</mi><mo>=</mo><mfrac><mrow><mi>m</mi><mi>λ</mi></mrow><mi>d</mi></mfrac></mrow></math>", "0.15 · 3"],x=>.15*x],
+["polar",["θ (°)", "I/I₀", "I₀ = const", "<math><mrow><mfrac><mi>I</mi><msub><mi>I</mi><mn>0</mn></msub></mfrac><mo>=</mo><msup><mi>cos</mi><mn>2</mn></msup><mo>⁡</mo><mspace width=\"0.1667em\"></mspace><mi>θ</mi></mrow></math>", "cos(π · 3/180)^2"],x=>Math.cos(Math.PI*x/180)**2],
+["relativity",["v (10⁷ m/s)", "γ", "c ≈ 30 × 10⁷ m/s", "<math><mrow><mi>γ</mi><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>1</mn><mo>−</mo><msup><mi>v</mi><mn class=\"tml-sml-pad\">2</mn></msup><mi>/</mi><msup><mi>c</mi><mn class=\"tml-sml-pad\">2</mn></msup></mrow></msqrt></mfrac></mrow></math>", "1/√(1-(3/30)^2)"],x=>1/Math.sqrt(1-(x/30)**2)],
+["spectra laser bohr",["ΔE (eV)", "f (10¹⁴ Hz)", "h ≈ 4.136 × 10⁻¹⁵ eV·s", "<math><mrow><mi>f</mi><mo>=</mo><mfrac><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>E</mi></mrow><mi>h</mi></mfrac></mrow></math>", "10 · 3/4.136"],x=>10*x/4.136],
+["lightp",["E (J)", "p (10⁻⁹ kg·m/s)", "c ≈ 3 × 10⁸ m/s", "<math><mrow><mi>p</mi><mo>=</mo><mfrac><mi>E</mi><mi>c</mi></mfrac></mrow></math>", "10 · 3/3"],x=>10*x/3],
+["dual matter",["p/p₀", "λ/λ₀", "h = const", "<math><mrow><mi>λ</mi><mo>=</mo><mfrac><mi>h</mi><mi>p</mi></mfrac></mrow></math>", "1/3"],x=>1/x],
+["dose",["m (kg)", "D (Gy)", "E = 0.002 J", "<math><mrow><mi>D</mi><mo>=</mo><mfrac><mi>E</mi><mi>m</mi></mfrac></mrow></math>", "0.002/3"],x=>.002/x],
+["nano",["a (nm)", "S/V (nm⁻¹)", "S = 6a²; V = a³", "<math><mrow><mfrac><mi>S</mi><mi>V</mi></mfrac><mo>=</mo><mfrac><mn>6</mn><mi>a</mi></mfrac></mrow></math>", "6/3"],x=>6/x],
+["galaxy hubble",["d (Mpc)", "v (km/s)", "H₀ = 70 km/(s·Mpc)", "<math><mrow><mi>v</mi><mo>=</mo><msub><mi>H</mi><mn>0</mn></msub><mi>d</mi></mrow></math>", "70 · 3"],x=>70*x],
+["universe",["a/a₀", "ρ/ρ₀", "M = const", "<math><mrow><mfrac><mi>ρ</mi><msub><mi>ρ</mi><mn>0</mn></msub></mfrac><mo>=</mo><msup><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"true\">(</mo><mfrac><msub><mi>a</mi><mn>0</mn></msub><mi>a</mi></mfrac><mo fence=\"true\" form=\"postfix\" stretchy=\"true\">)</mo></mrow><mn>3</mn></msup></mrow></math>", "1/3^3"],x=>1/x**3],
+["ximage",["I₀ (W/m²)", "I (W/m²)", "τ = 20%", "<math><mrow><mi>I</mi><mo>=</mo><mi>τ</mi><msub><mi>I</mi><mn>0</mn></msub></mrow></math>", "0.2 · 3"],x=>.2*x],
+["workgas",["ΔV (L)", "W (J)", "p = 100 kPa", "<math><mrow><mi>W</mi><mo>=</mo><mi>p</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>V</mi></mrow></math>", "100 · 3"],x=>100*x],
+["signals",["Psignal (mW)", "S/N", "Pnoise = 2 mW", "<math><mrow><mfrac><mi>S</mi><mi>N</mi></mfrac><mo>=</mo><mfrac><msub><mi>P</mi><mpadded lspace=\"0\"><mi>signal</mi></mpadded></msub><msub><mi>P</mi><mpadded lspace=\"0\"><mi>noise</mi></mpadded></msub></mfrac></mrow></math>", "3/2"],x=>x/2],
+["lever",["d (m)", "M (N·m)", "F⊥ = 8 N", "<math><mrow><mi>M</mi><mo>=</mo><msub><mi>F</mi><mo lspace=\"0em\" rspace=\"0em\">⟂</mo></msub><mi>d</mi></mrow></math>", "8 · 3"],x=>8*x],
+["third",["F₁₂ (N)", "F₂₁ (N)", "OX →", "<math><mrow><msub><mi>F</mi><mn>21</mn></msub><mo>=</mo><mo form=\"prefix\" stretchy=\"false\">−</mo><msub><mi>F</mi><mn>12</mn></msub></mrow></math>", "-3"],x=>-x],
+["melt",["m (g)", "Q (J)", "λ = 334 J/g; H₂O, 0 °C", "<math><mrow><mi>Q</mi><mo>=</mo><mi>λ</mi><mi>m</mi></mrow></math>", "334 · 3"],x=>334*x],
+["semi",["U (V)", "I (mA)", "U₀ = 0.7 V; R = 1 kΩ; U > U₀", "<math><mrow><mi>I</mi><mo>=</mo><mfrac><mrow><mi>U</mi><mo>−</mo><msub><mi>U</mi><mn>0</mn></msub></mrow><mi>R</mi></mfrac></mrow></math>", "3-0.7"],x=>x-.7],
+];
+const bookExercises={
+ "7.3": [
+  "2д.1",
+  "21",
+  [
+   "Оценим площадь и объём Бухтарминского водохранилища по длине 600 км, ширине 40 км и глубине 80 м.",
+   "Estimate the area and volume of Bukhtarma Reservoir using length 600 km, width 40 km and depth 80 m.",
+   "Бұқтырма су қоймасының ұзындығы 600 км, ені 40 км, тереңдігі 80 м болса, ауданы мен көлемін бағалайық."
+  ],
+  [
+   "Примем водоём за прямоугольный параллелепипед. Для настоящего водоёма это лишь оценка: глубина и ширина непостоянны.",
+   "Approximate the reservoir by a rectangular prism. Real width and depth vary, so this is an estimate.",
+   "Су қоймасын тікбұрышты параллелепипед деп аламыз. Нақты ені мен тереңдігі тұрақсыз, сондықтан бұл жуық баға."
+  ],
+  [
+   "Сначала площадь: 600 · 40 = 24 000 км². В одном квадратном километре миллион квадратных метров, поэтому площадь равна 2,4 · 10¹⁰ м².",
+   "Area first: 600 × 40 = 24,000 km². One square kilometre contains a million square metres, so the area is 2.4 × 10¹⁰ m².",
+   "Алдымен аудан: 600 · 40 = 24 000 км². Бір шаршы километрде миллион шаршы метр, сондықтан аудан 2,4 · 10¹⁰ м²."
+  ],
+  [
+   "Для объёма переводим глубину: 80 м = 0,080 км. Умножаем площадь на глубину: 24 000 · 0,080 = 1920 км³, или 1,92 · 10¹² м³. Проверка: кубический километр содержит 10⁹ м³, а не 10³.",
+   "Convert depth: 80 m = 0.080 km. Multiply area by depth: 24,000 × 0.080 = 1920 km³ or 1.92 × 10¹² m³. Check: one cubic kilometre is 10⁹ m³, not 10³.",
+   "Тереңдік: 80 м = 0,080 км. Ауданды тереңдікке көбейтеміз: 24 000 · 0,080 = 1920 км³ немесе 1,92 · 10¹² м³. Тексеру: 1 км³ ішінде 10³ емес, 10⁹ м³ бар."
+  ]
+ ],
+ "8.2": [
+  "1.1",
+  "14",
+  [
+   "Термометр показывает −20 °C, а другой — 37 °C. Как записать оба показания в кельвинах?",
+   "Two thermometers show −20 °C and 37 °C. Express both readings in kelvins.",
+   "Екі термометр −20 °C және 37 °C көрсетеді. Екі мәнді де кельвинмен жаз."
+  ],
+  [
+   "Цена одного градуса Цельсия равна одному кельвину. Отличается нуль шкалы, поэтому прибавляем 273,15, а не умножаем.",
+   "One Celsius degree spans one kelvin. The zero points differ, so add 273.15 rather than multiplying.",
+   "Бір Цельсий градусының аралығы бір кельвинге тең. Нөлдері бөлек, сондықтан көбейтпей, 273,15 қосамыз."
+  ],
+  [
+   "Для мороза: −20 + 273,15 = 253,15 К. Для тёплого тела: 37 + 273,15 = 310,15 К.",
+   "For the colder reading: −20 + 273.15 = 253.15 K. For the warmer one: 37 + 273.15 = 310.15 K.",
+   "Суық дене: −20 + 273,15 = 253,15 К. Жылы дене: 37 + 273,15 = 310,15 К."
+  ],
+  [
+   "Проверка: разность температур осталась 57 К, как и разность исходных показаний в градусах Цельсия.",
+   "Check: the difference is still 57 K, equal to the numerical Celsius difference.",
+   "Тексеру: температура айырмасы бастапқы Цельсий шкаласындағыдай 57 К болып қалды."
+  ]
+ ],
+ "9.1": [
+  "1д.2",
+  "11",
+  [
+   "Поезд идёт со скоростью 75 км/ч. Пассажир идёт по вагону назад со скоростью 3 км/ч. Найдём его скорость относительно земли.",
+   "A train travels at 75 km/h. A passenger walks backwards through it at 3 km/h. Find the passenger’s ground velocity.",
+   "Пойыз 75 км/сағ жылдамдықпен жүріп келеді. Жолаушы вагонда кері бағытта 3 км/сағ жылдамдықпен жүреді. Жерге қатысты жылдамдығын табайық."
+  ],
+  [
+   "Выбираем положительную ось по движению поезда. Скорость вагона относительно земли положительна, а пассажира относительно вагона отрицательна.",
+   "Choose forward as positive. The carriage has positive ground velocity; the passenger has negative velocity relative to the carriage.",
+   "Пойыз бағытын оң деп аламыз. Вагонның жерге қатысты жылдамдығы оң, жолаушының вагонға қатысты жылдамдығы теріс."
+  ],
+  [
+   "Складываем проекции, а не модули: 75 + (−3) = 72 км/ч. Знак плюс означает движение вперёд относительно земли.",
+   "Add signed components, not magnitudes: 75 + (−3) = 72 km/h. The positive sign means forward motion over the ground.",
+   "Модульдерді емес, проекцияларды қосамыз: 75 + (−3) = 72 км/сағ. Оң таңба жерге қатысты алға қозғалысты білдіреді."
+  ],
+  [
+   "Мысленная проверка за один час: вагон переместится на 75 км, пассажир отстанет от своей начальной точки в вагоне на 3 км. Его перемещение относительно земли — 72 км.",
+   "In an hour the carriage advances 75 km; the passenger falls 3 km behind their original place in it. Their ground displacement is 72 km.",
+   "Бір сағатта вагон 75 км алға кетеді, ал жолаушы вагондағы бастапқы орнынан 3 км артта қалады. Жерге қатысты орын ауыстыруы 72 км."
+  ]
+ ],
+ "10.1": [
+  "1.2",
+  "9",
+  [
+   "Как по свету далёкой планеты судить о её составе, не отбирая пробу вещества?",
+   "How can light reveal a distant planet’s composition without a material sample?",
+   "Затты тікелей алмай-ақ алыс планетаның құрамын жарықтан қалай білуге болады?"
+  ],
+  [
+   "Разложим свет по длинам волн. В спектре ищем полосы поглощения: вещество атмосферы ослабляет свет не на всех длинах волн одинаково.",
+   "Separate light by wavelength and look for absorption bands: atmospheric matter does not attenuate all wavelengths equally.",
+   "Жарықты толқын ұзындықтарына жіктейміз. Жұтылу жолақтарын іздейміз: атмосфера барлық толқынды бірдей әлсіретпейді."
+  ],
+  [
+   "Сопоставляем несколько линий с лабораторными спектрами. Совпадение набора линий даёт основание предположить присутствие элемента или молекулы.",
+   "Compare several lines with laboratory spectra. A matching pattern is evidence for an element or molecule.",
+   "Бірнеше сызықты зертханалық спектрлермен салыстырамыз. Сызықтар тобының сәйкес келуі элементтің не молекуланың бар екенін көрсетеді."
+  ],
+  [
+   "Одна тёмная линия ещё не доказательство: учитываем спектр звезды, движение источника и погрешность прибора. Вывод касается наблюдаемого слоя, а не всей планеты.",
+   "One dark line is not conclusive: account for the star, source motion and instrument error. The conclusion concerns the observed layer, not the whole planet.",
+   "Бір қара сызық жеткіліксіз: жұлдыз спектрін, қозғалысты және аспап қатесін ескереміз. Қорытынды бүкіл планетаға емес, бақыланған қабатқа қатысты."
+  ]
+ ],
+ "11.1": [
+  "1.2",
+  "10",
+  [
+   "Амплитуда груза на пружине 0,10 м, период 1,57 с. Каково наибольшее ускорение груза?",
+   "A spring oscillator has amplitude 0.10 m and period 1.57 s. Find its greatest acceleration magnitude.",
+   "Серіппелі жүктің амплитудасы 0,10 м, периоды 1,57 с. Үдеудің ең үлкен модулін табайық."
+  ],
+  [
+   "Для гармонического движения ускорение направлено к равновесию: a = −ω²x. Максимален модуль там, где модуль смещения равен амплитуде, а не там, где максимальна скорость.",
+   "For harmonic motion acceleration points towards equilibrium: a = −ω²x. Its magnitude peaks at maximum displacement, not maximum speed.",
+   "Гармоникалық қозғалыста үдеу тепе-теңдікке бағытталған: a = −ω²x. Үдеу модулі жылдамдық ең үлкен жерде емес, ығысу модулі амплитудаға тең жерде ең үлкен."
+  ],
+  [
+   "Угловая частота равна 2π/1,57 ≈ 4,00 рад/с. Возводим её в квадрат и умножаем на амплитуду: 4,00² · 0,10 ≈ 1,60 м/с².",
+   "Angular frequency is 2π/1.57 ≈ 4.00 rad/s. Square it and multiply by amplitude: 4.00² × 0.10 ≈ 1.60 m/s².",
+   "Бұрыштық жиілік 2π/1,57 ≈ 4,00 рад/с. Квадраттап амплитудаға көбейтеміз: 4,00² · 0,10 ≈ 1,60 м/с²."
+  ],
+  [
+   "Ответ — модуль 1,60 м/с². У двух крайних точек ускорения противоположны по направлению; радиан безразмерен, единица результата — м/с².",
+   "The magnitude is 1.60 m/s². Accelerations at opposite turning points point oppositely. Radians are dimensionless, leaving m/s².",
+   "Жауап: модулі 1,60 м/с². Екі шеткі нүктеде үдеу бағыттары қарама-қарсы. Радиан өлшемсіз, жауап бірлігі м/с²."
+  ]
+ ]
+};
+const formattedLaws={
+ "H/h = D/d": "<math><mrow><mfrac><mi>H</mi><mi>h</mi></mfrac><mo>=</mo><mfrac><mi>D</mi><mi>d</mi></mfrac></mrow></math>",
+ "Δx = x₂ − x₁": "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>x</mi><mo>=</mo><msub><mi>x</mi><mn>2</mn></msub><mo>−</mo><msub><mi>x</mi><mn>1</mn></msub></mrow></math>",
+ "v̄ₓ = Δx/Δt; v̄path = s/Δt": "<math><mrow><msub><mover><mi>v</mi><mo stretchy=\"false\" class=\"chr-sml wbk-sml-acc\" style=\"math-depth:0;\">‾</mo></mover><mi>x</mi></msub><mo>=</mo><mfrac><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>x</mi></mrow><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>t</mi></mrow></mfrac><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><msub><mover><mi>v</mi><mo stretchy=\"false\" class=\"chr-sml wbk-sml-acc\" style=\"math-depth:0;\">‾</mo></mover><mi>s</mi></msub><mo>=</mo><mfrac><mi>s</mi><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>t</mi></mrow></mfrac></mrow></math>",
+ "Δx = v₀ₓt + aₓt²/2": "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>x</mi><mo>=</mo><msub><mi>v</mi><mrow><mn>0</mn><mi>x</mi></mrow></msub><mi>t</mi><mo>+</mo><mfrac><mrow><msub><mi>a</mi><mi>x</mi></msub><msup><mi>t</mi><mn class=\"tml-med-pad\">2</mn></msup></mrow><mn>2</mn></mfrac></mrow></math>",
+ "ΣFₓ = maₓ": "<math><mrow><mo movablelimits=\"false\">∑</mo><msub><mi>F</mi><mi>x</mi></msub><mo>=</mo><mi>m</mi><msub><mi>a</mi><mi>x</mi></msub></mrow></math>",
+ "σ = F/S; Fspring = −kΔx": "<math><mrow><mi>σ</mi><mo>=</mo><mfrac><mi>F</mi><mi>S</mi></mfrac><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><msub><mi>F</mi><mi>x</mi></msub><mo>=</mo><mo form=\"prefix\" stretchy=\"false\">−</mo><mi>k</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>x</mi></mrow></math>",
+ "pV = nRT": "<math><mrow><mi>p</mi><mi>V</mi><mo>=</mo><mi>n</mi><mi>R</mi><mi>T</mi></mrow></math>",
+ "ΔU = Q − Wby": "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>U</mi><mo>=</mo><mi>Q</mi><mo>−</mo><msub><mi>W</mi><mpadded lspace=\"0\"><mi>by</mi></mpadded></msub></mrow></math>",
+ "p̄ = F⊥/S": "<math><mrow><mover><mi>p</mi><mo stretchy=\"false\" class=\"chr-med wbk-med-acc\" style=\"math-depth:0;\">‾</mo></mover><mo>=</mo><mfrac><msub><mi>F</mi><mo>⟂</mo></msub><mi>S</mi></mfrac></mrow></math>",
+ "Δp = ρgΔh": "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>p</mi><mo>=</mo><mi>ρ</mi><mi>g</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>h</mi></mrow></math>",
+ "F₁/S₁ = F₂/S₂": "<math><mrow><mfrac><msub><mi>F</mi><mn>1</mn></msub><msub><mi>S</mi><mn>1</mn></msub></mfrac><mo>=</mo><mfrac><msub><mi>F</mi><mn>2</mn></msub><msub><mi>S</mi><mn>2</mn></msub></mfrac></mrow></math>",
+ "Fᴀ = ρfluid gVsub": "<math><mrow><msub><mi>F</mi><mi>A</mi></msub><mo>=</mo><msub><mi>ρ</mi><mpadded lspace=\"0\"><mi>fluid</mi></mpadded></msub><mi>g</mi><msub><mi>V</mi><mpadded lspace=\"0\"><mi>sub</mi></mpadded></msub></mrow></math>",
+ "W = Fs cos θ; η = Euse/Ein": "<math><mrow><mi>W</mi><mo>=</mo><mi>F</mi><mi>s</mi><mrow><mspace width=\"0.1667em\"></mspace><mi>cos</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>θ</mi><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><mi>η</mi><mo>=</mo><mfrac><msub><mi>E</mi><mpadded lspace=\"0\"><mi>use</mi></mpadded></msub><msub><mi>E</mi><mpadded lspace=\"0\"><mi>in</mi></mpadded></msub></mfrac></mrow></math>",
+ "ΣM = 0; ΣF = 0": "<math><mrow><mo movablelimits=\"false\">∑</mo><mi>M</mi><mo>=</mo><mn>0</mn><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><mo movablelimits=\"false\">∑</mo><mover><mi>F</mi><mo stretchy=\"false\" class=\"tml-vec chr-lrg wbk-lrg-vec\">→</mo></mover><mo>=</mo><mover><mn>0</mn><mo stretchy=\"false\" class=\"tml-vec wbk-vec\">→</mo></mover></mrow></math>",
+ "t = d/v": "<math><mrow><mi>t</mi><mo>=</mo><mfrac><mi>d</mi><mi>v</mi></mfrac></mrow></math>",
+ "d(pc) = 1/p(″)": "<math><mrow><msub><mi>d</mi><mpadded lspace=\"0\"><mi>pc</mi></mpadded></msub><mo>=</mo><mfrac><mn>1</mn><msub><mi>p</mi><mpadded lspace=\"0\"><mi>arcsec</mi></mpadded></msub></mfrac></mrow></math>",
+ "Q = cmΔT; abs(Qphase) = Lm": "<math><mrow><mi>Q</mi><mo>=</mo><mi>c</mi><mi>m</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>T</mi><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><mi>|</mi><msub><mi>Q</mi><mpadded lspace=\"0\"><mi>phase</mi></mpadded></msub><mi>|</mi><mo>=</mo><mi>L</mi><mi>m</mi></mrow></math>",
+ "η = Wcycle/Qin": "<math><mrow><mi>η</mi><mo>=</mo><mfrac><msub><mi>W</mi><mpadded lspace=\"0\"><mi>cycle</mi></mpadded></msub><msub><mi>Q</mi><mpadded lspace=\"0\"><mi>in</mi></mpadded></msub></mfrac></mrow></math>",
+ "φ = pv/psat(T)": "<math><mrow><mi>φ</mi><mo>=</mo><mfrac><msub><mi>p</mi><mi>v</mi></msub><mrow><msub><mi>p</mi><mpadded lspace=\"0\"><mi>sat</mi></mpadded></msub><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"false\">(</mo><mi>T</mi><mo fence=\"true\" form=\"postfix\" stretchy=\"false\">)</mo></mrow></mrow></mfrac></mrow></math>",
+ "λmaxT = b": "<math><mrow><msub><mi>λ</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mi>T</mi><mo>=</mo><mi>b</mi></mrow></math>",
+ "F = qE; ΔU = qΔφ": "<math><mrow><mover><mi>F</mi><mo stretchy=\"false\" class=\"tml-vec chr-lrg wbk-lrg-vec\">→</mo></mover><mo>=</mo><mi>q</mi><mover><mi>E</mi><mo stretchy=\"false\" class=\"tml-vec chr-med wbk-med-vec\">→</mo></mover><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>U</mi><mo>=</mo><mi>q</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>φ</mi></mrow></math>",
+ "Ī = Δq/Δt; P = UI": "<math><mrow><mover><mi>I</mi><mo stretchy=\"false\" class=\"chr-med wbk-med-acc\" style=\"math-depth:0;\">‾</mo></mover><mo>=</mo><mfrac><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>q</mi></mrow><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>t</mi></mrow></mfrac><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><mi>P</mi><mo>=</mo><mi>U</mi><mi>I</mi></mrow></math>",
+ "Φ = BS cos θ; ε̄ = −NΔΦ/Δt": "<math><mrow><mrow><mi mathvariant=\"normal\">Φ</mi><mspace></mspace></mrow><mo>=</mo><mi>B</mi><mi>S</mi><mrow><mspace width=\"0.1667em\"></mspace><mi>cos</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>θ</mi><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><mover><mi>ε</mi><mo stretchy=\"false\" class=\"wbk-acc\" style=\"math-depth:0;\">‾</mo></mover><mo>=</mo><mo form=\"prefix\" stretchy=\"false\">−</mo><mi>N</mi><mfrac><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mrow><mi mathvariant=\"normal\">Φ</mi><mspace></mspace></mrow></mrow><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>t</mi></mrow></mfrac></mrow></math>",
+ "θᵢ = θᵣ; n₁ sin θ₁ = n₂ sin θ₂": "<math><mrow><msub><mi>θ</mi><mi>i</mi></msub><mo>=</mo><msub><mi>θ</mi><mi>r</mi></msub><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><msub><mi>n</mi><mn>1</mn></msub><mrow><mi>sin</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><msub><mi>θ</mi><mn>1</mn></msub><mo>=</mo><msub><mi>n</mi><mn>2</mn></msub><mrow><mi>sin</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><msub><mi>θ</mi><mn>2</mn></msub></mrow></math>",
+ "v = c/n; λmedium = λvac/n": "<math><mrow><mi>v</mi><mo>=</mo><mfrac><mi>c</mi><mi>n</mi></mfrac><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><mi>λ</mi><mo>=</mo><mfrac><msub><mi>λ</mi><mn>0</mn></msub><mi>n</mi></mfrac></mrow></math>",
+ "v = ωr; aₙ = v²/r": "<math><mrow><mi>v</mi><mo>=</mo><mi>ω</mi><mi>r</mi><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><msub><mi>a</mi><mi>n</mi></msub><mo>=</mo><mfrac><msup><mi>v</mi><mn class=\"tml-sml-pad\">2</mn></msup><mi>r</mi></mfrac></mrow></math>",
+ "Σpᵢ = Σp𝒻": "<math><mrow><mo movablelimits=\"false\">∑</mo><msub><mover><mi>p</mi><mo stretchy=\"false\" class=\"tml-vec chr-med wbk-med-vec\">→</mo></mover><mi>i</mi></msub><mo>=</mo><mo movablelimits=\"false\">∑</mo><msub><mover><mi>p</mi><mo stretchy=\"false\" class=\"tml-vec chr-med wbk-med-vec\">→</mo></mover><mi>f</mi></msub></mrow></math>",
+ "f = 1/T; ω = 2πf": "<math><mrow><mi>f</mi><mo>=</mo><mfrac><mn>1</mn><mi>T</mi></mfrac><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><mi>ω</mi><mo>=</mo><mn>2</mn><mi>π</mi><mi>f</mi></mrow></math>",
+ "v = λf; d = vt": "<math><mrow><mi>v</mi><mo>=</mo><mi>λ</mi><mi>f</mi><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><mi>d</mi><mo>=</mo><mi>v</mi><mi>t</mi></mrow></math>",
+ "Eγ = hf; pγ = h/λ": "<math><mrow><msub><mi>E</mi><mi>γ</mi></msub><mo>=</mo><mi>h</mi><mi>f</mi><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><msub><mi>p</mi><mi>γ</mi></msub><mo>=</mo><mfrac><mi>h</mi><mi>λ</mi></mfrac></mrow></math>",
+ "E₀ = mc²; Q = (Σmin − Σmout)c²": "<math><mrow><msub><mi>E</mi><mn>0</mn></msub><mo>=</mo><mi>m</mi><msup><mi>c</mi><mn class=\"tml-sml-pad\">2</mn></msup><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><mi>Q</mi><mo>=</mo><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"true\">(</mo><mo movablelimits=\"false\">∑</mo><msub><mi>m</mi><mpadded lspace=\"0\"><mi>in</mi></mpadded></msub><mo>−</mo><mo movablelimits=\"false\">∑</mo><msub><mi>m</mi><mpadded lspace=\"0\"><mi>out</mi></mpadded></msub><mo fence=\"true\" form=\"postfix\" stretchy=\"true\">)</mo></mrow><msup><mi>c</mi><mn class=\"tml-sml-pad\">2</mn></msup></mrow></math>",
+ "Qflow = Sv̄": "<math><mrow><msub><mi>Q</mi><mi>V</mi></msub><mo>=</mo><mi>S</mi><mover><mi>v</mi><mo stretchy=\"false\" class=\"chr-sml wbk-sml-acc\" style=\"math-depth:0;\">‾</mo></mover></mrow></math>",
+ "U₂/U₁ ≈ N₂/N₁": "<math><mrow><mfrac><msub><mi>U</mi><mn>2</mn></msub><msub><mi>U</mi><mn>1</mn></msub></mfrac><mo>≈</mo><mfrac><msub><mi>N</mi><mn>2</mn></msub><msub><mi>N</mi><mn>1</mn></msub></mfrac></mrow></math>",
+ "Δt = γΔτ": "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>t</mi><mo>=</mo><mi>γ</mi><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>τ</mi></mrow></math>",
+ "S/V = 6/a": "<math><mrow><mfrac><mi>S</mi><mi>V</mi></mfrac><mo>=</mo><mfrac><mn>6</mn><mi>a</mi></mfrac></mrow></math>",
+ "v ≈ H₀d": "<math><mrow><mi>v</mi><mo>≈</mo><msub><mi>H</mi><mn>0</mn></msub><mi>d</mi></mrow></math>",
+ "ρ̄ = m/V": "<math><mrow><mover><mi>ρ</mi><mo stretchy=\"false\" class=\"wbk-acc\" style=\"math-depth:0;\">‾</mo></mover><mo>=</mo><mfrac><mi>m</mi><mi>V</mi></mfrac></mrow></math>",
+ "Vbody = V₂ − V₁": "<math><mrow><msub><mi>V</mi><mpadded lspace=\"0\"><mi>body</mi></mpadded></msub><mo>=</mo><msub><mi>V</mi><mn>2</mn></msub><mo>−</mo><msub><mi>V</mi><mn>1</mn></msub></mrow></math>",
+ "Fₓ = −kx": "<math><mrow><msub><mi>F</mi><mi>x</mi></msub><mo>=</mo><mo form=\"prefix\" stretchy=\"false\">−</mo><mi>k</mi><mi>x</mi></mrow></math>",
+ "Fstatic ≤ μsN": "<math><mrow><msub><mi>F</mi><mpadded lspace=\"0\"><mi>static</mi></mpadded></msub><mo>≤</mo><msub><mi>μ</mi><mi>s</mi></msub><mi>N</mi></mrow></math>",
+ "p = nm⟨v²⟩/3": "<math><mrow><mi>p</mi><mo>=</mo><mfrac><mrow><mi>n</mi><mi>m</mi><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"false\">⟨</mo><msup><mi>v</mi><mn class=\"tml-sml-pad\">2</mn></msup><mo fence=\"true\" form=\"postfix\" stretchy=\"false\">⟩</mo></mrow></mrow><mn>3</mn></mfrac></mrow></math>",
+ "Vsub/V = ρbody/ρfluid": "<math><mrow><mfrac><msub><mi>V</mi><mpadded lspace=\"0\"><mi>sub</mi></mpadded></msub><mi>V</mi></mfrac><mo>=</mo><mfrac><msub><mi>ρ</mi><mpadded lspace=\"0\"><mi>body</mi></mpadded></msub><msub><mi>ρ</mi><mpadded lspace=\"0\"><mi>fluid</mi></mpadded></msub></mfrac></mrow></math>",
+ "Δt = N(Tyear − 365 d)": "<math><mrow><mrow><mi mathvariant=\"normal\">Δ</mi><mspace></mspace></mrow><mi>t</mi><mo>=</mo><mi>N</mi><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"false\">(</mo><msub><mi>T</mi><mpadded lspace=\"0\"><mi>year</mi></mpadded></msub><mo>−</mo><mn>365</mn><mspace width=\"0.1667em\"></mspace><mrow><mi mathvariant=\"normal\">d</mi><mspace></mspace></mrow><mo fence=\"true\" form=\"postfix\" stretchy=\"false\">)</mo></mrow></mrow></math>",
+ "Quse = ηqm": "<math><mrow><msub><mi>Q</mi><mpadded lspace=\"0\"><mi>use</mi></mpadded></msub><mo>=</mo><mi>η</mi><mi>q</mi><mi>m</mi></mrow></math>",
+ "C = q/U; W = CU²/2": "<math><mrow><mi>C</mi><mo>=</mo><mfrac><mi>q</mi><mi>U</mi></mfrac><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><mi>W</mi><mo>=</mo><mfrac><mrow><mi>C</mi><msup><mi>U</mi><mn class=\"tml-sml-pad\">2</mn></msup></mrow><mn>2</mn></mfrac></mrow></math>",
+ "ΦE = Qin/ε₀": "<math><mrow><msub><mrow><mi mathvariant=\"normal\">Φ</mi><mspace></mspace></mrow><mi>E</mi></msub><mo>=</mo><mfrac><msub><mi>Q</mi><mpadded lspace=\"0\"><mi>in</mi></mpadded></msub><msub><mi>ε</mi><mn>0</mn></msub></mfrac></mrow></math>",
+ "m = kIt": "<math><mrow><mi>m</mi><mo>=</mo><mi>k</mi><mi>I</mi><mi>t</mi></mrow></math>",
+ "Fwire = BIL sin α; Fparticle = abs(q)vB sin α": "<math><mrow><msub><mi>F</mi><mpadded lspace=\"0\"><mi>wire</mi></mpadded></msub><mo>=</mo><mi>B</mi><mi>I</mi><mi>ℓ</mi><mrow><mspace width=\"0.1667em\"></mspace><mi>sin</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>α</mi><mo separator=\"true\">;</mo><mspace width=\"1em\"></mspace><msub><mi>F</mi><mpadded lspace=\"0\"><mi>particle</mi></mpadded></msub><mo>=</mo><mi>|</mi><mi>q</mi><mi>|</mi><mi>v</mi><mi>B</mi><mrow><mspace width=\"0.1667em\"></mspace><mi>sin</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>α</mi></mrow></math>",
+ "1/f = 1/a + 1/b": "<math><mrow><mfrac><mn>1</mn><mi>f</mi></mfrac><mo>=</mo><mfrac><mn>1</mn><mi>a</mi></mfrac><mo>+</mo><mfrac><mn>1</mn><mi>b</mi></mfrac></mrow></math>",
+ "I = I₀ cos²θ": "<math><mrow><mi>I</mi><mo>=</mo><msub><mi>I</mi><mn>0</mn></msub><msup><mi>cos</mi><mn>2</mn></msup><mo>⁡</mo><mspace width=\"0.1667em\"></mspace><mi>θ</mi></mrow></math>",
+ "d sin θ = mλ": "<math><mrow><mi>d</mi><mrow><mspace width=\"0.1667em\"></mspace><mi>sin</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>θ</mi><mo>=</mo><mi>m</mi><mi>λ</mi></mrow></math>",
+ "T²/a³ = const": "<math><mrow><mfrac><msup><mi>T</mi><mn class=\"tml-med-pad\">2</mn></msup><msup><mi>a</mi><mn>3</mn></msup></mfrac><mo>=</mo><mpadded lspace=\"0\"><mi>const</mi></mpadded></mrow></math>",
+ "T = 2π√(l/g)": "<math><mrow><mi>T</mi><mo>=</mo><mn>2</mn><mi>π</mi><msqrt><mfrac><mi>ℓ</mi><mi>g</mi></mfrac></msqrt></mrow></math>",
+ "Z² = R² + (ωL − 1/(ωC))²": "<math><mrow><msup><mi>Z</mi><mn class=\"tml-med-pad\">2</mn></msup><mo>=</mo><msup><mi>R</mi><mn class=\"tml-med-pad\">2</mn></msup><mo>+</mo><msup><mrow><mo fence=\"true\" form=\"prefix\" stretchy=\"true\">(</mo><mi>ω</mi><mi>L</mi><mo>−</mo><mfrac><mn>1</mn><mrow><mi>ω</mi><mi>C</mi></mrow></mfrac><mo fence=\"true\" form=\"postfix\" stretchy=\"true\">)</mo></mrow><mn>2</mn></msup></mrow></math>",
+ "Kmax = hf − A": "<math><mrow><msub><mi>K</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mo>=</mo><mi>h</mi><mi>f</mi><mo>−</mo><mi>A</mi></mrow></math>",
+ "N = N₀·2^(−t/T½)": "<math><mrow><mi>N</mi><mo>=</mo><msub><mi>N</mi><mn>0</mn></msub><mspace width=\"0.1667em\"></mspace><msup><mn>2</mn><mrow><mo form=\"prefix\" stretchy=\"false\" lspace=\"0em\" rspace=\"0em\">−</mo><mi>t</mi><mi>/</mi><msub><mi>T</mi><mrow><mn>1</mn><mi>/</mi><mn>2</mn></mrow></msub></mrow></msup></mrow></math>",
+ "D = Eabsorbed/m": "<math><mrow><mi>D</mi><mo>=</mo><mfrac><msub><mi>E</mi><mpadded lspace=\"0\"><mi>abs</mi></mpadded></msub><mi>m</mi></mfrac></mrow></math>",
+ "Fd = 6πηrv": "<math><mrow><msub><mi>F</mi><mi>d</mi></msub><mo>=</mo><mn>6</mn><mi>π</mi><mi>η</mi><mi>r</mi><mi>v</mi></mrow></math>",
+ "h = 2σ cos θ/(ρgr)": "<math><mrow><mi>h</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>σ</mi><mrow><mspace width=\"0.1667em\"></mspace><mi>cos</mi><mo>⁡</mo><mspace width=\"0.1667em\"></mspace></mrow><mi>θ</mi></mrow><mrow><mi>ρ</mi><mi>g</mi><mi>r</mi></mrow></mfrac></mrow></math>",
+ "ρmatter a³ = const": "<math><mrow><msub><mi>ρ</mi><mpadded lspace=\"0\"><mi>matter</mi></mpadded></msub><msup><mi>a</mi><mn>3</mn></msup><mo>=</mo><mpadded lspace=\"0\"><mi>const</mi></mpadded></mrow></math>"
+};

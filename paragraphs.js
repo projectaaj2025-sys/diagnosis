@@ -43,6 +43,26 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
   const experiments=new Map(paragraphExperiments.flatMap(([keys,text])=>keys.map(key=>[key,text])));
   function index(){return language==='kk'?2:language==='en'?1:0}
   function tag(parent,name,value,cls){const n=document.createElement(name);if(cls)n.className=cls;if(Array.isArray(value)){fields.push([n,value]);n.textContent=value[index()]}else if(value)n.textContent=value;parent.append(n);return n}
+  const modelIndex=new Map(lessonModels.flatMap(([keys,labels,calc])=>keys.split(' ').map(k=>[k,[labels,calc]])));
+  function mountSimulator(card,key){
+    const [[xLabel,yLabel,fixed,math,substitution],calc]=modelIndex.get(key);
+    const lab=tag(card,'section',null,'model-lab');tag(lab,'h4',['Практикум · исследуй график','Lab · investigate the graph','Практикум · графикті зертте']);
+    tag(lab,'p',['Сначала предскажи, как изменится результат. Затем перемещай точку по графику. Остальные условия постоянны.','Predict how the result will change, then move the point along the graph. Other conditions stay fixed.','Алдымен нәтиже қалай өзгеретінін болжа. Содан кейін нүктені график бойымен жылжыт. Қалған шарттар тұрақты.']);
+    tag(lab,'p',fixed,'model-fixed');const equation=tag(lab,'div',null,'model-equation');equation.innerHTML=math;
+    const demo=tag(lab,'details',null,'model-demo');tag(demo,'summary',['Разбор расчётной точки','Worked point on the graph','График нүктесін есептеу']);const steps=tag(demo,'ol',null,'worked-steps');
+    tag(steps,'li',[`Дано: ${xLabel} = 3; ${fixed}. Найти: ${yLabel}.`,`Given: ${xLabel} = 3; ${fixed}. Find ${yLabel}.`,`Берілгені: ${xLabel} = 3; ${fixed}. Табу керек: ${yLabel}.`]);
+    tag(steps,'li',[`Подставляем в модель с учётом единиц осей: ${substitution}.`,`Substitute in the model using the axis units: ${substitution}.`,`Ось бірліктерін ескеріп модельге қоямыз: ${substitution}.`]);
+    const result=Number(calc(3).toPrecision(4));tag(steps,'li',[`Ответ: ${yLabel} ≈ ${result}. Для проверки поставь регулятор на 3.`,`Result: ${yLabel} ≈ ${result}. Check with the slider at 3.`,`Жауабы: ${yLabel} ≈ ${result}. Тексеру үшін реттегішті 3-ке қой.`]);
+    const control=tag(lab,'label');tag(control,'b',xLabel);const slider=tag(control,'input');slider.type='range';slider.min=1;slider.max=5;slider.step=1;slider.value=2;
+    const reading=tag(lab,'output');const graph=tag(lab,'div',null,'model-chart');const vals=[1,2,3,4,5].map(calc),low=Math.min(...vals,0),high=Math.max(...vals,0),fmt=n=>Number(n.toPrecision(4)).toString(),py=n=>112-90*(n-low)/(high-low||1),px=n=>46+(n-1)*68;
+    const discrete=['digital','nucleus','reaction','particle','gascurrent','grating','method','mass','calendar','model','error','rutherford'].includes(key);
+    const points=Array.from({length:81},(_,i)=>`${px(1+i/20)},${py(calc(1+i/20))}`).join(' ');
+    graph.innerHTML=`<svg viewBox="0 0 360 146" aria-hidden="true"><path d="M46 16V112H325" fill="none" stroke="#7d9699"/><text x="2" y="24">${fmt(high)}</text><text x="2" y="114">${fmt(low)}</text>${discrete?'':`<polyline points="${points}" fill="none" stroke="#2a6872" stroke-width="2.6"/>`}${vals.map((v,i)=>`<circle cx="${px(i+1)}" cy="${py(v)}" r="3" fill="#255662"/><text x="${px(i+1)-3}" y="134">${i+1}</text>`).join('')}<circle class="marker" r="6" fill="#a34228"/></svg>`;
+    function draw(){const x=+slider.value,y=calc(x);reading.textContent=`${xLabel}: ${x}    →    ${yLabel}: ${fmt(y)}`;const mark=graph.querySelector('.marker');mark.setAttribute('cx',px(x));mark.setAttribute('cy',py(y))} slider.oninput=draw;draw();
+    const activity=tag(lab,'div',null,'model-task');tag(activity,'strong',['Твоя проверка','Your prediction','Өзіңді тексер']);tag(activity,'p',[`При ${xLabel} = 4 вычисли ${yLabel}. Введи число в указанных единицах.`,`For ${xLabel} = 4, calculate ${yLabel}. Enter the number in the indicated units.`,`${xLabel} = 4 болса, ${yLabel} мәнін есепте. Көрсетілген бірлікпен сан енгіз.`]);const input=tag(activity,'input');input.inputMode='decimal';input.setAttribute('aria-label',yLabel);const button=tag(activity,'button',['Проверить','Check','Тексеру']);button.type='button';const feedback=tag(activity,'output');feedback.setAttribute('aria-live','polite');let last=null;
+    function checkValue(){const text=input.value.trim().replace(',','.');last=text!==''&&Number.isFinite(Number(text))&&Math.abs(Number(text)-calc(4))<=Math.max(1e-8,Math.abs(calc(4))*.01);feedback.textContent=(last?['Верно.','Correct.','Дұрыс.']:['Проверь единицы и сравни с точкой 4 на графике.','Check the units and compare with point 4 on the graph.','Бірліктерді тексеріп, графиктегі 4-нүктемен салыстыр.'])[index()]}button.onclick=checkValue;input.onkeydown=e=>{if(e.key==='Enter')checkValue()};picker.addEventListener('change',()=>{if(last!==null)checkValue()});
+  }
+  function appendExercise(card,id){const exercise=bookExercises[id];if(!exercise)return;const [number,page,...parts]=exercise;tag(card,'h4',[`Из учебника · упр. ${number}, с. ${page}`,`Textbook exercise ${number}, p. ${page}`,`Оқулықтан · ${number}-жаттығу, ${page}-б.`]);tag(card,'p',parts[0]);const steps=tag(card,'ol',null,'worked-steps');for(const step of parts.slice(1))tag(steps,'li',step)}
   for(const panel of document.querySelectorAll('.shelf-panel')){
     const {grade,term}=panel.dataset,limits=textbookQuarters[grade],first=(limits[term-2]||0)+1,last=limits[term-1];
     const wrap=document.createElement('div');wrap.className='paragraph-shelf';wrap.setAttribute('data-own-language','');
@@ -54,10 +74,12 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       tag(card,'p',idea);
       const si=sketches.findIndex(s=>s[0].split(' ').includes(key));if(si>=0){const [,path,l,r]=sketches[si];const figure=tag(card,'figure',null,'worked-figure');figure.innerHTML=`<svg aria-hidden="true" viewBox="0 0 255 99"><path d="${path}" fill="none" stroke="#416975" stroke-width="2.5"/><text x="25" y="94">${l}</text><text x="190" y="94">${r}</text></svg>`;tag(figure,'figcaption',legend[si])}
       const lab=tag(card,'aside',null,'paragraph-lab');tag(lab,'strong',ui.experiment);tag(lab,'p',experiments.get(key));
-      const rule=rules.get(key);tag(card,'h4',['Модель и условия применения','Model and assumptions','Модель және қолданылу шарттары']);tag(card,'p',rule.formula,'law');tag(card,'p',rule.usage);tag(card,'h4',ui.example);tag(card,'p',example,'law');
+      const rule=rules.get(key);tag(card,'h4',['Модель и условия применения','Model and assumptions','Модель және қолданылу шарттары']);tag(card,'div',null,'law model-equation').innerHTML=formattedLaws[rule.formula];tag(card,'p',rule.usage);tag(card,'h4',ui.example);tag(card,'p',example,'law');
       if(paragraphExtensions[id]){const [extra,calc]=paragraphExtensions[id];tag(card,'h4',ui.more);tag(card,'p',extra);tag(card,'p',calc,'law')}
       if(topicSupplement[id]){const [q,law,ex]=topicSupplement[id];tag(card,'h4',q);tag(card,'p',law,'law');tag(card,'p',ex)}
       tag(card,'h4',ui.check);tag(card,'p',check);const reveal=tag(card,'details');tag(reveal,'summary',ui.answer);tag(reveal,'p',answer,'law');
+      appendExercise(card,id);
+      card.addEventListener('toggle',()=>{if(card.open&&!card.querySelector('.model-lab')){mountSimulator(card,key);card.querySelector('.shelf-source').before(card.querySelector('.model-lab'))}});
       if(extended[id])tag(card,'a',ui.detail,'plan-link').href='#'+extended[id];
       const src=tag(card,'footer',ui.source.map((s,i)=>`${s} · ${grade} · § ${num} · ${ui.page[i]} ${page}`),'shelf-source'); const link=tag(card,'a',['Страница книги ↗','Book details ↗','Кітап беті ↗'],'plan-link');link.href=`https://okulyk.kz/fizika/${bookIds[grade]}/`;link.target='_blank';link.rel='noopener noreferrer';
     }
