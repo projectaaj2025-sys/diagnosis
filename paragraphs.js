@@ -39,6 +39,8 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
   let language='ru';try{language=localStorage.getItem('physlab-language')||language}catch{}
   const bookIds={7:1523,8:348,9:451,10:531,11:803};
   const rules=new Map(paragraphRules.flatMap(([keys,formula,usage])=>keys.map(key=>[key,{formula,usage}])));
+  const byConcept = rows => new Map(rows.flatMap(([keys,text]) => keys.split(' ').map(key => [key,text])));
+  const foundations=byConcept(lessonFoundations), explanations=byConcept(lessonExplanations), history=byConcept(lessonHistory);
   const fields=[];
 
   function index(){return language==='kk'?2:language==='en'?1:0}
@@ -94,16 +96,23 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       const card=tag(grid,'details',null,'paragraph-card');card.id=`para-${grade}-${num}`;
       const summary=tag(card,'summary');tag(summary,'small',ui.page.map(p=>`§ ${num} · ${p} ${page}`));tag(summary,'b',title);
       const standalone=paragraphActivities[id].intro;
-      if(standalone)tag(card,'p',standalone);
+      const theory=tag(card,'section',null,'reader-theory');
+      tag(theory,'h4',['Сначала разберёмся','Understanding the idea','Алдымен түсініп алайық']);
+      tag(theory,'p',standalone || foundations.get(key));
+      const extension=paragraphTheory[id] || (!standalone && explanations.get(key));
+      if(extension)tag(theory,'p',extension);
+      if(history.has(key)){const aside=tag(theory,'aside',null,'reader-history');tag(aside,'strong',['Из истории физики','From the history of physics','Физика тарихынан']);tag(aside,'p',history.get(key))}
+
       if(!standalone){tag(card,'p',idea);
       const si=sketches.findIndex(s=>s[0].split(' ').includes(key));if(si>=0){const [,path,l,r]=sketches[si];const figure=tag(card,'figure',null,'worked-figure');figure.innerHTML=`<svg aria-hidden="true" viewBox="0 0 255 99"><path d="${path}" fill="none" stroke="#416975" stroke-width="2.5"/><text x="25" y="94">${l}</text><text x="190" y="94">${r}</text></svg>`;tag(figure,'figcaption',legend[si])}
       const rule=rules.get(key);tag(card,'h4',['Модель и условия применения','Model and assumptions','Модель және қолданылу шарттары']);tag(card,'div',null,'law model-equation').innerHTML=formattedLaws[rule.formula];tag(card,'p',rule.usage);tag(card,'h4',ui.example);tag(card,'p',example,'law');
       }
       if(paragraphExtensions[id]){const [extra,calc]=paragraphExtensions[id];tag(card,'h4',ui.more);tag(card,'p',extra);tag(card,'p',calc,'law')}
       if(topicSupplement[id]){const [q,law,ex]=topicSupplement[id];tag(card,'h4',q);tag(card,'p',law,'law');tag(card,'p',ex)}
-      if(!standalone){tag(card,'h4',ui.check);tag(card,'p',check);const reveal=tag(card,'details');tag(reveal,'summary',ui.answer);tag(reveal,'p',answer,'law')}
       appendExercise(card,id);
-      card.addEventListener('toggle',()=>{if(card.open&&!card.querySelector('.paragraph-activity')){mountParagraphActivity(card,id);summary.after(card.querySelector('.paragraph-activity'));if(paragraphActivities[id].graph&&!paragraphScenes[id]){const more=tag(card,'details',null,'activity-graph');tag(more,'summary',['Дополнительный расчётный график','Additional model graph','Қосымша есептік график']);mountSimulator(more,paragraphActivities[id].graph);card.querySelector('.shelf-source').before(more)}}});
+      if(!standalone){tag(card,'h4',ui.check);tag(card,'p',check);const reveal=tag(card,'details');tag(reveal,'summary',ui.answer);tag(reveal,'p',answer,'law')}
+      const practiceSlot=tag(card,'div',null,'reader-practice');
+      card.addEventListener('toggle',()=>{if(card.open&&!card.querySelector('.paragraph-activity')){mountParagraphActivity(practiceSlot,id);if(paragraphActivities[id].graph&&!paragraphScenes[id]){const more=tag(card,'details',null,'activity-graph');tag(more,'summary',['Дополнительный расчётный график','Additional model graph','Қосымша есептік график']);mountSimulator(more,paragraphActivities[id].graph);card.querySelector('.shelf-source').before(more)}}});
       if(extended[id])tag(card,'a',ui.detail,'plan-link').href='#'+extended[id];
       const src=tag(card,'footer',ui.source.map((s,i)=>`${s} · ${grade} · § ${num} · ${ui.page[i]} ${page}`),'shelf-source'); const link=tag(card,'a',['Страница книги ↗','Book details ↗','Кітап беті ↗'],'plan-link');link.href=`https://okulyk.kz/fizika/${bookIds[grade]}/`;link.target='_blank';link.rel='noopener noreferrer';
     }
