@@ -49,6 +49,11 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
   const foundations=byConcept(lessonFoundations), explanations=byConcept(lessonExplanations), history=byConcept(lessonHistory);
   const comparisons=new Map(contrastTables.flatMap(([keys,...content])=>keys.split(' ').map(k=>[k,content])));
   const fields=[];
+  let liveExperiment=null;
+  function stopExperiment(){if(liveExperiment){liveExperiment.frame.remove();liveExperiment.button.hidden=false;liveExperiment=null}}
+  function stopIfHidden(){if(liveExperiment&&!liveExperiment.frame.getClientRects().length)stopExperiment()}
+  new MutationObserver(stopIfHidden).observe(document.querySelector('main'),{subtree:true,attributes:true,attributeFilter:['hidden','open']});
+
 
   function index(){return language==='kk'?2:language==='en'?1:0}
   function tag(parent,name,value,cls){const n=document.createElement(name);if(cls)n.className=cls;if(Array.isArray(value)){fields.push([n,value]);n.textContent=value[index()]}else if(value)n.textContent=value;parent.append(n);return n}
@@ -106,13 +111,17 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       const lesson=tag(card,'div'),practice=tag(card,'section');
       const labels=[['Конспект','Lesson','Конспект'],['Практикум','Practice','Практикум']];
       const panes=[lesson,practice],lab=Object.values(engineeringLabs).find(sim=>sim.ids.includes(id));
-      let mounted=false;if(lab){labels.push(['Симулятор','Simulator','Симулятор']);const slot=tag(card,'div');slot.id=`lab-${grade}-${num}`;panes.push(slot)}
+      const experiments=Object.entries(experimentLibrary).filter(([,m])=>m.lesson===id);
+      let mounted=false;if(lab||experiments.length){labels.push(['Симулятор','Simulator','Симулятор']);const slot=tag(card,'div');slot.id=`lab-${grade}-${num}`;panes.push(slot)}
       const buttons=labels.map(t=>tag(switches,'button',t));
-      function select(i){if(i===2&&!mounted){mountEngineering(panes[2],lab,picker);mounted=true}panes.forEach((pane,j)=>{pane.dataset.readerPane='';pane.hidden=j!==i;buttons[j].setAttribute('aria-pressed',String(j===i))})}
+      function select(i){if(i===2&&!mounted){if(lab)mountEngineering(panes[2],lab,picker);
+        for(const [key,m] of experiments){const tile=tag(panes[2],'section',null,'experiment-card');tile.dataset.experiment=key;tag(tile,'h4',m.title);tag(tile,'p',m.guide);const actions=tag(tile,'div',null,'buttons');const launch=tag(actions,'button',['Запустить опыт (RU)','Run experiment (Russian)','Тәжірибені ашу (орысша)']);launch.type='button';const url='instruments/player.html?sim='+key;const full=tag(actions,'a',['Открыть отдельно ↗','Open separately ↗','Бөлек ашу ↗'],'plan-link');full.href=url;full.target='_blank';full.rel='noopener';launch.onclick=()=>{stopExperiment();const frame=document.createElement('iframe');frame.title=m.title[index()];frame.setAttribute('sandbox','allow-scripts');frame.src=url;frame.className='experiment-frame';tile.append(frame);launch.hidden=true;liveExperiment={frame,button:launch};frame.focus()}}
+        mounted=true}panes.forEach((pane,j)=>{pane.dataset.readerPane='';pane.hidden=j!==i;buttons[j].setAttribute('aria-pressed',String(j===i))})}
       buttons.forEach((b,i)=>{b.type='button';b.onclick=()=>select(i)});select(0);
       const standalone=paragraphActivities[id].intro;
       const theory=tag(lesson,'section',null,'reader-theory');
       tag(theory,'h4',['Сначала разберёмся','Understanding the idea','Алдымен түсініп алайық']);
+      if(experiments.length){const intro=tag(theory,'section',null,'lesson-case');tag(intro,'strong',['От идеи к опыту','From idea to experiment','Идеядан тәжірибеге']);for(const [key,m] of experiments){tag(intro,'h4',m.title);tag(intro,'p',m.guide);const go=tag(intro,'button',['Проверить предсказание →','Test the prediction →','Болжамды тексеру →']);go.type='button';go.onclick=()=>{select(2);const tile=panes[2].querySelector(`[data-experiment="${key}"]`);tile.querySelector('button').click();tile.scrollIntoView({block:'start'})}}}
       if(lab){const lead=tag(theory,'section',null,'lesson-case');tag(lead,'h4',lab.hook);tag(lead,'p',lab.story);tag(lead,'strong',['Разберём на числах','Work through the numbers','Сандармен талдайық']);tag(lead,'p',lab.example);const run=tag(lead,'button',['Проверить в симуляторе →','Test it in the simulator →','Симуляторда тексеру →']);run.type='button';run.onclick=()=>{select(2);buttons[2].focus()}}
       tag(theory,'p',standalone || foundations.get(key));
       if(!bookDefinitions[id]){const box=tag(theory,'aside',null,'reader-definition');tag(box,'strong',['Ключевое понятие','Key concept','Негізгі ұғым']);tag(box,'p',lessonGlossary[key])}
@@ -152,5 +161,6 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
   }
   const directory=document.getElementById('engineering-links');directory.setAttribute('data-own-language','');
   for(const model of Object.values(engineeringLabs).sort((a,b)=>a.ids[0].localeCompare(b.ids[0],'en',{numeric:true})))for(const id of model.ids){const a=tag(directory,'a',model.name.map(n=>`${id} · ${n}`));a.href='#lab-'+id.replace('.','-')}
+  const shelf=document.getElementById('experiment-index');for(const g of [7,8,9,10,11]){const group=tag(shelf,'details');tag(group,'summary',[`${g} класс`,`Grade ${g}`,`${g}-сынып`]);const links=tag(group,'div');for(const [key,m] of Object.entries(experimentLibrary).sort((a,b)=>a[1].lesson.localeCompare(b[1].lesson,'en',{numeric:true}))){if(!m.lesson.startsWith(g+'.'))continue;const a=tag(links,'a',m.title.map(t=>`${m.lesson} · ${t}`));a.href='#exp-'+key;const marker=document.createElement('span');marker.id='exp-'+key;document.getElementById('para-'+m.lesson.replace('.','-')).append(marker)}}
   picker.addEventListener('change',()=>{language=picker.value;for(const [node,text] of fields)node.textContent=text[index()]});
 })();
