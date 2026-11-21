@@ -105,8 +105,10 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       const switches=tag(card,'div',null,'reader-switch');
       const lesson=tag(card,'div'),practice=tag(card,'section');
       const labels=[['Конспект','Lesson','Конспект'],['Практикум','Practice','Практикум']];
-      const panes=[lesson,practice],buttons=labels.map(t=>tag(switches,'button',t));
-      function select(i){panes.forEach((pane,j)=>{pane.dataset.readerPane='';pane.hidden=j!==i;buttons[j].setAttribute('aria-pressed',String(j===i))})}
+      const panes=[lesson,practice],lab=Object.values(engineeringLabs).find(sim=>sim.ids.includes(id));
+      let mounted=false;if(lab){labels.push(['Симулятор','Simulator','Симулятор']);const slot=tag(card,'div');slot.id=`lab-${grade}-${num}`;panes.push(slot)}
+      const buttons=labels.map(t=>tag(switches,'button',t));
+      function select(i){if(i===2&&!mounted){mountEngineering(panes[2],lab,picker);mounted=true}panes.forEach((pane,j)=>{pane.dataset.readerPane='';pane.hidden=j!==i;buttons[j].setAttribute('aria-pressed',String(j===i))})}
       buttons.forEach((b,i)=>{b.type='button';b.onclick=()=>select(i)});select(0);
       const standalone=paragraphActivities[id].intro;
       const theory=tag(lesson,'section',null,'reader-theory');
