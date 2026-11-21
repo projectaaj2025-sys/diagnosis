@@ -41,3 +41,6 @@ test('every lesson opens with readable theory in all three languages',()=>{
  for(const sections of Object.values(index))for(const [,,k] of sections)assert(covered.has(k),k);
  for(const [id,text] of Object.entries(overrides)){assert(activities[id]);assert.equal(text.length,3)}
 });
+test('sourced definition boxes and cropped diagrams reference real lessons and assets',()=>{
+ const {defs,figs}=vm.runInNewContext(fs.readFileSync(require.resolve('../lesson-theory.js'),'utf8')+';({defs:bookDefinitions,figs:bookDiagrams})');for(const [id,list] of Object.entries(defs)){const [grade,n]=id.split('.');for(const [pg,translations] of list){assert(pg>=index[grade][n-1][0]&&pg<(index[grade][n]?.[0]||Infinity));assert.equal(translations.length,3)}}for(const [id,list] of Object.entries(figs)){assert(activities[id]);for(const [name,pg,text] of list){assert(pg>0&&text.length===3);assert(fs.statSync(require.resolve(`../assets/table-${name}.jpg`)).size>1000)}}
+});
