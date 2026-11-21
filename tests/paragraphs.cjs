@@ -18,3 +18,9 @@ test('every concept has a model and multilingual applicability conditions',()=>{
  for(const [keys,formula,translations] of rules){assert(formula);assert.equal(translations.length,3);for(const k of keys){assert(!mapped.has(k));mapped.add(k)}}
  for(const k of Object.keys(notes))assert(mapped.has(k),k);
 });
+test('each lesson has a finite interactive lab, typeset law, and sourced exercises across grades',()=>{
+ const {models,ex,typeset,rules}=vm.runInNewContext(data+fs.readFileSync(require.resolve('../lesson-models.js'),'utf8')+';({models:lessonModels,ex:bookExercises,typeset:formattedLaws,rules:paragraphRules})');
+ const mapped=new Map();for(const [keys,labels,calc] of models){assert(labels[3].includes('<math'));for(const x of [1,2,3,4,5])assert(Number.isFinite(calc(x)));for(const k of keys.split(' ')){assert(!mapped.has(k),k);mapped.set(k,calc)}}
+ for(const sections of Object.values(index))for(const [,,k] of sections)assert(mapped.has(k),k);for(const [,law] of rules)assert(typeset[law].includes('<math'));
+ assert.equal(new Set(Object.keys(ex).map(id=>id.split('.')[0])).size,5);
+});
