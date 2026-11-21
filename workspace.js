@@ -6,7 +6,7 @@
   function mark(items,hash){for(const a of items){if(a.hash===hash)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')}}mark(links,'#'+page);
   const sub=target?.closest('#teacher,#account-body')?.id||'accounts';mark(desk,'#'+sub);
   for(const [section,tab] of [['desk-profile','accounts'],['account-body','account-body'],['teacher','teacher']])document.getElementById(section).hidden=tab!==sub;
-  if(target&&!target.closest('.shelf-panel'))requestAnimationFrame(()=>{if(location.hash==='#'+id)(page==='accounts'?document.getElementById(page):target).scrollIntoView()});
+  if(target&&!target.closest('.shelf-panel'))requestAnimationFrame(()=>{if(location.hash==='#'+id)(page==='accounts'&&id!=='mentor-settings'?document.getElementById(page):target).scrollIntoView()});
  }
  window.addEventListener('hashchange',route);route();
 })();
