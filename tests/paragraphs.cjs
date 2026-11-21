@@ -13,3 +13,8 @@ test('complete textbook sequences, increasing start pages and translated learnin
  }
  for(const [id,[text,exercise]] of Object.entries(extensions)){const [grade,num]=id.split('.');assert(index[grade][num-1]);assert(text.every(Boolean)&&exercise)}
 });
+test('every concept has a model and multilingual applicability conditions',()=>{
+ const rules=vm.runInNewContext(data+';paragraphRules');const mapped=new Set();
+ for(const [keys,formula,translations] of rules){assert(formula);assert.equal(translations.length,3);for(const k of keys){assert(!mapped.has(k));mapped.add(k)}}
+ for(const k of Object.keys(notes))assert(mapped.has(k),k);
+});

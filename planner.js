@@ -9,7 +9,7 @@ function recordMap(rows,scope){
  for(const r of rows){const id=JSON.stringify([r.topic,r.skill]);if(!cells.has(id))cells.set(id,{topic:r.topic,skill:r.skill,n:0,right:0});const c=cells.get(id);c.n++;c.right+=Number(r.ok)}
  planner.cells=[...cells.values()];planner.scope=scope;planner.ready=true;renderPlanner();
 }
-function priority(c){return c.right===c.n?2:c.n===1?1:0}
+function priority(c){return c.right===c.n?2:c.n<3?1:0}
 const book=[['Единицы, оценки и измерения','гл. 1, PDF с. 20'],['Механика','гл. 2, PDF с. 32'],['Колебания и волны','гл. 3, PDF с. 108'],['Электромагнетизм','гл. 4, PDF с. 140'],['Термодинамика','гл. 5, PDF с. 202'],['Современная физика','гл. 6, PDF с. 240'],['Анализ данных','гл. 7, PDF с. 290'],['Экспериментальный практикум','гл. 8, PDF с. 316']];
 function chapter(t){if(/ток|электр|магнит|цеп/i.test(t))return 3;if(/термо|тепло|молекул|агрегат/i.test(t))return 4;if(/колеб|волн/i.test(t))return 2;if(/атом|квант|ядр/i.test(t))return 5;if(/измер|научный/i.test(t))return 6;if(/движ|кинемат|динамик|сил|механ|энерг|равновес|импульс/i.test(t))return 1;return 0}
 const exercises={'Расчёт':'Переведи данные в СИ, реши задачу и проверь размерность ответа.','Теория':'Сформулируй закон своими словами и приведи пример, где его нельзя применять.','Понимание':'Предскажи результат опыта, измени одно условие и объясни, почему изменился ответ.'};

@@ -5395,3 +5395,906 @@ const paragraphExperiments = [
   ]
  ]
 ];
+
+const paragraphRules = [
+ [
+  [
+   "nature",
+   "shadow"
+  ],
+  "H/h = D/d",
+  [
+   "Для точечного источника и параллельных экрану размеров лучи образуют подобные треугольники. Сначала отсчитай оба расстояния от источника.",
+   "For a point source and dimensions parallel to the screen, similar triangles apply. Measure both distances from the source.",
+   "Нүктелік көз бен экранға параллель өлшемдер үшін үшбұрыштар ұқсас. Екі аралықты да көзден өлше."
+  ]
+ ],
+ [
+  [
+   "method",
+   "error",
+   "mass",
+   "si",
+   "model"
+  ],
+  "Δx = x₂ − x₁",
+  [
+   "При косвенном измерении сначала вычти тару, начальный уровень или нулевое смещение, если оно есть. Сравнивай величины одной размерности; систематическая ошибка не исчезает от повторения.",
+   "For indirect measurements subtract tare, initial level or zero offset where applicable. Compare like dimensions; repetition cannot remove systematic bias.",
+   "Жанама өлшеуде қажет болса ыдыс массасын, бастапқы деңгейді не нөл ығысуын шегер. Бір өлшемді шамаларды салыстыр; қайталау жүйелі қатені жоймайды."
+  ]
+ ],
+ [
+  [
+   "vector",
+   "frame",
+   "relative",
+   "uniform",
+   "avg",
+   "graph"
+  ],
+  "v̄ₓ = Δx/Δt; v̄path = s/Δt",
+  [
+   "Выбери ось и систему отсчёта. Для средней путевой скорости бери весь путь, а для средней проекции скорости — перемещение со знаком.",
+   "Choose an axis and frame. Use total distance for average speed, signed displacement for mean velocity component.",
+   "Ось пен санақ жүйесін таңда. Орташа жолдық жылдамдыққа толық жолды, орташа проекцияға таңбалы орын ауыстыруды ал."
+  ]
+ ],
+ [
+  [
+   "acc",
+   "accdist",
+   "fall",
+   "throw"
+  ],
+  "Δx = v₀ₓt + aₓt²/2",
+  [
+   "Применяй по каждой оси только при постоянной проекции ускорения. Для свободного полёта пренебрегаем сопротивлением; у точки разворота путь и модуль перемещения могут различаться.",
+   "Use along each axis only for constant acceleration component. Neglect drag in free flight; after reversal distance and displacement magnitude may differ.",
+   "Әр осьте үдеу проекциясы тұрақты болса ғана қолдан. Еркін ұшуда кедергіні елеме; кері бұрылғанда жол мен орын ауыстыру модулі өзгеше болуы мүмкін."
+  ]
+ ],
+ [
+  [
+   "inertia",
+   "force",
+   "gravity",
+   "net",
+   "newton",
+   "third",
+   "weightless"
+  ],
+  "ΣFₓ = maₓ",
+  [
+   "Уравнение относится к одному телу постоянной массы в инерциальной системе. Не добавляй к силам на это тело силы, которыми оно действует на соседей.",
+   "Use one constant-mass body in an inertial frame. Do not add forces that body exerts on other bodies.",
+   "Инерциялық жүйеде массасы тұрақты бір денені қара. Оның басқа денелерге түсіретін күштерін қоспа."
+  ]
+ ],
+ [
+  [
+   "deform",
+   "solid",
+   "spring"
+  ],
+  "σ = F/S; Fspring = −kΔx",
+  [
+   "Сила пропорциональна удлинению лишь в линейной области. Минус показывает возвращающее действие, а не отрицательный модуль силы.",
+   "Force is proportional to extension only in the linear regime. The minus sign denotes restoration, not a negative magnitude.",
+   "Күш ұзаруға тек сызықтық аймақта пропорционал. Минус модульді емес, қайтарушы бағытты білдіреді."
+  ]
+ ],
+ [
+  [
+   "state",
+   "stateeq",
+   "isotherm"
+  ],
+  "pV = nRT",
+  [
+   "Модель идеального газа использует абсолютные давление и температуру. Сокращать n при сравнении состояний можно только для одной неизменной порции газа.",
+   "Use absolute pressure and temperature in the ideal-gas model. Cancel n across states only if the gas amount is fixed.",
+   "Идеал газ моделінде абсолют қысым мен температураны ал. Күйлерді салыстырғанда n тек газ мөлшері өзгермесе қысқарады."
+  ]
+ ],
+ [
+  [
+   "first",
+   "internal",
+   "workgas"
+  ],
+  "ΔU = Q − Wby",
+  [
+   "Граница системы определяет, кто совершает работу. Здесь положительна работа газа; при постоянном внешнем давлении работа расширения равна pΔV.",
+   "Set the system boundary. Work by the gas is positive here; expansion against constant external pressure gives pΔV.",
+   "Жүйе шекарасын таңда. Мұнда газдың жұмысы оң; тұрақты сыртқы қысымда ұлғаю жұмысы pΔV."
+  ]
+ ],
+ [
+  [
+   "pressure"
+  ],
+  "p̄ = F⊥/S",
+  [
+   "Это среднее давление по фактической площади контакта. Сила равна mg только для покоящегося груза на горизонтальной опоре без иных вертикальных сил.",
+   "Use actual contact area for mean pressure. Load equals mg only at rest on level support with no additional vertical forces.",
+   "Орташа қысымға нақты жанасу ауданын ал. Жүк тыныш, тірек көлденең және өзге тік күштер жоқта ғана күш mg-ге тең."
+  ]
+ ],
+ [
+  [
+   "hydro",
+   "utube",
+   "air",
+   "manometer"
+  ],
+  "Δp = ρgΔh",
+  [
+   "Для столба покоящейся жидкости постоянной плотности высота измеряется по вертикали. Манометрическая разность не равна абсолютному давлению.",
+   "For a static constant-density column measure height vertically. A gauge difference is not absolute pressure.",
+   "Тығыздығы тұрақты тыныш сұйықта биіктікті тік бағытта өлше. Манометр айырмасы абсолют қысымға тең емес."
+  ]
+ ],
+ [
+  [
+   "press"
+  ],
+  "F₁/S₁ = F₂/S₂",
+  [
+   "Идеальная гидравлическая машина: жидкость несжимаема, поршни примерно на одной высоте, трением пренебрегаем. Сравнивай площади, а не диаметры.",
+   "Ideal incompressible hydraulics, pistons at similar heights, negligible friction. Compare areas rather than diameters.",
+   "Идеал гидравликада сұйық сығылмайды, поршеньдер биіктігі жуық, үйкеліс елеусіз. Диаметр емес, аудандарды салыстыр."
+  ]
+ ],
+ [
+  [
+   "buoy"
+  ],
+  "Fᴀ = ρfluid gVsub",
+  [
+   "Для однородной неподвижной жидкости бери плотность жидкости и объём вытесненной части. Равенство с весом нужно только при свободном плавании в равновесии.",
+   "For a homogeneous static liquid use fluid density and displaced volume. Equate buoyancy to weight only for freely floating equilibrium.",
+   "Біртекті тыныш сұйықта сұйық тығыздығы мен ығысқан көлемді ал. Ауырлық күшімен тек еркін жүзу тепе-теңдігінде теңестір."
+  ]
+ ],
+ [
+  [
+   "work",
+   "energy",
+   "conserve",
+   "machine",
+   "eff"
+  ],
+  "W = Fs cos θ; η = Euse/Ein",
+  [
+   "Первая запись предполагает постоянную силу. Для баланса сравни начальное и конечное состояния той же системы и отдельно укажи потери.",
+   "The work expression assumes constant force. Compare initial and final states of the same system and track losses separately.",
+   "Жұмыс өрнегі тұрақты күшке арналған. Бір жүйенің бастапқы және соңғы күйлерін салыстырып, шығынды бөлек есепте."
+  ]
+ ],
+ [
+  [
+   "centre",
+   "lever",
+   "stable"
+  ],
+  "ΣM = 0; ΣF = 0",
+  [
+   "Для равновесия нужны оба условия. Беря моменты относительно опоры, используй перпендикулярное плечо силы.",
+   "Equilibrium needs both conditions. For torques about the support use perpendicular moment arms.",
+   "Тепе-теңдікке екі шарт та қажет. Тірекке қатысты моментте перпендикуляр иінді ал."
+  ]
+ ],
+ [
+  [
+   "astro",
+   "sky",
+   "coords",
+   "time",
+   "solar",
+   "planets",
+   "sun",
+   "galaxy"
+  ],
+  "t = d/v",
+  [
+   "Уточни, относится ли величина к углу на небе, реальной длине или времени. Для светового сигнала в вакууме бери скорость c, для земного календаря — период соответствующего движения.",
+   "Distinguish sky angle, physical length and elapsed time. Use c for vacuum light travel and the relevant cycle period for a calendar.",
+   "Аспандағы бұрыш, нақты ұзындық және уақытты ажырат. Вакуумдағы жарыққа c, күнтізбеге тиісті қозғалыс периодын ал."
+  ]
+ ],
+ [
+  [
+   "parallax"
+  ],
+  "d(pc) = 1/p(″)",
+  [
+   "Для малых углов годичный параллакс соответствует базе 1 а.е. Полный максимальный угловой сдвиг между наблюдениями за полгода надо разделить пополам.",
+   "Annual parallax at small angles uses a one-AU baseline. Halve the full maximum six-month shift.",
+   "Шағын бұрыштағы жылдық параллакс базасы 1 а.б. Жарты жылдағы максимал толық бұрыштық ығысуды екіге бөл."
+  ]
+ ],
+ [
+  [
+   "diff",
+   "temp",
+   "transfer",
+   "insulate",
+   "cool",
+   "heat",
+   "balance",
+   "melt",
+   "vapour",
+   "boil"
+  ],
+  "Q = cmΔT; abs(Qphase) = Lm",
+  [
+   "Определи стадию процесса: изменение температуры без фазового перехода или переход при его температуре. Если есть обе стадии, рассчитай их отдельно, затем сложи энергии.",
+   "Identify temperature change without phase change or a phase transition at its transition temperature. If both occur, compute stages separately then add energies.",
+   "Фазалық ауысусыз температура өзгерісін және ауысу температурасындағы фазалық өтуді ажырат. Екеуі де болса, сатыларды бөлек есептеп, энергияларды қос."
+  ]
+ ],
+ [
+  [
+   "second",
+   "engine",
+   "environment"
+  ],
+  "η = Wcycle/Qin",
+  [
+   "Для полного цикла изменение внутренней энергии равно нулю. При оценке реальной установки отделяй полезную отдачу от полного подвода энергии за тот же срок.",
+   "Over a complete cycle internal energy returns to its initial value. Compare useful output and total input over the same interval.",
+   "Толық циклде ішкі энергия бастапқы мәніне келеді. Пайдалы беріліс пен толық кірісті бір уақыт үшін салыстыр."
+  ]
+ ],
+ [
+  [
+   "humidity"
+  ],
+  "φ = pv/psat(T)",
+  [
+   "Давление насыщения бери при текущей температуре. При охлаждении оно меняется даже без потери водяного пара до начала конденсации.",
+   "Use saturation pressure at the current temperature. Cooling changes it before condensation removes any vapour.",
+   "Қаныққан бу қысымын ағымдағы температурада ал. Салқындағанда ол конденсация басталмай тұрып өзгереді."
+  ]
+ ],
+ [
+  [
+   "thermal"
+  ],
+  "λmaxT = b",
+  [
+   "Закон Вина относится к максимуму спектральной плотности по длинам волн чёрного тела. Температура в кельвинах, а не в градусах Цельсия.",
+   "Wien's law locates the peak per unit wavelength of blackbody radiation. Use kelvins, not Celsius.",
+   "Вин заңы қара дененің толқын ұзындығы бойынша спектр максимумын береді. Цельсий емес, кельвин қолдан."
+  ]
+ ],
+ [
+  [
+   "charge",
+   "coulomb",
+   "field",
+   "potential",
+   "shield",
+   "equip"
+  ],
+  "F = qE; ΔU = qΔφ",
+  [
+   "Сначала различи поле и действие на помещённый в него заряд. Поля складывают как векторы, потенциалы как числа. Направление силы на отрицательный заряд противоположно полю.",
+   "Separate the field from its effect on a charge. Add fields as vectors and potentials as scalars. For negative charge force opposes the field.",
+   "Өрісті зарядқа әсерінен ажырат. Өрістер векторша, потенциалдар сан ретінде қосылады. Теріс заряд күші өріске қарсы."
+  ]
+ ],
+ [
+  [
+   "current",
+   "meter",
+   "ohm",
+   "wire",
+   "parallel",
+   "power",
+   "joule",
+   "metal",
+   "fuse",
+   "full",
+   "emf",
+   "kirch",
+   "semi",
+   "gascurrent"
+  ],
+  "Ī = Δq/Δt; P = UI",
+  [
+   "Для постоянного тока P = UI. Закон I = U/R с постоянным R применяй только к омическому участку при неизменных условиях, а не к произвольному диоду или источнику.",
+   "Use P = UI for DC. Use constant-R Ohm's law only on an ohmic section at fixed conditions, not an arbitrary diode or source.",
+   "Тұрақты токқа P = UI. Тұрақты R-лі Ом заңын кез келген диодқа не көзге емес, өзгермеген шарттағы омдық бөлікке қолдан."
+  ]
+ ],
+ [
+  [
+   "magnet",
+   "coil",
+   "core",
+   "magmat",
+   "motor",
+   "generator",
+   "induce",
+   "lenz",
+   "inductance"
+  ],
+  "Φ = BS cos θ; ε̄ = −NΔΦ/Δt",
+  [
+   "Для плоского витка в однородном поле угол считают к нормали. Поле действует и без индукции: для ЭДС в неподвижной катушке нужен меняющийся поток.",
+   "For a flat loop in uniform field measure angle to its normal. A field exists without induction; emf in a stationary coil needs changing flux.",
+   "Біртекті өрістегі жазық орамда бұрыш нормальмен өлшенеді. Индукция болмаса да өріс бар; қозғалмайтын шарғыдағы ЭҚК үшін ағын өзгеруі қажет."
+  ]
+ ],
+ [
+  [
+   "reflect",
+   "mirror",
+   "refract",
+   "eye",
+   "instrument"
+  ],
+  "θᵢ = θᵣ; n₁ sin θ₁ = n₂ sin θ₂",
+  [
+   "Углы отсчитывают от нормали в точке падения. Для тонких линз и сферических зеркал обычные фокусные формулы предполагают лучи вблизи оси.",
+   "Measure angles from the normal at incidence. Usual focal formulas for thin lenses and spherical mirrors assume near-axis rays.",
+   "Бұрышты түсу нүктесіндегі нормальдан өлше. Жұқа линза мен сфералық айна фокус формулалары ось маңындағы сәулелерге арналған."
+  ]
+ ],
+ [
+  [
+   "disp"
+  ],
+  "v = c/n; λmedium = λvac/n",
+  [
+   "При переходе границы частота сохраняется. Различай длину волны в среде и в вакууме; показатель преломления может зависеть от цвета.",
+   "Frequency stays fixed at a boundary. Distinguish medium and vacuum wavelength; refractive index can depend on colour.",
+   "Шекарада жиілік сақталады. Ортадағы және вакуумдағы толқын ұзындығын ажырат; сыну көрсеткіші түске тәуелді болуы мүмкін."
+  ]
+ ],
+ [
+  [
+   "circle",
+   "centrip",
+   "grav",
+   "orbit",
+   "inertia2",
+   "angular"
+  ],
+  "v = ωr; aₙ = v²/r",
+  [
+   "Радиус — расстояние до оси или центра кривизны, а в задаче о тяготении — до центра сферического тела. Не подставляй высоту над поверхностью вместо радиуса орбиты.",
+   "Use distance to the axis or curvature centre; in spherical gravity use distance to the body's centre. Altitude alone is not orbital radius.",
+   "Оське не қисықтық центріне дейінгі қашықтықты ал; шар тартылысында дене центріне дейін өлше. Беттен биіктік орбита радиусы емес."
+  ]
+ ],
+ [
+  [
+   "momentum",
+   "jet"
+  ],
+  "Σpᵢ = Σp𝒻",
+  [
+   "По выбранной оси внешний импульс должен быть нулевым или пренебрежимо малым. Определи состав системы до удара и не потеряй из неё отделившуюся массу.",
+   "External impulse along the chosen axis must vanish or be negligible. Define the system before impact and retain any separated mass.",
+   "Таңдалған осьтегі сыртқы күш импульсі нөл не елеусіз болуы керек. Жүйені соққыға дейін анықтап, бөлінген массаны жоғалтпа."
+  ]
+ ],
+ [
+  [
+   "period",
+   "resonance",
+   "harmonic",
+   "lc",
+   "analogy",
+   "acpower",
+   "rms"
+  ],
+  "f = 1/T; ω = 2πf",
+  [
+   "Период измеряй между одинаковыми фазами, не просто одинаковыми значениями. Формулы с амплитудой, делённой на √2, предполагают синусоидальный режим.",
+   "Measure a period between matching phases, not merely matching values. Peak divided by √2 assumes a sinusoid.",
+   "Периодты жай бірдей мәндерден емес, бірдей фазалардан өлше. Амплитуданы √2-ге бөлу синусоидалы режимге арналған."
+  ]
+ ],
+ [
+  [
+   "wave",
+   "echo",
+   "emwave",
+   "stand",
+   "interf",
+   "radio",
+   "digital",
+   "signals"
+  ],
+  "v = λf; d = vt",
+  [
+   "Определи, что перемещается: фронт сигнала, фаза или частица среды. Для отражённого сигнала время полёта включает путь туда и обратно.",
+   "Identify whether a signal front, phase or medium particle moves. Reflected signal time includes outward and return paths.",
+   "Сигнал фронты, фаза не орта бөлшегі қозғалатынын анықта. Шағылған сигнал уақытында барып-қайту жолы бар."
+  ]
+ ],
+ [
+  [
+   "xray",
+   "spectra",
+   "photonband",
+   "lightp",
+   "dual",
+   "laser",
+   "bohr",
+   "ximage",
+   "matter"
+  ],
+  "Eγ = hf; pγ = h/λ",
+  [
+   "Эти соотношения относятся к одному фотону. Для вещества λ = h/p тоже применимо, но энергию массивной частицы нельзя приравнять к pc как у фотона.",
+   "These photon relations concern one photon. Matter also obeys λ = h/p, but a massive particle's energy is not pc as for a photon.",
+   "Фотондық өрнектер бір фотонға қатысты. Зат үшін де λ = h/p, бірақ массалы бөлшек энергиясы фотондағыдай pc емес."
+  ]
+ ],
+ [
+  [
+   "reaction",
+   "nucleus",
+   "rutherford",
+   "fusion",
+   "fission",
+   "reactor",
+   "particle",
+   "rest"
+  ],
+  "E₀ = mc²; Q = (Σmin − Σmout)c²",
+  [
+   "В энергетическом балансе учти все продукты и используй согласованные единицы масс. Статистический закон распада не предсказывает момент распада отдельного ядра.",
+   "Include all products in the energy balance and use consistent mass units. Statistical decay cannot predict one nucleus's decay time.",
+   "Энергия теңгеріміне барлық өнімді енгізіп, бірдей масса бірліктерін қолдан. Статистикалық заң жеке ядроның ыдырау сәтін болжамайды."
+  ]
+ ],
+ [
+  [
+   "flow",
+   "laminar"
+  ],
+  "Qflow = Sv̄",
+  [
+   "Расход через сечение равен площади, умноженной на среднюю нормальную скорость. Приравнивать расходы разных сечений можно в стационарном несжимаемом потоке без утечек.",
+   "Flow rate uses mean normal speed across an area. Equalise section flow rates for steady, leak-free incompressible flow.",
+   "Шығынға қимадағы орташа нормаль жылдамдықты ал. Тұрақты сығылмайтын ағын мен ағып кетусіз жағдайда қима шығындары тең."
+  ]
+ ],
+ [
+  [
+   "transform"
+  ],
+  "U₂/U₁ ≈ N₂/N₁",
+  [
+   "Идеализация: общий меняющийся поток, малы потери и падения напряжения в обмотках. Постоянный неизменный поток не создаёт вторичной ЭДС.",
+   "Assume shared changing flux, negligible losses and winding voltage drops. Constant flux produces no secondary emf.",
+   "Ортақ айнымалы ағын, шығын және орамдағы кернеу түсуі аз деп ал. Тұрақты өзгермейтін ағын екінші ЭҚК тудырмайды."
+  ]
+ ],
+ [
+  [
+   "relativity"
+  ],
+  "Δt = γΔτ",
+  [
+   "Собственное время измеряют часы, присутствующие при обоих событиях. Убедись, что сопоставляешь одну и ту же пару событий.",
+   "Proper time is measured by a clock present at both events. Compare precisely the same pair of events.",
+   "Меншікті уақытты екі оқиға орнында болған сағат өлшейді. Дәл сол бір жұп оқиғаны салыстыр."
+  ]
+ ],
+ [
+  [
+   "nano"
+  ],
+  "S/V = 6/a",
+  [
+   "Для куба без пор и шероховатости площадь шести граней равна 6a². При сравнении частиц иной формы числовой коэффициент меняется.",
+   "For a smooth solid cube the six faces have area 6a². Other shapes change the numerical coefficient.",
+   "Кеуексіз тегіс текшенің алты бет ауданы 6a². Өзге пішінде сандық коэффициент өзгереді."
+  ]
+ ],
+ [
+  [
+   "hubble"
+  ],
+  "v ≈ H₀d",
+  [
+   "Линейная оценка по красному смещению пригодна для малых z, когда собственные скорости галактик не доминируют. Не применяй её без поправок к далёкой Вселенной.",
+   "A linear redshift distance estimate assumes small z and non-dominant peculiar velocity. Do not extrapolate it uncorrected to the distant universe.",
+   "Қызыл ығысумен сызықты баға шағын z және басым емес меншікті жылдамдықта жарайды. Алыс Ғаламға түзетусіз таратпа."
+  ]
+ ],
+ [
+  [
+   "density"
+  ],
+  "ρ̄ = m/V",
+  [
+   "Для полого тела объём включает полость. Для плотности самого вещества исключи из объёма пустоты.",
+   "Bulk density includes cavities in the volume. Exclude voids for material density.",
+   "Орташа тығыздықта көлемге қуыстар кіреді. Зат тығыздығында оларды алып таста."
+  ]
+ ],
+ [
+  [
+   "volume"
+  ],
+  "Vbody = V₂ − V₁",
+  [
+   "Тело должно быть полностью погружено, не растворяться в жидкости и не удерживать пузырьки. Показания читай на уровне мениска.",
+   "Submerge fully without dissolving or trapping bubbles. Read at meniscus level.",
+   "Дене толық батуы, ерімеуі және ауа көпіршіктерін ұстамауы тиіс. Меніск деңгейінен оқы."
+  ]
+ ],
+ [
+  [
+   "hooke"
+  ],
+  "Fₓ = −kx",
+  [
+   "Отсчитывай x от ненагруженной длины. За пределом пропорциональности k уже нельзя считать постоянным.",
+   "Measure x from natural length. Beyond the proportional range k is not constant.",
+   "x-ті табиғи ұзындықтан сана. Пропорционалдық шегінен тыс k тұрақты емес."
+  ]
+ ],
+ [
+  [
+   "friction"
+  ],
+  "Fstatic ≤ μsN",
+  [
+   "Трение покоя подстраивается под нагрузку. Равенство возникает на грани скольжения, а не во всяком состоянии покоя.",
+   "Static friction adjusts to load. Equality holds at impending slip, not at every rest state.",
+   "Тыныштық үйкелісі жүктемеге бейімделеді. Теңдік әрдайым емес, сырғанау шегінде орындалады."
+  ]
+ ],
+ [
+  [
+   "mkt"
+  ],
+  "p = nm⟨v²⟩/3",
+  [
+   "Для изотропного хаотического движения молекул идеального газа. Используй средний квадрат, а не квадрат средней векторной скорости.",
+   "For isotropic random motion in an ideal gas. Use the mean square, not the squared mean velocity vector.",
+   "Идеал газдың изотропты ретсіз қозғалысына арналған. Орташа вектор квадраты емес, квадраттың ортасын ал."
+  ]
+ ],
+ [
+  [
+   "float"
+  ],
+  "Vsub/V = ρbody/ρfluid",
+  [
+   "Только при свободном плавании в равновесии, без опоры на дно. Для тела сложной формы доля высоты не равна доле объёма.",
+   "Only for free floating equilibrium without bottom support. Height fraction need not equal volume fraction for irregular shapes.",
+   "Тек түбіне тірелмей еркін жүзу тепе-теңдігінде. Күрделі денеде биіктік үлесі көлем үлесіне тең емес."
+  ]
+ ],
+ [
+  [
+   "calendar"
+  ],
+  "Δt = N(Tyear − 365 d)",
+  [
+   "Приближение для N лет без календарных поправок. Не смешивай солнечные сутки, месяц и период обращения Земли.",
+   "An approximation over N years without calendar corrections. Distinguish solar day, month and Earth’s orbital period.",
+   "Күнтізбе түзетуінсіз N жылға арналған жуықтау. Күн тәулігін, айды және Жер айналу периодын ажырат."
+  ]
+ ],
+ [
+  [
+   "fuel"
+  ],
+  "Quse = ηqm",
+  [
+   "q относится к полному сгоранию данного топлива. КПД записывай долей единицы и не учитывай одни и те же потери дважды.",
+   "q assumes complete combustion of that fuel. Use efficiency as a fraction and avoid double-counting losses.",
+   "q сол отынның толық жануына қатысты. ПӘК-ті бірлік үлесімен ал, шығынды екі рет есептеме."
+  ]
+ ],
+ [
+  [
+   "capacitor",
+   "capenergy"
+  ],
+  "C = q/U; W = CU²/2",
+  [
+   "Для линейного конденсатора постоянной ёмкости. При изменении геометрии сначала выясни, подключён ли источник: постоянны могут быть либо q, либо U.",
+   "For a linear capacitor of constant capacitance. When geometry changes check if the source remains connected: q or U may be fixed.",
+   "Сыйымдылығы тұрақты сызықтық конденсатор үшін. Геометрия өзгерсе, көз қосулы ма, тексер: q не U тұрақты болуы мүмкін."
+  ]
+ ],
+ [
+  [
+   "fluxE"
+  ],
+  "ΦE = Qin/ε₀",
+  [
+   "Теорема Гаусса относится к замкнутой поверхности. Вынести E за знак интеграла можно только при достаточной симметрии.",
+   "Gauss's law concerns a closed surface. Taking E outside an integral requires sufficient symmetry.",
+   "Гаусс заңы тұйық бетке арналған. E-ні интеграл сыртына шығару үшін симметрия қажет."
+  ]
+ ],
+ [
+  [
+   "electrolysis"
+  ],
+  "m = kIt",
+  [
+   "Постоянный ток и одинаковый выход вещества по току. При переменном токе сравнивай прошедший заряд, а не просто длительность.",
+   "Assume constant current and the same deposition efficiency. For varying current use transferred charge rather than duration alone.",
+   "Ток тұрақты және ток бойынша шығым бірдей болсын. Ток өзгерсе, тек уақытты емес, өткен зарядты салыстыр."
+  ]
+ ],
+ [
+  [
+   "ampere",
+   "lorentz"
+  ],
+  "Fwire = BIL sin α; Fparticle = abs(q)vB sin α",
+  [
+   "Сравни направление поля с током или скоростью заряда. Формула для прямого участка использует однородное поле по всей его длине.",
+   "Compare the field direction with current or charge velocity. A straight wire formula assumes uniform field along the segment.",
+   "Өріс бағытын токпен не заряд жылдамдығымен салыстыр. Түзу сым бөлігінің бойында өріс біртекті болуы керек."
+  ]
+ ],
+ [
+  [
+   "lens"
+  ],
+  "1/f = 1/a + 1/b",
+  [
+   "Тонкая линза, параксиальные лучи, действительный предмет. Для мнимого изображения b отрицательно; для рассеивающей линзы отрицательно f.",
+   "Thin lens, paraxial rays and a real object. A virtual image has negative b; a diverging lens has negative f.",
+   "Жұқа линза, ось маңындағы сәулелер және нақты дене. Жалған кескінде b теріс, шашыратқыш линзада f теріс."
+  ]
+ ],
+ [
+  [
+   "polar"
+  ],
+  "I = I₀ cos²θ",
+  [
+   "Закон Малюса применяют к линейно поляризованному свету перед идеальным анализатором. I₀ — интенсивность после первого поляризатора.",
+   "Malus's law uses linearly polarised light incident on an ideal analyser. I₀ is the intensity after the first polariser.",
+   "Малюс заңы идеал анализаторға түсетін сызықты поляризацияланған жарыққа арналған. I₀ — бірінші поляризатордан кейінгі қарқын."
+  ]
+ ],
+ [
+  [
+   "grating"
+  ],
+  "d sin θ = mλ",
+  [
+   "Нормальное падение монохроматического света. Порядок m целый, и модуль синуса не может превышать единицу.",
+   "Assume normal incidence and monochromatic light. Order m is integral and sine magnitude cannot exceed one.",
+   "Монохромат жарық тік түседі. m реті бүтін, синус модулі бірден аспайды."
+  ]
+ ],
+ [
+  [
+   "kepler"
+  ],
+  "T²/a³ = const",
+  [
+   "Сравниваются орбиты вокруг одного центрального тела, массы спутников малы. Для эллипса a — большая полуось, а не текущее расстояние.",
+   "Compare orbits around one dominant central mass. For an ellipse a is the semimajor axis, not current separation.",
+   "Бір басым орталық денені айналатын орбиталарды салыстыр. Эллипсте a — ағымдағы аралық емес, үлкен жарты ось."
+  ]
+ ],
+ [
+  [
+   "pendulum"
+  ],
+  "T = 2π√(l/g)",
+  [
+   "Малые углы, нерастяжимая лёгкая нить, точечный груз и слабое затухание. При большом угле независимость периода от амплитуды уже приближённая.",
+   "Small angles, light inextensible string, point bob and weak damping. Large amplitudes alter the period.",
+   "Кіші бұрыш, жеңіл созылмайтын жіп, нүктелік жүк және әлсіз өшу. Үлкен амплитудада период өзгереді."
+  ]
+ ],
+ [
+  [
+   "rlc",
+   "impedance",
+   "react"
+  ],
+  "Z² = R² + (ωL − 1/(ωC))²",
+  [
+   "Последовательная цепь в установившемся синусоидальном режиме. Токи в элементах одинаковы; напряжения складывают с учётом фаз.",
+   "Series circuit in steady sinusoidal operation. Current is shared; add voltages with their phases.",
+   "Тұрақталған синусоидалы режимдегі тізбектей тізбек. Элементтердегі ток тең, кернеулер фазамен қосылады."
+  ]
+ ],
+ [
+  [
+   "photo"
+  ],
+  "Kmax = hf − A",
+  [
+   "Однофотонный фотоэффект возможен при hf ≥ A. Отрицательный расчётный результат означает отсутствие выхода, а не отрицательную кинетическую энергию.",
+   "Single-photon emission requires hf ≥ A. A negative computed result means no emission rather than negative kinetic energy.",
+   "Бір фотондық шығуға hf ≥ A қажет. Теріс есептік нәтиже теріс энергияны емес, электрон шықпағанын білдіреді."
+  ]
+ ],
+ [
+  [
+   "decay"
+  ],
+  "N = N₀·2^(−t/T½)",
+  [
+   "Большой ансамбль одного изотопа без поступления новых ядер. Счётчик регистрирует события со своей эффективностью и фоном.",
+   "Large population of one isotope without replenishment. A detector has its own efficiency and background.",
+   "Бір изотоптың толықтырылмайтын үлкен жиыны. Детектордың өзіндік тиімділігі мен фоны бар."
+  ]
+ ],
+ [
+  [
+   "dose"
+  ],
+  "D = Eabsorbed/m",
+  [
+   "Поглощённая доза выражается в Дж/кг. Не путай её с активностью в распадах за секунду или с эквивалентной дозой.",
+   "Absorbed dose is in joules per kilogram. Distinguish it from activity in decays per second and from equivalent dose.",
+   "Жұтылған доза Дж/кг өлшенеді. Оны секундтағы ыдырау саны не эквивалент дозамен шатастырма."
+  ]
+ ],
+ [
+  [
+   "stokes"
+  ],
+  "Fd = 6πηrv",
+  [
+   "Малый шарик в вязкой жидкости при малом числе Рейнольдса, далеко от стенок. В турбулентном режиме линейная зависимость от скорости неверна.",
+   "Small sphere in viscous fluid at low Reynolds number, far from walls. Linear speed dependence fails in turbulent flow.",
+   "Қабырғадан алыс тұтқыр сұйықтағы шағын шар және кіші Рейнольдс саны. Турбулент ағыста сызықтық тәуелділік жарамайды."
+  ]
+ ],
+ [
+  [
+   "capillary"
+  ],
+  "h = 2σ cos θ/(ρgr)",
+  [
+   "Тонкая круглая трубка в равновесии, контактный угол задан. При несмачивании cos θ отрицателен: уровень опускается, а не растёт.",
+   "Thin circular tube at equilibrium with known contact angle. For non-wetting, negative cosine predicts depression rather than rise.",
+   "Тепе-теңдіктегі жіңішке дөңгелек түтік, жанасу бұрышы белгілі. Жұқпағанда косинус теріс, деңгей жоғарыламай төмендейді."
+  ]
+ ],
+ [
+  [
+   "universe"
+  ],
+  "ρmatter a³ = const",
+  [
+   "Речь о сохраняющейся массе вещества в сопутствующем объёме. Для излучения энергия фотонов дополнительно уменьшается при расширении.",
+   "Assumes conserved matter mass in a comoving volume. Radiation also loses photon energy during expansion.",
+   "Ілеспе көлемде зат массасы сақталады. Кеңеюде сәуле фотондарының энергиясы да азаяды."
+  ]
+ ]
+];
+const topicSupplement = {
+ "10.15": [
+  [
+   "Почему более быстрая горизонтальная струя имеет меньшее статическое давление?",
+   "Why can faster horizontal flow have lower static pressure?",
+   "Көлденең ағын жылдамдаса, статикалық қысым неге кемиді?"
+  ],
+  "p + ρv²/2 + ρgh = const",
+  [
+   "Стационарная несжимаемая жидкость, потери вязкости малы, сравнение вдоль одной линии тока. Вода разгоняется с 1 до 3 м/с на одной высоте: кинетический член растёт на 1000·(9 − 1)/2 = 4000 Па. Значит, статическое давление падает на 4 кПа.",
+   "Use a streamline in steady incompressible flow with negligible viscous loss. At fixed height water accelerates from 1 to 3 m/s; the kinetic term rises by 1000×(9 − 1)/2 = 4000 Pa. Static pressure falls by 4 kPa.",
+   "Тұрақталған сығылмайтын ағынның бір сызығында тұтқырлық шығыны еленбейді. Бір биіктікте су 1-ден 3 м/с-қа үдесе, кинетикалық мүше 1000·(9 − 1)/2 = 4000 Па өседі. Статикалық қысым 4 кПа кемиді."
+  ]
+ ],
+ "10.21": [
+  [
+   "Как найти давление смеси газов?",
+   "How do you find a gas mixture's pressure?",
+   "Газ қоспасының қысымын қалай табамыз?"
+  ],
+  "p = Σpᵢ",
+  [
+   "Для не реагирующих идеальных газов каждое парциальное давление рассчитывают так, будто компонент один занимает весь объём при той же температуре. Если азот даёт 78 кПа, а кислород 21 кПа, смесь этих двух газов даёт 99 кПа, не их среднее.",
+   "For nonreacting ideal gases compute each partial pressure as if the gas occupied the whole volume at the same temperature. Nitrogen at 78 kPa and oxygen at 21 kPa give 99 kPa together, not their average.",
+   "Реакцияға түспейтін идеал газдардың әр парциал қысымын сол газ бірдей температурада толық көлемді алатындай есепте. Азот 78 кПа және оттек 21 кПа берсе, қоспа қысымы орташа емес, 99 кПа."
+  ]
+ ],
+ "10.23": [
+  [
+   "Чем обратимая адиабата отличается от изотермы?",
+   "How does a reversible adiabat differ from an isotherm?",
+   "Қайтымды адиабата изотермадан несімен өзгеше?"
+  ],
+  "pVᵞ = const",
+  [
+   "Уравнение Пуассона применимо к обратимой адиабате идеального газа с постоянным γ. Если объём вырос вдвое, давление падает в 2ᵞ раз, а не вдвое: расширение ещё и охлаждает газ.",
+   "Poisson's law assumes a reversible adiabatic ideal gas with constant γ. Doubling volume reduces pressure by a factor of 2ᵞ rather than two because expansion also cools the gas.",
+   "Пуассон заңы тұрақты γ бар идеал газдың қайтымды адиабатасына қолданылады. Көлем екі еселенсе, қысым екі емес, 2ᵞ есе кемиді: ұлғаю газды да салқындатады."
+  ]
+ ],
+ "10.24": [
+  [
+   "Как связать изменение энтропии и теплоту?",
+   "When does heat determine an entropy change?",
+   "Энтропия өзгерісі мен жылу қалай байланысады?"
+  ],
+  "ΔS = Qrev/T",
+  [
+   "Здесь процесс обратим и изотермичен. Получив обратимо 600 Дж при 300 К, система увеличивает энтропию на 2 Дж/К. Нельзя подставлять теплоту произвольного необратимого процесса в эту формулу.",
+   "This form requires a reversible isothermal process. Receiving 600 J reversibly at 300 K raises entropy by 2 J/K. Do not insert heat from any irreversible process.",
+   "Бұл түрі қайтымды изотермиялық процеске арналған. 300 К-де қайтымды 600 Дж алғанда энтропия 2 Дж/К өседі. Кез келген қайтымсыз процестің жылуын бұл өрнекке қойма."
+  ]
+ ],
+ "10.25": [
+  [
+   "Можно ли сжатием превратить газ в жидкость при любой температуре?",
+   "Can pressure always turn a gas into a liquid?",
+   "Қысымды өзгертіп газды кез келген температурада сұйылтуға бола ма?"
+  ],
+  "T > Tcrit",
+  [
+   "На фазовой диаграмме линия равновесия жидкости и пара заканчивается критической точкой. Выше критической температуры одно только сжатие не даёт перехода через линию конденсации. В тройной точке, напротив, при единственной паре давления и температуры сосуществуют три фазы.",
+   "The liquid–vapour boundary ends at the critical point. Above the critical temperature compression alone cannot cross a condensation boundary. At the triple point three phases coexist at one specific pressure and temperature.",
+   "Фазалық диаграммада сұйық пен бу шекарасы критикалық нүктеде аяқталады. Критикалық температурадан жоғарыда тек сығу конденсация шекарасынан өткізбейді. Үштік нүктеде белгілі қысым мен температурада үш фаза қатар болады."
+  ]
+ ],
+ "11.19": [
+  [
+   "Почему тонкая плёнка переливается цветами?",
+   "Why do thin films show colours?",
+   "Жұқа қабықша неге түрлі түсті көрінеді?"
+  ],
+  "Δφ = 2πΔ/λ + Δφreflection",
+  [
+   "Отражения от двух границ складываются с разностью фаз. Для максимума нужна разность фаз, кратная 2π; учти возможный скачок фазы при отражении. Смена угла меняет разность хода и цвет максимума.",
+   "Reflections at the two boundaries combine with a phase difference. A maximum needs an integer multiple of 2π, including any reflection phase shift. Changing angle changes path difference and peak colour.",
+   "Екі шекарадағы шағылулар фаза айырмасымен қосылады. Максимум үшін шағылудағы фаза өзгерісін қоса алғанда айырма 2π-ге еселі болуы керек. Бұрыш өзгерсе, жол айырымы мен максимум түсі өзгереді."
+  ]
+ ],
+ "11.37": [
+  [
+   "Почему свет лазера можно преобразовать в свет другой частоты?",
+   "How can a laser beam produce a different frequency?",
+   "Лазер сәулесінен басқа жиіліктегі жарық қалай алынады?"
+  ],
+  "f₂ = 2f₁",
+  [
+   "В подходящем нелинейном кристалле при достаточно сильном поле возможна генерация второй гармоники. Энергия двух исходных фотонов равна энергии одного удвоенной частоты. В вакууме длина волны при этом уменьшается вдвое: 1064 нм переходят в 532 нм.",
+   "A suitable nonlinear crystal in a strong field can generate a second harmonic. Two input photon energies equal one doubled-frequency photon energy. The vacuum wavelength halves, from 1064 nm to 532 nm.",
+   "Күшті өрісте сәйкес сызықтық емес кристалл екінші гармоника тудыра алады. Екі бастапқы фотон энергиясы қос жиілікті бір фотон энергиясына тең. Вакуумдағы толқын ұзындығы 1064 нм-ден 532 нм-ге дейін екі есе кемиді."
+  ]
+ ],
+ "9.30": [
+  [
+   "Что меняет высоту звука, а что — громкость?",
+   "What changes pitch and what changes loudness?",
+   "Дыбыс биіктігі мен қаттылығын не өзгертеді?"
+  ],
+  "f = 1/T",
+  [
+   "Один камертон совершает 440 колебаний за секунду. Если слабее ударить его, амплитуда уменьшится и звук будет тише, но в линейном режиме частота останется около 440 Гц. Для эха важно отличать период колебаний от времени полёта импульса.",
+   "A tuning fork makes 440 cycles a second. A gentler strike reduces amplitude and loudness but keeps frequency near 440 Hz in the linear regime. For echoes distinguish oscillation period from pulse travel time.",
+   "Камертон секундына 440 тербеліс жасайды. Әлсіз соққы амплитуда мен қаттылықты азайтады, бірақ сызықтық режимде жиілік 440 Гц маңында қалады. Жаңғырықта тербеліс периоды мен импульстің ұшу уақытын ажырат."
+  ]
+ ],
+ "8.42": [
+  [
+   "Почему близорукость исправляют рассеивающей линзой?",
+   "Why use a diverging lens for myopia?",
+   "Жақыннан көргіштікті неге шашыратқыш линзамен түзетеді?"
+  ],
+  "D = 1/f",
+  [
+   "Если без коррекции далёкий предмет фокусируется перед сетчаткой, нужна отрицательная добавочная оптическая сила. В упрощённой модели дальняя точка 0,5 м: для предмета на бесконечности очки дают мнимое изображение на этой точке, f ≈ −0,5 м и D ≈ −2 дптр.",
+   "If distant objects focus in front of the retina, add negative optical power. In a simplified model with far point 0.5 m, glasses form a virtual image there of an object at infinity: f ≈ −0.5 m and D ≈ −2 dioptres.",
+   "Алыс дененің кескіні тор қабық алдында болса, теріс оптикалық күш қосу керек. Қарапайым модельде алыс нүкте 0,5 м: көзілдірік шексіз алыстағы дененің жалған кескінін сонда береді, f ≈ −0,5 м және D ≈ −2 дптр."
+  ]
+ ]
+};
