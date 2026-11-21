@@ -24,3 +24,13 @@ test('each lesson has a finite interactive lab, typeset law, and sourced exercis
  for(const sections of Object.values(index))for(const [,,k] of sections)assert(mapped.has(k),k);for(const [,law] of rules)assert(typeset[law].includes('<math'));
  assert.equal(new Set(Object.keys(ex).map(id=>id.split('.')[0])).size,5);
 });
+const {activities,scenes}=vm.runInNewContext(['paragraph-activities','paragraph-scenes'].map(x=>fs.readFileSync(require.resolve(`../${x}.js`),'utf8')).join('\n')+';({activities:paragraphActivities,scenes:paragraphScenes})');
+test('a dedicated prediction from the printed section for every grade/paragraph, no concept fallback',()=>{
+ const prompts=new Set();for(const [g,sections] of Object.entries(index))for(const [i,[start]] of sections.entries()){
+  const id=`${g}.${i+1}`,a=activities[id],end=sections[i+1]?.[0]??Infinity;assert(a,id);
+  assert(a.page>=start&&a.page<end,id);assert.equal(a.choices.length,2);assert.notDeepEqual(...a.choices);
+  for(const s of [a.prompt,...a.choices,a.why])if(Array.isArray(s))assert(s.length===3&&s.every(Boolean),id);else assert(typeof s==='string'&&s.length>0,id);
+  assert(!prompts.has(JSON.stringify(a.prompt)),id);prompts.add(JSON.stringify(a.prompt));
+  const scene=scenes[id];if(scene){assert(scene.page>=start&&scene.page<end);for(let v=scene.min;v<=scene.max;v+=scene.step){const [text,svg]=scene.draw(v);assert(text&&svg&&!/NaN|Infinity/.test(svg))}}
+ }assert.equal(Object.keys(activities).length,228);assert(!activities['10.1'].graph);assert(!activities['9.36'].graph);
+});
