@@ -4607,7 +4607,7 @@ const paragraphExtensions = {
    "An oblique vector has a smaller component than its magnitude. The angle to the positive axis sets the sign.",
    "Қиғаш вектор проекциясының модулі вектор модулінен кіші. Таңбаны оң осьпен жасалған бұрыш анықтайды."
   ],
-  "vₓ = 8 cos 120° = −4 m/s"
+  "v_x=8\\cos120^\\circ\\,\\mathrm{m/s}=-4\\,\\mathrm{m/s}"
  ],
  "10.2": [
   [
@@ -4615,7 +4615,7 @@ const paragraphExtensions = {
    "Separate reading scatter from instrument bias. Repeats reduce random scatter but cannot fix a displaced zero.",
    "Өлшем шашырауын құралдың жүйелі ығысуынан ажырат. Қайталау кездейсоқ шашырауды азайтады, ығысқан нөлді түземейді."
   ],
-  "(9.9 + 10.0 + 10.1)/3 = 10.0 cm"
+  "\\bar x=\\frac{9.9+10.0+10.1}{3}\\,\\mathrm{cm}=10.0\\,\\mathrm{cm}"
  ],
  "9.1": [
   [
@@ -4623,7 +4623,7 @@ const paragraphExtensions = {
    "A point mass is a modelling choice. Ignore train length between cities but not when timing its passage past a pole.",
    "Материалдық нүкте — дене қасиеті емес, таңдалған модель. Қалааралық жолда пойыз ұзындығын елемеуге болады, баған жанынан өтуде болмайды."
   ],
-  "t = 200 m / (20 m/s) = 10 s"
+  "t=\\frac{200\\,\\mathrm m}{20\\,\\mathrm{m/s}}=10\\,\\mathrm s"
  ],
  "10.4": [
   [
@@ -4631,15 +4631,15 @@ const paragraphExtensions = {
    "Classical inertial frames in uniform relative motion see different velocities but the same acceleration.",
    "Бір-біріне қатысты бірқалыпты қозғалатын классикалық инерциялық жүйелерде жылдамдықтар әртүрлі, үдеу бірдей."
   ],
-  "x′ = x − ut; v′ = v − u; a′ = a"
+  "x'=x-ut,\\quad v'_x=v_x-u,\\quad a'_x=a_x"
  ],
  "9.13": [
   [
-   "В резко тормозящем автобусе свободный предмет ускоряется относительно салона даже без горизонтальной силы. Это признак неинерциальной системы, а не опровержение первого закона.",
+   "При поступательном движении автобуса без поворота осей a′ — ускорение тела в салоне, a — относительно дороги, индекс bus обозначает автобус. В резко тормозящем автобусе свободный предмет ускоряется относительно салона даже без горизонтальной силы. Это признак неинерциальной системы, а не опровержение первого закона.",
    "An object can accelerate relative to a braking bus without a horizontal force. The frame is non-inertial; the first law has not failed.",
    "Тежелген автобусқа қатысты дене көлденең күшсіз де үдей алады. Бұл бірінші заңның бұзылуы емес, жүйенің инерциялық емес екенінің белгісі."
   ],
-  "a′ = a − abus"
+  "\\vec a\\,'=\\vec a-\\vec a_{\\mathrm{bus}}"
  ],
  "9.14": [
   [
@@ -4647,7 +4647,7 @@ const paragraphExtensions = {
    "Gravity and normal force act on the book; the book's force on the table does not. Do not count it again in the book equation.",
    "Кітапқа ауырлық күші мен тірек реакциясы түседі. Кітаптың салмағы үстелге түседі, оны кітап теңдеуіне қоспа."
   ],
-  "ΣFbook = N − mg"
+  "\\sum F_y=N-mg"
  ],
  "9.22": [
   [
@@ -4655,7 +4655,7 @@ const paragraphExtensions = {
    "Only the along-track component of an angled pull does work on a sled. Distance alone cannot set the sign.",
    "Шананы бұрышпен тартқанда жол бойындағы күш құраушысы ғана жұмыс істейді. Таңбаға бағыт керек."
   ],
-  "W = Fs cos 60° = 10 × 4 × 0.5 = 20 J"
+  "W=Fs\\cos60^\\circ=10\\cdot4\\cdot0.5\\,\\mathrm J=20\\,\\mathrm J"
  ],
  "9.23": [
   [
@@ -4663,7 +4663,7 @@ const paragraphExtensions = {
    "Friction reduces mechanical energy without violating total energy conservation. Include track heating in the balance.",
    "Үйкеліс механикалық энергияны кемітеді, толық энергия сақталады. Теңгерімге жолдың қызуын қос."
   ],
-  "20 J = 14 J + 6 J"
+  "20\\,\\mathrm J=14\\,\\mathrm J+6\\,\\mathrm J"
  ],
  "10.11": [
   [
@@ -4671,7 +4671,7 @@ const paragraphExtensions = {
    "Split extended bodies into parts. Paired symmetric contributions often locate the centre without integration.",
    "Созылыңқы денені бөліктерге бөл. Симметриялы үлестер центрді интегралсыз табуға көмектеседі."
   ],
-  "xcm = Σmᵢxᵢ / Σmᵢ"
+  "x_{\\mathrm{cm}}=\\frac{\\sum_i m_i x_i}{\\sum_i m_i}"
  ],
  "8.16": [
   [
@@ -4679,7 +4679,7 @@ const paragraphExtensions = {
    "An engine rejects heat each cycle. Efficiency compares work with input heat, not rejected heat.",
    "Қозғалтқыш әр циклде жылу шығарады. ПӘК жұмысты шыққан емес, берілген жылумен салыстырады."
   ],
-  "η = (500 − 350)/500 = 0.30"
+  "\\eta=\\frac{500-350}{500}=0.30"
  ],
  "10.17": [
   [
@@ -4687,7 +4687,7 @@ const paragraphExtensions = {
    "The visible Brownian particle is not a solvent molecule. Its irregular track is indirect evidence of molecular impacts.",
    "Көрінетін броундық бөлшек еріткіш молекуласы емес. Оның ретсіз ізі молекулалар соққысының жанама дәлелі."
   ],
-  "⟨Δx⟩ ≈ 0; ⟨Δx²⟩ > 0"
+  "\\langle\\Delta x\\rangle\\approx0,\\qquad\\langle(\\Delta x)^2\\rangle>0"
  ],
  "10.23": [
   [
@@ -4695,7 +4695,7 @@ const paragraphExtensions = {
    "Adiabatic means no heat transfer, not fixed temperature. An expanding gas can do work at the expense of internal energy.",
    "Адиабаталық процесс — жылу алмасусыз, температура міндетті түрде тұрақты емес. Ұлғайған газ ішкі энергия есебінен жұмыс істейді."
   ],
-  "Q = 0 ⇒ ΔU = −Wby"
+  "Q=0\\quad\\Rightarrow\\quad\\Delta U=-W_{\\mathrm{by}}"
  ],
  "10.24": [
   [
@@ -4703,7 +4703,7 @@ const paragraphExtensions = {
    "Reversible engine efficiency uses absolute reservoir temperatures. Celsius values give a wrong bound.",
    "Қайтымды циклдің шекті ПӘК-і резервуарлардың абсолют температураларымен есептеледі. Цельсий мәндерін қою қате."
   ],
-  "ηmax = 1 − 300 K/500 K = 0.4"
+  "\\eta_{\\max}=1-\\frac{300\\,\\mathrm K}{500\\,\\mathrm K}=0.4"
  ],
  "9.43": [
   [
@@ -4711,7 +4711,7 @@ const paragraphExtensions = {
    "Compare operating time as well as power. A small continuous load can exceed a powerful occasional one over a month.",
    "Қуатпен қатар жұмыс уақытын есепте. Үнемі қосулы кіші жүктеме бір айда сирек қосылатын қуатты құралдан көп тұтынуы мүмкін."
   ],
-  "E = 0.01 kW × 720 h = 7.2 kWh"
+  "E=0.01\\,\\mathrm{kW}\\cdot720\\,\\mathrm h=7.2\\,\\mathrm{kWh}"
  ],
  "11.11": [
   [
@@ -4719,7 +4719,7 @@ const paragraphExtensions = {
    "Installed capacity is not electricity generated. Compare daily outputs using time and capacity factor.",
    "Орнатылған қуат өндірілген энергия емес. Тәуліктік өндірісті салыстыруда уақыт пен қуатты пайдалану коэффициентін ескер."
   ],
-  "E = 2 MW × 24 h × 0.25 = 12 MWh"
+  "E=2\\,\\mathrm{MW}\\cdot24\\,\\mathrm h\\cdot0.25=12\\,\\mathrm{MWh}"
  ],
  "10.28": [
   [
@@ -4727,7 +4727,7 @@ const paragraphExtensions = {
    "For uniform charge on a thin shell divide by area, not volume. Geometry changes density even at fixed charge.",
    "Жұқа қабықта біркелкі таралған зарядты көлемге емес, ауданға бөл. Заряд сақталса да геометрия тығыздықты өзгертеді."
   ],
-  "σ = 2 μC / 0.5 m² = 4 μC/m²"
+  "\\sigma=\\frac{2\\,\\mu\\mathrm C}{0.5\\,\\mathrm m^2}=4\\,\\mu\\mathrm C/\\mathrm m^2"
  ],
  "10.29": [
   [
@@ -4735,7 +4735,7 @@ const paragraphExtensions = {
    "Midway between equal positive charges the field vectors cancel. Their potentials add rather than cancel.",
    "Бірдей оң зарядтардың ортасында кернеулік векторлары өтеледі. Потенциалдар азаймай, қосылады."
   ],
-  "EΣ = E − E = 0; φΣ = 2φ"
+  "E_{\\Sigma}=0,\\quad\\varphi_{\\Sigma}=2\\varphi"
  ],
  "10.31": [
   [
@@ -4743,7 +4743,7 @@ const paragraphExtensions = {
    "Electrostatic work is path independent. A round trip gives zero total even if segments give nonzero work.",
    "Электростатикалық өрістің жұмысы жолға тәуелсіз. Жеке бөліктердің жұмысы нөл болмаса да, тұйық жолда толық жұмыс нөл."
   ],
-  "W = q(φ₁ − φ₁) = 0"
+  "W=q(\\varphi_1-\\varphi_2)=0,\\quad\\varphi_1=\\varphi_2"
  ],
  "10.36": [
   [
@@ -4751,7 +4751,7 @@ const paragraphExtensions = {
    "Reduce the parallel group before adding series resistance. Then work backwards to find branch currents.",
    "Аралас тізбекте әуелі параллель топты ықшамда, кейін тізбектей кедергіні қос. Кері жүріп тармақ токтарын тап."
   ],
-  "R = (6 ∥ 6) + 3 = 6 Ω; I = 12/6 = 2 A"
+  "R=\\left(\\frac{6\\cdot6}{6+6}+3\\right)\\Omega=6\\,\\Omega,\\quad I=\\frac{12\\,\\mathrm V}{6\\,\\Omega}=2\\,\\mathrm A"
  ],
  "10.40": [
   [
@@ -4759,7 +4759,7 @@ const paragraphExtensions = {
    "Internal resistance also heats up. Distinguish emf power from power delivered to the external load.",
    "Ішкі кедергі де қызады. ЭҚК қуатын сыртқы жүктемеге берілген қуатпен шатастырма."
   ],
-  "η = UI/(εI) = R/(R + r) = 9/(9 + 1) = 0.9"
+  "\\eta=\\frac{UI}{\\mathcal E I}=\\frac R{R+r}=\\frac9{9+1}=0.9"
  ],
  "10.41": [
   [
@@ -4767,7 +4767,7 @@ const paragraphExtensions = {
    "Electron drift in a metal opposes conventional current. A huge carrier density permits substantial current at small drift speed.",
    "Металдағы электрон дрейфі шартты токқа қарсы. Тасымалдаушы көп болса, аз дрейф жылдамдығы да үлкен ток береді."
   ],
-  "I = nqSv𝗱"
+  "I=n|q|Sv_{\\mathrm d}"
  ],
  "10.43": [
   [
@@ -4775,7 +4775,7 @@ const paragraphExtensions = {
    "Account for ion charge. Equal transferred charge deposits half as many divalent as monovalent ions in an ideal cell.",
    "Ион зарядын ескер. Бірдей заряд өткенде идеал жағдайда екі зарядты иондар бір зарядтылардан саны бойынша екі есе аз тұнады."
   ],
-  "N = Q/(ze)"
+  "N=\\frac Q{ze}"
  ],
  "10.45": [
   [
@@ -4783,7 +4783,7 @@ const paragraphExtensions = {
    "Around a long straight wire field lines are circles. Doubling distance halves field magnitude rather than quartering it.",
    "Ұзын түзу сымның өріс сызықтары шеңбер. Қашықтық екі есе өссе, магнит индукциясы төрт емес, екі есе кемиді."
   ],
-  "B = μ₀I/(2πr)"
+  "B=\\frac{\\mu_0 I}{2\\pi r}"
  ],
  "10.46": [
   [
@@ -4791,7 +4791,7 @@ const paragraphExtensions = {
    "Reversing either current or field reverses force; reversing both preserves it. Check the perpendicular directions.",
    "Ток не өріс бағытын жеке өзгертсең, күш кері бұрылады. Екеуін қатар өзгертсең, бастапқы бағыт сақталады."
   ],
-  "(−Iℓ) × (−B) = Iℓ × B"
+  "I(-\\vec\\ell)\\times(-\\vec B)=I\\vec\\ell\\times\\vec B"
  ],
  "10.49": [
   [
@@ -4799,7 +4799,7 @@ const paragraphExtensions = {
    "Magnetic flux uses the angle to the loop normal, not the plane. A rotating loop changes flux in a constant field.",
    "Магнит ағынында бұрыш рамка жазықтығымен емес, нормальмен алынады. Тұрақты өрісте рамка айналса, ағын өзгереді."
   ],
-  "Φ = BS cos 60° = BS/2"
+  "\\Phi=BS\\cos60^\\circ=\\frac{BS}{2}"
  ],
  "11.22": [
   [
@@ -4807,7 +4807,7 @@ const paragraphExtensions = {
    "In Huygens' construction each wavefront element launches wavelets. Their envelope at a mirror yields equal incidence and reflection angles.",
    "Гюйгенс бойынша фронттың әр бөлігі екінші реттік толқындар береді. Айнадағы ораушы түсу мен шағылу бұрыштарының теңдігін береді."
   ],
-  "θᵢ = 25° ⇒ θᵣ = 25°"
+  "\\theta_i=25^\\circ\\quad\\Rightarrow\\quad\\theta_r=25^\\circ"
  ],
  "11.23": [
   [
@@ -4815,7 +4815,7 @@ const paragraphExtensions = {
    "A plane mirror forms a virtual image as far behind as the object is in front. One step closer reduces object–image separation by two steps.",
    "Жазық айнадағы жалған кескін айна артында денемен бірдей қашықтықта. Бір қадам жақындасаң, дене мен кескін арасы екі қадамға қысқарады."
   ],
-  "d = 2a; a = 0.7 m ⇒ d = 1.4 m"
+  "d=2a=2\\cdot0.7\\,\\mathrm m=1.4\\,\\mathrm m"
  ],
  "11.24": [
   [
@@ -4823,7 +4823,7 @@ const paragraphExtensions = {
    "Total internal reflection requires passage from higher to lower refractive index. At the critical angle refraction reaches ninety degrees.",
    "Толық ішкі шағылу жоғары сыну көрсеткішінен төменіне өткенде мүмкін. Шекті бұрышта сыну бұрышы тоқсан градусқа жетеді."
   ],
-  "sin θc = n₂/n₁ = 1/1.5 ≈ 0.667"
+  "\\sin\\theta_{\\mathrm c}=\\frac{n_2}{n_1}=\\frac1{1.5}\\approx0.667"
  ],
  "11.25": [
   [
@@ -4831,7 +4831,7 @@ const paragraphExtensions = {
    "In a lens pair the first image is the second object. Recompute its signed distance from the second lens, not from the first.",
    "Қос линзада біріншінің кескіні екіншінің денесі болады. Екінші линзадан таңбалы қашықтықты қайта есепте."
   ],
-  "L = 40 cm; b₁ = 15 cm ⇒ a₂ = 25 cm"
+  "a_2=L-b_1=(40-15)\\,\\mathrm{cm}=25\\,\\mathrm{cm}"
  ],
  "11.26": [
   [
@@ -4839,7 +4839,7 @@ const paragraphExtensions = {
    "For a normally adjusted telescope angular magnification is the objective-to-eyepiece focal ratio. Magnification alone does not guarantee resolution.",
    "Қалыпты бапталған телескоптың бұрыштық үлкейтуі объектив пен окуляр фокустарының қатынасына тәуелді. Үлкейту ажырату қабілетіне кепіл емес."
   ],
-  "|Γ| = 80 cm / 2 cm = 40"
+  "\\lvert\\Gamma\\rvert=\\frac{80\\,\\mathrm{cm}}{2\\,\\mathrm{cm}}=40"
  ],
  "10.3": [
   [
@@ -4847,7 +4847,7 @@ const paragraphExtensions = {
    "Reversing the axis reverses both velocity and acceleration signs. Displacement is not distance if the body turns around.",
    "Ось бағытын өзгертсең, жылдамдық пен үдеу таңбалары қатар өзгереді. Дене кері бұрылса, орын ауыстыруды жолмен алмастырма."
   ],
-  "Δx = v₀t + at²/2"
+  "\\Delta x=v_{0x}t+\\frac{a_xt^2}{2}"
  ],
  "10.5": [
   [
@@ -4855,7 +4855,7 @@ const paragraphExtensions = {
    "Tangential acceleration changes speed; normal acceleration changes direction. Add these perpendicular components geometrically.",
    "Қисықта жанама үдеу жылдамдық модулін, нормаль үдеу бағытты өзгертеді. Перпендикуляр құраушылар геометриялық қосылады."
   ],
-  "a = √(3² + 4²) = 5 m/s²"
+  "a=\\sqrt{3^2+4^2}\\,\\mathrm{m/s^2}=5\\,\\mathrm{m/s^2}"
  ],
  "11.46": [
   [
@@ -4863,7 +4863,7 @@ const paragraphExtensions = {
    "Parallax calibrates nearby distances. Equal-luminosity stars give fourfold different flux when their distances differ twofold.",
    "Параллакс жақын жұлдыз қашықтығының геометриялық шкаласын береді. Жарықтылықтары тең болса, екі есе алыстағы жұлдыз ағыны төрт есе кем."
   ],
-  "F = L/(4πd²)"
+  "F=\\frac{L}{4\\pi d^2}"
  ],
  "10.7": [
   [
@@ -4871,7 +4871,7 @@ const paragraphExtensions = {
    "Use an axis along a frictionless incline. The normal reaction cancels only the perpendicular gravity component.",
    "Үйкеліссіз көлбеуде осьті бет бойымен таңда. Реакция ауырлықтың тек перпендикуляр құраушысын өтейді."
   ],
-  "a = g sin 30° ≈ 5 m/s²"
+  "a=g\\sin30^\\circ\\approx5\\,\\mathrm{m/s^2}"
  ],
  "10.8": [
   [
@@ -4879,7 +4879,7 @@ const paragraphExtensions = {
    "Satellite mass cancels from acceleration because both gravitational force and inertia scale with it. Force itself still depends on mass.",
    "Серік массасы үдеу формуласында қысқарады, өйткені тартылыс күші де, инерттілік те массаға тәуелді. Күштің өзі массаға тәуелсіз емес."
   ],
-  "ma = GMm/r² ⇒ a = GM/r²"
+  "ma=\\frac{GMm}{r^2}\\quad\\Rightarrow\\quad a=\\frac{GM}{r^2}"
  ],
  "10.13": [
   [
@@ -4887,7 +4887,7 @@ const paragraphExtensions = {
    "Ask separately whether there is external impulse and whether mechanical energy becomes heat. Inelastic collisions distinguish the two tests.",
    "Сыртқы күш импульсі бар ма және механикалық энергия жылуға айнала ма дегенді бөлек тексер. Серпімсіз соққыда жауаптары әртүрлі."
   ],
-  "pᵢ = p𝒻; Kᵢ > K𝒻"
+  "\\vec p_{\\mathrm i}=\\vec p_{\\mathrm f},\\quad K_{\\mathrm i}>K_{\\mathrm f}"
  ],
  "11.2": [
   [
@@ -4895,7 +4895,7 @@ const paragraphExtensions = {
    "Free LC charge and current differ in phase by a quarter cycle. At peak charge its derivative, the current, is zero.",
    "Еркін LC тербелісінде заряд пен ток фазалары ширек периодқа ығысқан. Заряд максимумында оның туындысы — ток нөл."
   ],
-  "q = q₀ cos ωt ⇒ I = −ωq₀ sin ωt"
+  "q=q_0\\cos(\\omega t),\\quad I=-\\omega q_0\\sin(\\omega t)"
  ],
  "11.14": [
   [
@@ -4903,7 +4903,7 @@ const paragraphExtensions = {
    "Oscillating transmitter charges produce varying fields. A receiving antenna turns the wave's electric field into alternating voltage.",
    "Таратқыш антеннаның тербелетін зарядтары айнымалы өріс тудырады. Қабылдағыш антенна толқынның электр өрісін айнымалы кернеуге айналдырады."
   ],
-  "freceiver ≈ ftransmitter"
+  "f_{\\mathrm{receiver}}\\approx f_{\\mathrm{transmitter}}"
  ],
  "11.18": [
   [
@@ -4911,7 +4911,7 @@ const paragraphExtensions = {
    "Light time-of-flight from a reflected pulse includes the return trip. Subtract electronic delay separately.",
    "Шағылған жарық импульсінің уақытында кері жол да бар. Электроника кідірісін бөлек ескер."
   ],
-  "c = 2d/Δt; d = 150 m, Δt = 1 μs ⇒ c = 3×10⁸ m/s"
+  "c=\\frac{2d}{\\Delta t}=\\frac{2\\cdot150\\,\\mathrm m}{1\\,\\mu\\mathrm s}=3\\cdot10^8\\,\\mathrm{m/s}"
  ],
  "11.31": [
   [
@@ -4919,7 +4919,7 @@ const paragraphExtensions = {
    "Wien's law locates the peak; Stefan–Boltzmann gives total flux per area. Colour alone cannot give total power without area.",
    "Вин заңы максимум орнын, Стефан–Больцман заңы аудан бірлігінен толық ағынды береді. Аудансыз түс арқылы толық қуатты таба алмайсың."
   ],
-  "P = σST⁴; T → 2T ⇒ P → 16P"
+  "P=\\sigma ST^4,\\quad T'=2T\\Rightarrow P'=16P"
  ],
  "11.32": [
   [
@@ -4927,7 +4927,7 @@ const paragraphExtensions = {
    "Stopping voltage measures maximum electron kinetic energy. It depends on frequency, whereas saturation current increases with photon number under fixed conditions.",
    "Тежеуші кернеу электрондардың ең үлкен кинетикалық энергиясын өлшейді. Ол жиілікке тәуелді, ал қанығу тогы бірдей жағдайда фотон саны артқанда өседі."
   ],
-  "eUstop = Kmax; 2 eV ⇒ 2 V"
+  "eU_{\\mathrm{stop}}=K_{\\max},\\quad U_{\\mathrm{stop}}=\\frac{2\\,\\mathrm{eV}}{e}=2\\,\\mathrm V"
  ],
  "11.39": [
   [
@@ -4935,7 +4935,7 @@ const paragraphExtensions = {
    "Activity counts decays per second, not remaining nuclei. For one isotope it falls with the same half-life as the population.",
    "Белсенділік қалған ядро санын емес, секундтағы ыдырауды санайды. Бір изотопта ол ядро санымен бірдей жартылай ыдырау периодымен кемиді."
   ],
-  "A = λN; A(2T½) = A₀/4"
+  "A=\\lambda N,\\quad A(2T_{1/2})=\\frac{A_0}{4}"
  ],
  "11.40": [
   [
@@ -4943,7 +4943,7 @@ const paragraphExtensions = {
    "Mass defect compares free nucleon masses with the bound nucleus. Do not mix atomic and nuclear masses without accounting for electrons.",
    "Масса ақауы бос нуклондар массасының қосындысын байланысқан ядромен салыстырады. Электрондарды ескермей атомдық және ядролық массаларды араластырма."
   ],
-  "Ebind = (Zmp + Nmn − Mnucleus)c²"
+  "E_{\\mathrm{bind}}=(Zm_p+Nm_n-M_{\\mathrm{nucleus}})c^2"
  ],
  "11.41": [
   [
@@ -4951,7 +4951,7 @@ const paragraphExtensions = {
    "An artificially produced radioactive isotope follows the same statistical decay law after formation. Sample origin does not change its state's half-life.",
    "Жасанды радиоизотоп түзілгеннен кейін сол статистикалық ыдырау заңына бағынады. Үлгінің шығу тегі осы күйдің жартылай ыдырау периодын өзгертпейді."
   ],
-  "N(2T½) = N₀/4"
+  "N(2T_{1/2})=\\frac{N_0}{4}"
  ],
  "11.42": [
   [
@@ -4959,7 +4959,7 @@ const paragraphExtensions = {
    "Fission products carry energy in several forms; one fragment's energy is not the whole release. Balance the complete system.",
    "Бөліну өнімдері энергияны түрлі түрде алып кетеді, бір жарықшақ энергиясы толық бөлінген энергияға тең емес. Бүкіл жүйе теңгерімін есепте."
   ],
-  "Q = ΣK + Eγ + …"
+  "Q=\\sum K+E_{\\gamma}+\\ldots"
  ],
  "10.1": [
   [
@@ -4967,7 +4967,7 @@ const paragraphExtensions = {
    "A useful model makes testable predictions. Its precision must suit the task: a point can model a journey but not parking a car.",
    "Пайдалы модель тексерілетін болжам береді. Дәлдігі міндетке сай болуы тиіс: жолға материалдық нүкте жарайды, көлікті тұраққа қоюға жарамайды."
   ],
-  "Lcar/Lroute ≪ 1"
+  "\\frac{L_{\\mathrm{car}}}{L_{\\mathrm{route}}}\\ll1"
  ],
  "10.20": [
   [
@@ -4975,7 +4975,7 @@ const paragraphExtensions = {
    "Gas calculations require absolute pressure and Kelvin temperature. For two states of the same amount of gas the amount cancels.",
    "Газ есептеріне абсолют қысым мен кельвиндегі температура қажет. Бірдей газ мөлшерінің екі күйінде зат мөлшері қысқарады."
   ],
-  "p₁V₁/T₁ = p₂V₂/T₂"
+  "\\frac{p_1V_1}{T_1}=\\frac{p_2V_2}{T_2}"
  ]
 };
 const paragraphExperiments = [
