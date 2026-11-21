@@ -26,8 +26,8 @@
     const output=translate(source);fields[key]={source,output};if(current!==output)write(output);
   }
   function visit(node){
-    if(node.nodeType===3){if(!node.parentElement?.closest('script,style,#language option,textarea,#ai-reply'))field(node,'text',()=>node.data,x=>node.data=x);return}
-    if(node.nodeType!==1||node.matches('script,style,#language option'))return;
+    if(node.nodeType===3){if(!node.parentElement?.closest('script,style,#language option,textarea,#ai-reply,[data-own-language]'))field(node,'text',()=>node.data,x=>node.data=x);return}
+    if(node.nodeType!==1||node.closest('[data-own-language]')||node.matches('script,style,#language option'))return;
     for(const a of ['aria-label','title','placeholder','alt'])if(node.hasAttribute(a))field(node,a,()=>node.getAttribute(a),x=>node.setAttribute(a,x));
     if(node.matches('textarea[readonly]:not(#ai-preview)'))field(node,'value',()=>node.value,x=>node.value=x);
     [...node.childNodes].forEach(visit);
