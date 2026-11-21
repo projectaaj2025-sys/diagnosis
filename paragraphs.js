@@ -82,6 +82,17 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
     function draw(){const [message,svg]=scene.draw(+slider.value);out.textContent=Array.isArray(message)?message[index()]:message;drawing.innerHTML=`<svg viewBox="0 0 320 145" aria-hidden="true">${svg}</svg>`}
     slider.oninput=draw;picker.addEventListener('change',draw);draw();
   }
+  function mountInvestigation(host,m){
+    const box=tag(host,'section',null,'scene-box');tag(box,'h4',m.title);tag(box,'p',m.check);
+    const control=tag(box,'label');tag(control,'b',m.axis);const input=tag(control,'input');Object.assign(input,{type:'range',min:0,max:m.values.length-1,step:1,value:0});
+    const output=tag(box,'output');const image=tag(box,'div',null,'scene-drawing');
+    const results=m.values.map(m.calculate),lo=Math.min(0,...results),hi=Math.max(0,...results);
+    const xp=x=>35+250*(x-m.values[0])/(m.values.at(-1)-m.values[0]),yp=y=>115-95*(y-lo)/(hi-lo||1);
+    const tr=s=>Array.isArray(s)?s[picker.value==='kk'?2:picker.value==='en'?1:0]:s;
+    function draw(){const i=Number(input.value),x=m.values[i],y=results[i];output.textContent=`${tr(m.axis)}: ${x} → ${tr(m.output)}: ${Number(y.toPrecision(4))}`;
+      image.innerHTML=`<svg viewBox="0 0 320 145" aria-hidden="true">${m.paint?m.paint(x,y):`<path d="M35 16V118H290" fill="none" stroke="#829397"/><polyline points="${m.values.map((v,j)=>xp(v)+','+yp(results[j])).join(' ')}" fill="none" stroke="#387783" stroke-width="2"/><circle cx="${xp(x)}" cy="${yp(y)}" r="6" fill="#ad532c"/><text x="32" y="139">${m.values[0]}</text><text x="276" y="139">${m.values.at(-1)}</text>`}</svg>`}
+    input.oninput=draw;picker.addEventListener('change',draw);draw();
+  }
   function mountSimulator(card,key){
     const [[xLabel,yLabel,fixed,math,substitution],calc]=modelIndex.get(key);
     const lab=tag(card,'section',null,'model-lab');tag(lab,'h4',['Практикум · исследуй график','Lab · investigate the graph','Практикум · графикті зертте']);
@@ -116,14 +127,19 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       const experiments=Object.entries(experimentLibrary).filter(([,m])=>m.lesson===id);
       let mounted=false;{labels.push(['Симулятор','Simulator','Симулятор']);const slot=tag(card,'div');slot.id=`lab-${grade}-${num}`;panes.push(slot)}
       const buttons=labels.map(t=>tag(switches,'button',t));
-      function select(i){if(i===2&&!mounted){if(lab)mountEngineering(panes[2],lab,picker);
-        if(!lab&&!experiments.length){if(paragraphScenes[id])mountScene(panes[2],id);else mountSimulator(panes[2],paragraphActivities[id].graph||key)}
-        for(const [key,m] of experiments){const tile=tag(panes[2],'section',null,'experiment-card');tile.dataset.experiment=key;tag(tile,'h4',m.title);tag(tile,'p',m.guide);const actions=tag(tile,'div',null,'buttons');const launch=tag(actions,'button',['Запустить опыт','Run experiment','Тәжірибені ашу']);launch.type='button';const url=()=>'instruments/player.html?sim='+key+'&lang='+picker.value;const full=tag(actions,'a',['Открыть отдельно ↗','Open separately ↗','Бөлек ашу ↗'],'plan-link');full.href=url();picker.addEventListener('change',()=>{full.href=url();if(liveExperiment?.button===launch){liveExperiment.frame.src=url();liveExperiment.frame.title=m.title[picker.value==='en'?1:picker.value==='kk'?2:0]}});full.target='_blank';full.rel='noopener';launch.onclick=()=>{stopExperiment();const frame=document.createElement('iframe');frame.title=m.title[index()];frame.setAttribute('sandbox','allow-scripts');frame.src=url();frame.className='experiment-frame';tile.append(frame);launch.hidden=true;liveExperiment={frame,button:launch};frame.focus()}}
+      function select(i){if(i===2&&!mounted){const host=panes[2];tag(host,'h4',title);
+        if(lessonInvestigations[id])mountInvestigation(host,lessonInvestigations[id]);
+        else if(paragraphScenes[id])mountScene(host,id);
+        else if(!lab&&!primaryInstrumentByLesson[id])mountSimulator(host,paragraphActivities[id].graph||key);
+        if(lab)mountEngineering(host,lab,picker);
+        experiments.sort(([a],[b])=>Number(b===primaryInstrumentByLesson[id])-Number(a===primaryInstrumentByLesson[id]));
+        for(const [key,m] of experiments){const tile=tag(panes[2],'section',null,'experiment-card');tile.dataset.experiment=key;if(key!==primaryInstrumentByLesson[id])tag(tile,'small',['Межпредметный опыт','Cross-curricular experiment','Пәнаралық тәжірибе']);tag(tile,'h4',m.title);tag(tile,'p',m.guide);const actions=tag(tile,'div',null,'buttons');const launch=tag(actions,'button',['Запустить опыт','Run experiment','Тәжірибені ашу']);launch.type='button';const url=()=>'instruments/player.html?sim='+key+'&lang='+picker.value;const full=tag(actions,'a',['Открыть отдельно ↗','Open separately ↗','Бөлек ашу ↗'],'plan-link');full.href=url();picker.addEventListener('change',()=>{full.href=url();if(liveExperiment?.button===launch){liveExperiment.frame.src=url();liveExperiment.frame.title=m.title[picker.value==='en'?1:picker.value==='kk'?2:0]}});full.target='_blank';full.rel='noopener';launch.onclick=()=>{stopExperiment();const frame=document.createElement('iframe');frame.title=m.title[index()];frame.setAttribute('sandbox','allow-scripts');frame.src=url();frame.className='experiment-frame';tile.append(frame);launch.hidden=true;liveExperiment={frame,button:launch};frame.focus()}}
         mounted=true}panes.forEach((pane,j)=>{pane.dataset.readerPane='';pane.hidden=j!==i;buttons[j].setAttribute('aria-pressed',String(j===i))})}
       buttons.forEach((b,i)=>{b.type='button';b.onclick=()=>select(i)});select(0);
       const standalone=paragraphActivities[id].intro;
       const theory=tag(lesson,'section',null,'reader-theory');
       tag(theory,'h4',['Сначала разберёмся','Understanding the idea','Алдымен түсініп алайық']);
+      const investigation=lessonInvestigations[id];if(investigation){const article=tag(theory,'article',null,'lesson-case');tag(article,'h4',investigation.title);tag(article,'p',investigation.story);tag(article,'p',investigation.check);if(investigation.reader)tag(article,'small',[`По теме: сборник статей для презентаций, с. ${investigation.reader}`,`Presentation reader, p. ${investigation.reader}`,`Презентацияға арналған мақалалар жинағы, ${investigation.reader}-б.`]);const run=tag(article,'button',['Проверить на модели','Test the model','Модельде тексеру']);run.type='button';run.onclick=()=>{select(2);buttons[2].focus()}}
       if(experiments.length){const intro=tag(theory,'section',null,'lesson-case');tag(intro,'strong',['От идеи к опыту','From idea to experiment','Идеядан тәжірибеге']);for(const [key,m] of experiments){tag(intro,'h4',m.title);tag(intro,'p',m.guide);const go=tag(intro,'button',['Проверить предсказание →','Test the prediction →','Болжамды тексеру →']);go.type='button';go.onclick=()=>{select(2);const tile=panes[2].querySelector(`[data-experiment="${key}"]`);tile.querySelector('button').click();tile.scrollIntoView({block:'start'})}}}
       if(lab){const lead=tag(theory,'section',null,'lesson-case');tag(lead,'h4',lab.hook);tag(lead,'p',lab.story);tag(lead,'strong',['Разберём на числах','Work through the numbers','Сандармен талдайық']);tag(lead,'p',lab.example);const run=tag(lead,'button',['Проверить в симуляторе →','Test it in the simulator →','Симуляторда тексеру →']);run.type='button';run.onclick=()=>{select(2);buttons[2].focus()}}
       tag(theory,'p',standalone || foundations.get(key));

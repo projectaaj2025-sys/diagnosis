@@ -20,3 +20,10 @@ test('every textbook lesson has a topic-specific scene or a calculable slider mo
 test('all core equations have contextual symbol keys in all three languages',()=>{
  const symbols=load('lesson-reference.js','ruleSymbols');for(const [,formula] of load('paragraphs-data.js','paragraphRules')){assert.equal(symbols[formula]?.length,3,formula);assert.ok(symbols[formula].every(t=>t.length>10))}
 });
+test('primary imported instruments belong to the linked paragraph',()=>{
+ const primary=load('lesson-investigations.js','primaryInstrumentByLesson'),lib=load('experiment-library.js','experimentLibrary');for(const [id,k] of Object.entries(primary))assert.equal(lib[k]?.lesson,id,k);
+});
+test('article investigations use real lesson ids, translated explanations and responsive outputs',()=>{
+ const models=load('lesson-investigations.js','lessonInvestigations'),index=load('paragraphs-data.js','textbookIndex');for(const [id,m] of Object.entries(models)){const [g,n]=id.split('.');assert.ok(index[g][n-1]);for(const t of [m.title,m.story,m.check])assert.ok(t.length===3&&t.every(Boolean));const ys=m.values.map(m.calculate);assert.ok(ys.every(Number.isFinite)&&new Set(ys).size>1,id);if(m.paint)m.values.forEach((v,i)=>assert.doesNotMatch(m.paint(v,ys[i]),/NaN|Infinity/))}
+ assert.equal(models['7.24'].calculate(800),8);assert.equal(models['11.9'].calculate(2),10);assert.equal(models['8.32'].calculate(2),6);assert.equal(models['9.27'].calculate(1),1);
+});
