@@ -103,24 +103,21 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       const card=tag(grid,'details',null,'paragraph-card');card.id=`para-${grade}-${num}`;
       const summary=tag(card,'summary');tag(summary,'small',ui.page.map(p=>`§ ${num} · ${p} ${page}`));tag(summary,'b',title);
       const switches=tag(card,'div',null,'reader-switch');
-      const lesson=tag(card,'div'),original=tag(card,'section',null,'source-gallery'),practice=tag(card,'section');
-      let sourceMounted=false;
-      const labels=[['Конспект','Lesson','Конспект'],['По учебнику','Textbook extracts','Оқулық бойынша'],['Практикум','Practice','Практикум']];
-      const panes=[lesson,original,practice],buttons=labels.map(t=>tag(switches,'button',t));
-      function select(i){panes.forEach((pane,j)=>{pane.dataset.readerPane='';pane.hidden=j!==i;buttons[j].setAttribute('aria-pressed',String(j===i))});if(i===1&&!sourceMounted){sourceMounted=true;showOriginal()}}
+      const lesson=tag(card,'div'),practice=tag(card,'section');
+      const labels=[['Конспект','Lesson','Конспект'],['Практикум','Practice','Практикум']];
+      const panes=[lesson,practice],buttons=labels.map(t=>tag(switches,'button',t));
+      function select(i){panes.forEach((pane,j)=>{pane.dataset.readerPane='';pane.hidden=j!==i;buttons[j].setAttribute('aria-pressed',String(j===i))})}
       buttons.forEach((b,i)=>{b.type='button';b.onclick=()=>select(i)});select(0);
-      function showOriginal(){const slug=`${grade}-${num}`,[end,items]=readerSources[slug];tag(original,'h4',title);tag(original,'p',[`Оригинал на русском · § ${num} · с. ${page}–${end}`,`Russian original · § ${num} · pp. ${page}–${end}`,`Орысша түпнұсқа · § ${num} · ${page}–${end}-б.`]);
-       const book=tag(original,'a',['Страница издания ↗','Book details ↗','Басылым беті ↗']);book.href=`https://okulyk.kz/fizika/${bookIds[grade]}/`;book.target='_blank';book.rel='noopener';
-       const local=tag(original,'details');tag(local,'summary',['Сверить с полной страницей своего учебника','Check the full page in your own textbook','Өз оқулығыңның толық бетімен салыстыру']);tag(local,'p',['Выбери PDF этого учебника. Файл остаётся на устройстве. Для 7 класса подойдёт полный файл или нужная часть.','Select your textbook PDF. The file stays on your device. For grade 7 use the full book or the relevant part.','Оқулықтың PDF файлын таңда. Файл құрылғыда қалады. 7-сыныпта толық файлды не тиісті бөлігін қолдан.']);const file=tag(local,'input');file.type='file';file.accept='application/pdf,.pdf';const list=tag(local,'div',null,'buttons');let url;file.onchange=()=>{list.replaceChildren();if(url)URL.revokeObjectURL(url);const f=file.files[0];if(!f)return;url=URL.createObjectURL(f.slice(0,f.size,'application/pdf'));const offset=grade==='7'&&/139[-–]272/.test(f.name)?138:0;for(let n=page;n<=end;n++){if(n<=offset)continue;const a=tag(list,'a',ui.page.map(v=>`${v} ${n}`));a.href=url+'#page='+(n-offset);a.target='_blank';a.rel='noopener'}};
-       const names={d:['Выделение в учебнике','Textbook highlight','Оқулықтағы ерекшеленген мәтін'],f:['Формула в контексте','Equation in context','Мәтіндегі формула'],t:['Фрагмент объяснения','Textbook explanation','Оқулықтан түсіндірме']};
-       items.forEach(([n,type],j)=>{const fig=tag(original,'figure'),cap=names[type].map((v,k)=>`${v} · ${ui.page[k]} ${n}`),a=tag(fig,'a'),img=tag(a,'img');img.src=a.href=`assets/reader/${slug}-${j+1}.jpg`;img.loading='lazy';img.alt=`§ ${num} · ${n}`;a.target='_blank';a.rel='noopener';tag(fig,'figcaption',cap)})
-      }
       const standalone=paragraphActivities[id].intro;
       const theory=tag(lesson,'section',null,'reader-theory');
       tag(theory,'h4',['Сначала разберёмся','Understanding the idea','Алдымен түсініп алайық']);
       if(!bookDefinitions[id]){const box=tag(theory,'aside',null,'reader-definition');tag(box,'strong',['Ключевое понятие','Key concept','Негізгі ұғым']);tag(box,'p',lessonGlossary[key])}
       for(const [p,definition] of bookDefinitions[id]||[]){const box=tag(theory,'aside',null,'reader-definition');tag(box,'strong',[`Определение · с. ${p}`,`Definition · p. ${p}`,`Анықтама · ${p}-б.`]);tag(box,'p',definition)}
       tag(theory,'p',standalone || foundations.get(key));
+      const [reviewPage,reviewQuestion,reading]=textbookReading[`${grade}-${num}`];
+      const sourceNote=tag(theory,'section',null,'reading-note');tag(sourceNote,'strong',[`По учебнику · § ${num}`,`From the Russian textbook · § ${num}`,`Орысша оқулық бойынша · § ${num}`]);tag(sourceNote,'p',reading).lang='ru';
+      for(const [n,text] of textbookStatements[`${grade}-${num}`]||[]){const box=tag(theory,'aside',null,'reader-definition');tag(box,'strong',[`По материалу учебника · с. ${n}`,`Russian textbook · p. ${n}`,`Орысша оқулық · ${n}-б.`]);tag(box,'p',text).lang='ru'}
+      const review=tag(practice,'section',null,'reading-note');tag(review,'strong',[`Контрольный вопрос из учебника · с. ${reviewPage}`,`Textbook review question (Russian) · p. ${reviewPage}`,`Оқулықтағы бақылау сұрағы (орысша) · ${reviewPage}-б.`]);tag(review,'p',reviewQuestion).lang='ru';const guide=tag(review,'details');tag(guide,'summary',ui.answer);tag(guide,'p',reading).lang='ru';
       const extension=paragraphTheory[id] || (!standalone && explanations.get(key));
       if(extension)tag(theory,'p',extension);
       if(standaloneMath[id]){tag(theory,'h4',['Количественная связь','Quantitative relation','Сандық байланыс']);tag(theory,'p',standaloneLegends[id]);tag(theory,'div',null,'law model-equation').innerHTML=standaloneMath[id]}
@@ -138,8 +135,8 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       const si=sketches.findIndex(s=>s[0].split(' ').includes(key));if(si>=0){const [,path,l,r]=sketches[si];const figure=tag(lesson,'figure',null,'worked-figure');figure.innerHTML=`<svg aria-hidden="true" viewBox="0 0 255 99"><path d="${path}" fill="none" stroke="#416975" stroke-width="2.5"/><text x="25" y="94">${l}</text><text x="190" y="94">${r}</text></svg>`;tag(figure,'figcaption',legend[si])}
       const rule=rules.get(key);tag(lesson,'h4',['Модель и условия применения','Model and assumptions','Модель және қолданылу шарттары']);tag(lesson,'div',null,'law model-equation').innerHTML=formattedLaws[rule.formula];tag(lesson,'p',rule.usage);tag(lesson,'h4',ui.example);tag(lesson,'p',example);if(workedMath[key])tag(lesson,'div',null,'law model-equation').innerHTML=workedMath[key];
       }
-      if(paragraphExtensions[id]){const [extra,calc]=paragraphExtensions[id];tag(lesson,'h4',ui.more);tag(lesson,'p',extra);tag(lesson,'p',calc,'law')}
-      if(topicSupplement[id]){const [q,law,ex]=topicSupplement[id];tag(lesson,'h4',q);tag(lesson,'p',law,'law');tag(lesson,'p',ex)}
+      if(paragraphExtensions[id]){const [extra]=paragraphExtensions[id];tag(lesson,'h4',ui.more);tag(lesson,'p',extra);tag(lesson,'div',null,'law model-equation').innerHTML=extensionMath[id]}
+      if(topicSupplement[id]){const [q,,ex]=topicSupplement[id];tag(lesson,'h4',q);tag(lesson,'div',null,'law model-equation').innerHTML=supplementMath[id];tag(lesson,'p',ex)}
       appendExercise(practice,id);
       if(!standalone){tag(practice,'h4',ui.check);tag(practice,'p',check);const reveal=tag(practice,'details');tag(reveal,'summary',ui.answer);tag(reveal,'p',answer,'law')}
       const practiceSlot=tag(practice,'div',null,'reader-practice');
