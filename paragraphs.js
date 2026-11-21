@@ -113,12 +113,14 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       const standalone=paragraphActivities[id].intro;
       const theory=tag(lesson,'section',null,'reader-theory');
       tag(theory,'h4',['Сначала разберёмся','Understanding the idea','Алдымен түсініп алайық']);
+      if(lab){const lead=tag(theory,'section',null,'lesson-case');tag(lead,'h4',lab.hook);tag(lead,'p',lab.story);tag(lead,'strong',['Разберём на числах','Work through the numbers','Сандармен талдайық']);tag(lead,'p',lab.example);const run=tag(lead,'button',['Проверить в симуляторе →','Test it in the simulator →','Симуляторда тексеру →']);run.type='button';run.onclick=()=>{select(2);buttons[2].focus()}}
+      tag(theory,'p',standalone || foundations.get(key));
       if(!bookDefinitions[id]){const box=tag(theory,'aside',null,'reader-definition');tag(box,'strong',['Ключевое понятие','Key concept','Негізгі ұғым']);tag(box,'p',lessonGlossary[key])}
       for(const [p,definition] of bookDefinitions[id]||[]){const box=tag(theory,'aside',null,'reader-definition');tag(box,'strong',[`Определение · с. ${p}`,`Definition · p. ${p}`,`Анықтама · ${p}-б.`]);tag(box,'p',definition)}
-      tag(theory,'p',standalone || foundations.get(key));
       const [reviewPage,reviewQuestion,reading]=textbookReading[`${grade}-${num}`];
       const sourceNote=tag(theory,'section',null,'reading-note');tag(sourceNote,'strong',[`По учебнику · § ${num}`,`From the Russian textbook · § ${num}`,`Орысша оқулық бойынша · § ${num}`]);tag(sourceNote,'p',reading).lang='ru';
-      for(const [n,text] of textbookStatements[`${grade}-${num}`]||[]){const box=tag(theory,'aside',null,'reader-definition');tag(box,'strong',[`По материалу учебника · с. ${n}`,`Russian textbook · p. ${n}`,`Орысша оқулық · ${n}-б.`]);tag(box,'p',text).lang='ru'}
+      const hasExtras=textbookStatements[`${grade}-${num}`]?.length;const sourceExtras=hasExtras?tag(theory,'details',null,'source-extras'):null;if(sourceExtras)tag(sourceExtras,'summary',['Определения и формулировки из учебника','Textbook definitions and statements','Оқулықтағы анықтамалар мен тұжырымдар']);
+      for(const [n,text] of textbookStatements[`${grade}-${num}`]||[]){const box=tag(sourceExtras,'aside',null,'reader-definition');tag(box,'strong',[`По материалу учебника · с. ${n}`,`Russian textbook · p. ${n}`,`Орысша оқулық · ${n}-б.`]);tag(box,'p',text).lang='ru'}
       const review=tag(practice,'section',null,'reading-note');tag(review,'strong',[`Контрольный вопрос из учебника · с. ${reviewPage}`,`Textbook review question (Russian) · p. ${reviewPage}`,`Оқулықтағы бақылау сұрағы (орысша) · ${reviewPage}-б.`]);tag(review,'p',reviewQuestion).lang='ru';const guide=tag(review,'details');tag(guide,'summary',ui.answer);tag(guide,'p',reading).lang='ru';
       const extension=paragraphTheory[id] || (!standalone && explanations.get(key));
       if(extension)tag(theory,'p',extension);
@@ -148,5 +150,7 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
     }
     tag(wrap,'h4',ui.extra);
   }
+  const directory=document.getElementById('engineering-links');directory.setAttribute('data-own-language','');
+  for(const model of Object.values(engineeringLabs).sort((a,b)=>a.ids[0].localeCompare(b.ids[0],'en',{numeric:true})))for(const id of model.ids){const a=tag(directory,'a',model.name.map(n=>`${id} · ${n}`));a.href='#lab-'+id.replace('.','-')}
   picker.addEventListener('change',()=>{language=picker.value;for(const [node,text] of fields)node.textContent=text[index()]});
 })();
