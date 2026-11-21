@@ -40,10 +40,32 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
   const bookIds={7:1523,8:348,9:451,10:531,11:803};
   const rules=new Map(paragraphRules.flatMap(([keys,formula,usage])=>keys.map(key=>[key,{formula,usage}])));
   const fields=[];
-  const experiments=new Map(paragraphExperiments.flatMap(([keys,text])=>keys.map(key=>[key,text])));
+
   function index(){return language==='kk'?2:language==='en'?1:0}
   function tag(parent,name,value,cls){const n=document.createElement(name);if(cls)n.className=cls;if(Array.isArray(value)){fields.push([n,value]);n.textContent=value[index()]}else if(value)n.textContent=value;parent.append(n);return n}
   const modelIndex=new Map(lessonModels.flatMap(([keys,labels,calc])=>keys.split(' ').map(k=>[k,[labels,calc]])));
+  function mountParagraphActivity(card,id){
+    const entry=paragraphActivities[id]; // No fallback to another grade's concept.
+    const lab=tag(card,'section',null,'paragraph-activity');lab.dataset.lesson=id;
+    const [grade,num]=id.split('.');
+    tag(lab,'small',[`По материалу учебника · ${grade} класс · § ${num} · с. ${entry.page}`,`Based on the textbook · Grade ${grade} · § ${num} · p. ${entry.page}`,`Оқулық негізінде · ${grade}-сынып · § ${num} · ${entry.page}-б.`]);
+    tag(lab,'h4',['Проверь своё предсказание','Test your prediction','Болжамыңды тексер']);
+    tag(lab,'p',entry.prompt);const buttons=tag(lab,'div',null,'buttons');
+    const feedback=tag(lab,'div',null,'activity-result');feedback.setAttribute('aria-live','polite');
+    const correct=tag(feedback,'strong',['Верно.','Correct.','Дұрыс.']);
+    const retry=tag(feedback,'strong',['Пока нет. Сверь рассуждение и попробуй ещё раз.','Not quite. Check the reasoning and try again.','Әзірге дұрыс емес. Түсіндірмені қарап, қайта жауап бер.']);
+    const explanation=tag(feedback,'p',entry.why);correct.hidden=retry.hidden=explanation.hidden=true;
+    for(const i of (Math.random()<0.5?[0,1]:[1,0])){
+      const btn=tag(buttons,'button',entry.choices[i]);btn.type='button';btn.setAttribute('aria-pressed','false');
+      btn.onclick=()=>{for(const other of buttons.children)other.setAttribute('aria-pressed',String(other===btn));correct.hidden=i!==0;retry.hidden=i===0;explanation.hidden=false};
+    }
+    const scene=paragraphScenes[id];if(!scene)return;
+    const box=tag(lab,'section',null,'scene-box');tag(box,'h4',scene.name);tag(box,'small',ui.page.map(p=>`${p} ${scene.page}`));tag(box,'p',scene.instruction);
+    const label=tag(box,'label');tag(label,'b',scene.axis);const slider=tag(label,'input');Object.assign(slider,{type:'range',min:scene.min,max:scene.max,step:scene.step,value:scene.start});
+    const out=tag(box,'output'),drawing=tag(box,'div');drawing.className='scene-drawing';
+    function draw(){const [message,svg]=scene.draw(+slider.value);out.textContent=Array.isArray(message)?message[index()]:message;drawing.innerHTML=`<svg viewBox="0 0 320 145" aria-hidden="true">${svg}</svg>`}
+    slider.oninput=draw;picker.addEventListener('change',draw);draw();
+  }
   function mountSimulator(card,key){
     const [[xLabel,yLabel,fixed,math,substitution],calc]=modelIndex.get(key);
     const lab=tag(card,'section',null,'model-lab');tag(lab,'h4',['Практикум · исследуй график','Lab · investigate the graph','Практикум · графикті зертте']);
@@ -71,15 +93,17 @@ const textbookQuarters = {7:[10,20,30,39],8:[12,21,36,43],9:[12,19,31,43],10:[16
       const [page,title,key]=textbookIndex[grade][num-1],[idea,example,check,answer]=paragraphNotes[key],id=`${grade}.${num}`;
       const card=tag(grid,'details',null,'paragraph-card');card.id=`para-${grade}-${num}`;
       const summary=tag(card,'summary');tag(summary,'small',ui.page.map(p=>`§ ${num} · ${p} ${page}`));tag(summary,'b',title);
-      tag(card,'p',idea);
+      const standalone=paragraphActivities[id].intro;
+      if(standalone)tag(card,'p',standalone);
+      if(!standalone){tag(card,'p',idea);
       const si=sketches.findIndex(s=>s[0].split(' ').includes(key));if(si>=0){const [,path,l,r]=sketches[si];const figure=tag(card,'figure',null,'worked-figure');figure.innerHTML=`<svg aria-hidden="true" viewBox="0 0 255 99"><path d="${path}" fill="none" stroke="#416975" stroke-width="2.5"/><text x="25" y="94">${l}</text><text x="190" y="94">${r}</text></svg>`;tag(figure,'figcaption',legend[si])}
-      const lab=tag(card,'aside',null,'paragraph-lab');tag(lab,'strong',ui.experiment);tag(lab,'p',experiments.get(key));
       const rule=rules.get(key);tag(card,'h4',['Модель и условия применения','Model and assumptions','Модель және қолданылу шарттары']);tag(card,'div',null,'law model-equation').innerHTML=formattedLaws[rule.formula];tag(card,'p',rule.usage);tag(card,'h4',ui.example);tag(card,'p',example,'law');
+      }
       if(paragraphExtensions[id]){const [extra,calc]=paragraphExtensions[id];tag(card,'h4',ui.more);tag(card,'p',extra);tag(card,'p',calc,'law')}
       if(topicSupplement[id]){const [q,law,ex]=topicSupplement[id];tag(card,'h4',q);tag(card,'p',law,'law');tag(card,'p',ex)}
-      tag(card,'h4',ui.check);tag(card,'p',check);const reveal=tag(card,'details');tag(reveal,'summary',ui.answer);tag(reveal,'p',answer,'law');
+      if(!standalone){tag(card,'h4',ui.check);tag(card,'p',check);const reveal=tag(card,'details');tag(reveal,'summary',ui.answer);tag(reveal,'p',answer,'law')}
       appendExercise(card,id);
-      card.addEventListener('toggle',()=>{if(card.open&&!card.querySelector('.model-lab')){mountSimulator(card,key);card.querySelector('.shelf-source').before(card.querySelector('.model-lab'))}});
+      card.addEventListener('toggle',()=>{if(card.open&&!card.querySelector('.paragraph-activity')){mountParagraphActivity(card,id);summary.after(card.querySelector('.paragraph-activity'));if(paragraphActivities[id].graph&&!paragraphScenes[id]){const more=tag(card,'details',null,'activity-graph');tag(more,'summary',['Дополнительный расчётный график','Additional model graph','Қосымша есептік график']);mountSimulator(more,paragraphActivities[id].graph);card.querySelector('.shelf-source').before(more)}}});
       if(extended[id])tag(card,'a',ui.detail,'plan-link').href='#'+extended[id];
       const src=tag(card,'footer',ui.source.map((s,i)=>`${s} · ${grade} · § ${num} · ${ui.page[i]} ${page}`),'shelf-source'); const link=tag(card,'a',['Страница книги ↗','Book details ↗','Кітап беті ↗'],'plan-link');link.href=`https://okulyk.kz/fizika/${bookIds[grade]}/`;link.target='_blank';link.rel='noopener noreferrer';
     }
