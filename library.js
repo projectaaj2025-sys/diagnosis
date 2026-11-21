@@ -21,6 +21,7 @@
     show(panel.dataset.grade, panel.dataset.term);
     if (note.matches('details')) note.open = true;
     if(note.id.startsWith('lab-')){const card=note.closest('.paragraph-card');card.open=true;card.querySelector('.reader-switch button:last-child').click()}
+    if(note.id.startsWith('exp-')){const card=note.closest('.paragraph-card');card.open=true;card.querySelector('.reader-switch button:last-child').click();const tile=card.querySelector(`[data-experiment="${note.id.slice(4)}"]`);if(tile){tile.querySelector('button:not([hidden])')?.click();tile.scrollIntoView();return}}
     note.scrollIntoView();
   }
   show(grade, term);
