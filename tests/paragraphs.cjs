@@ -34,3 +34,10 @@ test('a dedicated prediction from the printed section for every grade/paragraph,
   const scene=scenes[id];if(scene){assert(scene.page>=start&&scene.page<end);for(let v=scene.min;v<=scene.max;v+=scene.step){const [text,svg]=scene.draw(v);assert(text&&svg&&!/NaN|Infinity/.test(svg))}}
  }assert.equal(Object.keys(activities).length,228);assert(!activities['10.1'].graph);assert(!activities['9.36'].graph);
 });
+test('every lesson opens with readable theory in all three languages',()=>{
+ const source=fs.readFileSync(require.resolve('../lesson-theory.js'),'utf8');
+ const {base,extra,history,overrides}=vm.runInNewContext(source+';({base:lessonFoundations,extra:lessonExplanations,history:lessonHistory,overrides:paragraphTheory})');
+ const covered=new Set();for(const [keys,text] of [...base,...extra,...history]){assert.equal(text.length,3);assert(text.every(s=>s.length>50));for(const key of keys.split(' '))assert(notes[key],key)}for(const [keys] of base)for(const k of keys.split(' '))covered.add(k);
+ for(const sections of Object.values(index))for(const [,,k] of sections)assert(covered.has(k),k);
+ for(const [id,text] of Object.entries(overrides)){assert(activities[id]);assert.equal(text.length,3)}
+});
