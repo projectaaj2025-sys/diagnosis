@@ -1,7 +1,7 @@
 const panel=document.querySelector('#panel'),title=document.querySelector('#setup h2'),label=document.querySelector('#setup small');
 const $=s=>panel.querySelector(s),focusPanel=()=>document.querySelector('#setup').scrollIntoView();
-const routes={school:['01','Школьник','По программе 7–11 классов'],adult:['02','Взрослый','Физика повседневной жизни'],olymp:['03','Олимпиада','Модели и нестандартные задачи'],exams:['04','Международные экзамены','Практика IGCSE и Сунын']};
-let expanded=false,mode='school',grade=7,ageMode=false,age=13,minutes=10,deck,log,target,item,choice,initialTopics;
+const routes={school:['01','Школьник','По программе 7–11 классов'],adult:['02','Взрослый','Физика повседневной жизни'],olymp:['03','Олимпиада','Модели и нестандартные задачи'],exams:['04','Международные экзамены','IGCSE · Сунын · AP · IB']};
+let expanded=false,mode='school',grade=7,ageMode=false,age=13,minutes=20,deck,log,target,item,choice,initialTopics;
 let quarter=0;
 const scoped=()=>mode==='school'&&!ageMode&&quarter>0;
 const examTasks=[
@@ -166,11 +166,133 @@ const examTasks=[
   "solution": "Баланс энергии: потеря потенциальной энергии равна приросту кинетической и нагреву. Получаем 24 − 9 = 15 Дж."
  }
 ];
+examTasks.push(...[
+ {
+  "exam": "AP Physics 1",
+  "topic": "Динамика",
+  "raw": "Две тележки массой 2 и 4 кг соединены лёгкой нитью на гладком столе. На систему действует горизонтальная сила 12 Н. Найди ускорение.|2 м/с²",
+  "unit": "м/с²",
+  "key": 2.0,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "Для системы натяжение внутреннее. Делим внешнюю силу на суммарную массу: 12/(2 + 4) = 2 м/с²."
+ },
+ {
+  "exam": "AP Physics 1",
+  "topic": "Энергия",
+  "raw": "На гладком спуске тележка из состояния покоя набрала 6 м/с. На сколько снизился её центр масс при g = 10 м/с²? Вращением колёс пренебреги.|1.8 м",
+  "unit": "м",
+  "key": 1.8,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "При отсутствии потерь и без учёта вращения mgh = mv²/2. Масса сокращается: h = 36/20 = 1,8 м."
+ },
+ {
+  "exam": "AP Physics 1",
+  "topic": "Законы сохранения",
+  "raw": "График силы от времени — треугольник с основанием 0,4 с и высотой 30 Н. Сила всё время положительна. Найди импульс силы.|6 Н·с",
+  "unit": "Н·с",
+  "key": 6.0,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "Импульс — площадь под графиком: 0,4 · 30 / 2 = 6 Н·с."
+ },
+ {
+  "exam": "AP Physics 1",
+  "topic": "Равновесие",
+  "raw": "На невесомом горизонтальном рычаге груз давит вниз силой 10 Н слева в 0,3 м от оси. Какую силу вниз приложить справа в 0,2 м для равновесия?|15 Н",
+  "unit": "Н",
+  "key": 15.0,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "Противоположные моменты равны: 10 · 0,3 = F · 0,2. Получаем 15 Н."
+ },
+ {
+  "exam": "AP Physics 1",
+  "topic": "Колебания",
+  "raw": "Массу груза идеального пружинного осциллятора увеличили в четыре раза. Во сколько раз вырастет период при той же жёсткости?|2 раз",
+  "unit": "раз",
+  "key": 2.0,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "Период пропорционален квадратному корню из массы. Корень из четырёх равен двум."
+ },
+ {
+  "exam": "AP Physics 1",
+  "topic": "Кинематика",
+  "raw": "Точка на ободе радиуса 0,25 м вращается с угловой скоростью 20 рад/с. Найди линейную скорость точки.|5 м/с",
+  "unit": "м/с",
+  "key": 5.0,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "За поворот на один радиан точка проходит один радиус по дуге. Поэтому v = ωr = 20 · 0,25 = 5 м/с."
+ },
+ {
+  "exam": "IB Physics",
+  "topic": "Измерения",
+  "raw": "Сторона квадрата измерена с относительной неопределённостью 1,5 %. Оцени относительную неопределённость площади в первом приближении.|3 %",
+  "unit": "%",
+  "key": 3.0,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "Площадь пропорциональна квадрату стороны. Малое относительное изменение площади примерно вдвое больше: 2 · 1,5 % = 3 %."
+ },
+ {
+  "exam": "IB Physics",
+  "topic": "Волновое движение",
+  "raw": "В струне длиной 0,60 м с двумя закреплёнными концами наблюдают основную гармонику. Скорость волны 300 м/с. Найди частоту.|250 Гц",
+  "unit": "Гц",
+  "key": 250.0,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "Между концами укладывается полволны: λ = 1,20 м. Частота 300/1,20 = 250 Гц."
+ },
+ {
+  "exam": "IB Physics",
+  "topic": "Электрический ток",
+  "raw": "Источник с ЭДС 6 В при токе 2 А даёт на клеммах 4 В. Оцени внутреннее сопротивление источника.|1 Ом",
+  "unit": "Ом",
+  "key": 1.0,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "Внутри источника падают 6 − 4 = 2 В. Делим это падение на ток: 2/2 = 1 Ом."
+ },
+ {
+  "exam": "IB Physics",
+  "topic": "Тепловые явления",
+  "raw": "Идеальный газ в запаянном жёстком сосуде имел температуру 280 К. Абсолютное давление выросло на 25 %. Найди конечную температуру.|350 К",
+  "unit": "К",
+  "key": 350.0,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "Количество и объём постоянны, поэтому p/T постоянно. Конечная температура 280 · 1,25 = 350 К."
+ },
+ {
+  "exam": "IB Physics",
+  "topic": "Атомная физика",
+  "raw": "Активность одного радиоизотопа без фонового сигнала упала с 800 до 100 Бк за 36 часов. Каков период полураспада в часах?|12 ч",
+  "unit": "ч",
+  "key": 12.0,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "Три последовательных деления пополам дают 800 → 400 → 200 → 100. На один период приходится 36/3 = 12 ч."
+ },
+ {
+  "exam": "IB Physics",
+  "topic": "Энергия",
+  "raw": "Температуру абсолютно чёрного тела увеличили с 300 до 600 К при неизменной площади поверхности. Во сколько раз выросла полная излучаемая мощность?|16 раз",
+  "unit": "раз",
+  "key": 16.0,
+  "level": 8,
+  "skill": "Расчёт",
+  "solution": "По закону Стефана–Больцмана мощность пропорциональна четвёртой степени температуры: (600/300)⁴ = 16."
+ }
+]);
 let examTrack="all", attemptId;
 const examPool=()=>examTasks.filter(x=>examTrack==="all"||x.exam===examTrack);
-const requested=()=>({5:8,10:15,20:25}[minutes]);
+const requested=()=>({10:15,20:25,30:35}[minutes]);
 const length=()=>mode==='exams'?Math.min(requested(),examPool().length):scoped()?Math.min(requested(),termPool().length):requested();
-const scopeLabel=()=>mode==='exams'?`IGCSE / CSAT · ${examTrack}`:scoped()?`${grade} класс · ${quarter} четверть`:routes[mode][1];
+const scopeLabel=()=>mode==='exams'?`Physics · ${examTrack}`:scoped()?`${grade} класс · ${quarter} четверть`:routes[mode][1];
 const basic=Object.entries(bank).flatMap(([g,groups])=>groups.flatMap(([topic,...tasks])=>tasks.map((raw,i)=>({topic,raw,level:(+g-7)*2+i,grade:+g}))));
 function extra(topic,level,...tasks){return tasks.map(raw=>({topic,level,raw}))}
 const life=[...extra('Домашняя электрика',2,'Чайник мощностью 2 кВт работает 6 минут. Какую энергию учтёт счётчик?|0,2 кВт·ч|12 кВт·ч|2 кВт·ч|0,02 кВт·ч','Лампы в квартире работают независимо. Как они соединены?|Параллельно|Последовательно|Через одну нить|Без источника'),...extra('Транспорт',3,'При той же силе торможения скорость автомобиля удвоилась. Как изменится тормозной путь?|Увеличится в 4 раза|Удвоится|Не изменится|Уменьшится вдвое','Автобус прошёл 30 км за полчаса и стоял ещё полчаса. Средняя скорость за весь час?|30 км/ч|60 км/ч|15 км/ч|0 км/ч'),...extra('Тепло в быту',2,'Почему металлическая ручка кажется холоднее деревянной в той же комнате?|Быстрее отводит тепло руки|Всегда холоднее воздуха|Имеет меньшую массу|Не проводит тепло','Почему испарение пота охлаждает кожу?|На испарение нужна энергия|Вода отражает весь свет|Воздух перестаёт двигаться|Растёт давление'),...extra('Давление в быту',2,'Почему широкие лямки рюкзака удобнее при той же нагрузке?|Меньше давление на плечи|Меньше масса рюкзака|Выше сила тяжести|Меньше площадь контакта','В каком месте неподвижной воды избыточное давление больше?|На большей глубине|У поверхности|В середине независимо от глубины|Везде одинаково')];
@@ -223,22 +345,36 @@ function analyser(topics){
 }
 function enterNumber(input){const text=input.value.trim();choice=/^[+-]?(?:\d+(?:[.,]\d*)?|[.,]\d+)$/.test(text)&&Number.isFinite(Number(text.replace(',','.')))?text:null;$('#next').disabled=choice===null}
 // An explicit whitelist of curriculum sections: adaptive difficulty never widens the scope.
+// Explicit textbook-to-KTP mapping; never fill a short quarter with unrelated tasks.
+const termParagraphs={"7": {"Научный метод": [1, 2], "Измерения": [3, 4, 5, 11, 12], "Движение": [6, 7, 8, 9, 10], "Плотность": [13], "Взаимодействие тел": [14, 15, 16, 17, 18, 19, 20], "Давление": [21, 22, 23, 24, 25, 26, 27, 28, 29], "Работа и мощность": [30], "Энергия": [31, 32, 36], "Простые механизмы": [33, 34, 35], "Космос и Земля": [37, 38, 39]}, "8": {"Тепловые явления": [1, 2, 3, 4, 5, 6, 7, 8, 9], "Агрегатные состояния": [10, 11, 12], "Термодинамика": [13, 14, 15, 16, 17], "Электростатика": [18, 19], "Электрическое поле": [20, 21], "Электрический ток": [22, 23, 24, 25, 26, 27, 28, 29, 30, 31], "Электромагнитные явления": [32, 33, 34, 35, 36], "Оптика": [37, 38, 39, 40, 41, 42, 43]}, "9": {"Кинематика": [1, 2, 3, 4, 5, 6, 7], "Основы астрономии": [8, 9, 10, 11, 12], "Динамика": [13, 14, 15, 16], "Тяготение": [17, 18, 19], "Законы сохранения": [20, 21, 22, 23], "Колебания и волны": [24, 25, 26, 27, 28, 29, 30, 31], "Квантовая физика": [32, 33, 34], "Атомное ядро": [35, 36, 37, 38, 39, 40], "Современная физика": [41, 42, 43]}, "10": {"Кинематика": [2, 3, 4, 5, 6], "Динамика": [7, 8, 9, 10], "Статика": [11, 12], "Законы сохранения": [13], "Механика жидкостей": [14, 15, 16], "Молекулярная физика": [17, 18, 19, 20, 21], "Термодинамика": [22, 23, 24], "Жидкие и твёрдые тела": [25, 26, 27], "Электрическое поле": [28, 29, 30, 31, 32, 33, 34, 35], "Постоянный ток": [36, 37, 38, 39, 40], "Ток в разных средах": [41, 42, 43, 44], "Магнитное поле": [45, 46, 47, 48], "Электромагнитная индукция": [49, 50, 51, 52]}, "11": {"Колебания": [1], "Электромагнитные колебания": [2, 3], "Переменный ток": [4, 5, 6, 7, 8, 9, 10, 11], "Волновое движение": [12, 13], "Радиосвязь": [14, 15, 16, 17], "Волновая оптика": [18, 19, 20, 21], "Оптика": [22, 23, 24, 25, 26], "Теория относительности": [27, 28], "Квантовая физика": [29, 30, 31, 32, 33, 34, 35, 36, 37, 38], "Атомное ядро": [39, 40, 41, 42, 43, 44], "Наноматериалы": [45], "Звёзды": [46, 47, 48], "Галактики": [49], "Космология": [50, 51]}};
+const quarterDeckCache=new Map();
+function textbookQuarterTasks(g,topics){
+ const ru=v=>Array.isArray(v)?v[0]:v, all=[];
+ for(const topic of topics){for(const n of termParagraphs[g][topic]||[]){const id=`${g}.${n}`,a=paragraphActivities[id],[,title,key]=textbookIndex[g][n-1];
+  const solution=ru(a.why),q=ru(a.prompt),opts=a.choices.map(ru),level=(g-7)*2+1;
+  all.push({topic,grade:g,level,raw:[q,...opts].join('|'),solution,skill:/[=×Δλμ²]/.test(q)?'Расчёт':'Понимание'});
+  const definition=lessonGlossary[key];const other=[...new Set(textbookIndex[g].map(x=>lessonGlossary[x[2]][0]))].filter(x=>x!==definition[0]);
+  all.push({topic,grade:g,level,raw:[`Выбери ключевое понятие: ${title[0]}`,definition[0],other[n%other.length],other[(n+3)%other.length]].join('|'),solution:definition[0],skill:'Теория'});
+ }}return all;
+}
 function termPool(){
  const topics=curriculum[grade][quarter-1];
- const candidates=[...basic,...reasoning,...multipleChoice,...visualTasks,...termExtras];
- return candidates.filter(x=>topics.includes(x.topic)).map(x=>{
+ const cacheKey=`${grade}.${quarter}`;if(quarterDeckCache.has(cacheKey))return quarterDeckCache.get(cacheKey);
+ const candidates=[...basic,...reasoning,...multipleChoice,...visualTasks,...termExtras,...textbookQuarterTasks(grade,topics)];
+ const items=candidates.filter(x=>topics.includes(x.topic)).map(x=>{
    const y={...x,grade,level:x.level??((grade-7)*2+1)};
    // A calculation with an unambiguous decimal result can be answered without choices.
    const m=x.raw.split('|')[1].match(/^([+−-]?\d+(?:[.,]\d+)?) (.+)$/);
    if(!x.keys && x.skill==='Расчёт' && m){y.key=Number(m[1].replace('−','-').replace(',','.'));y.unit=m[2];}
    return y;
  });
+ const pool=[...new Map(items.map(x=>[x.raw.split('|')[0],x])).values()];quarterDeckCache.set(cacheKey,pool);return pool;
 }
 function termPicker(){return `<section class="term-picker"><h3><span class="idx">/03</span>Период проверки</h3><div class="buttons">${['Весь курс','I четверть','II четверть','III четверть','IV четверть'].map((t,i)=>btn(t,quarter===i,`quarter=${i};setup()`)).join('')}</div><p>${quarter?`<b>${grade} класс · ${quarter} четверть.</b> ${curriculum[grade][quarter-1].join(' · ')}. В подборке: ${termPool().length}.`:'Весь курс — адаптивная диагностика. Выбери четверть, чтобы проверить только её темы по КТП.'}</p></section>`}
 function encouragement(wins,weak){if(!log.length)return 'Можно начать с одного вопроса. Даже короткая попытка поможет выбрать тему для практики.';if(!weak)return `В этой попытке все ответы верны! Попробуй объяснить решение по теме «${log[0].topic}» своими словами — это следующий шаг к уверенному пониманию.`;return `${wins.length?`У тебя уже есть верный ответ по теме «${wins[0].topic}».`:'Ошибки в диагностике — не оценка, а подсказка для следующей попытки.'} Выбери одну задачу по теме «${weak.topic}», прочитай разбор и реши её ещё раз без подсказки. Начни с этого небольшого шага.`}
 function heading(a,b){label.innerHTML='<i></i> МОДУЛЬ 01 / '+a;title.textContent=b}
 function btn(text,active,fn){return `<button aria-pressed="${active}" class="${active?'sel':''}" onclick="${fn}">${text}</button>`}
-function setup(){heading('НАСТРОЙКА','ПАРАМЕТРЫ ДИАГНОСТИКИ');panel.innerHTML=`<div class="row"><div class="field">${(mode==='school'||mode==='adult')?`<h3><span class="idx">/01</span>${ageMode?'Укажи возраст':'Выбери класс'}</h3>${ageMode&&mode==='school'?`<p><label for="age">ВОЗРАСТ, ЛЕТ</label> <input id="age" type="number" min="11" max="18" value="${age}" oninput="age=this.value"></p>`:`<div class="buttons grades">${[7,8,9,10,11].map(g=>btn(g,mode==='school'&&grade===g,`mode='school';grade=${g};setup()`)).join('')}${btn('Взрослый',mode==='adult',`mode='adult';ageMode=false;setup()`)}</div>`}<button class="link" onclick="mode='school';ageMode=!ageMode;setup()">${ageMode?'Выбрать класс':'Не знаю класс — указать возраст'}</button>`:`<h3>${routes[mode][1]}</h3><p>${{adult:'Начнём с привычных ситуаций: счёт за свет, транспорт и тепло в доме.',olymp:'Начнём с нестандартной задачи. Если сложно, вернёмся к опорным законам.',exams:'Авторские тренировочные задания по мотивам экзаменов, не официальные варианты или прогноз оценки.'}[mode]}</p>${mode==='exams'?`<div class="buttons">${['all','IGCSE','CSAT'].map(x=>btn(x==='all'?'Смешанный набор':x==='CSAT'?'CSAT · 수능':x,examTrack===x,`examTrack='${x}';setup()`)).join('')}</div>`:''}`}</div><div class="field"><h3><span class="idx">/02</span>Длительность</h3><div class="buttons times">${[5,10,20].map(m=>btn(m+' мин',minutes===m,`minutes=${m};setup()`)).join('')}</div></div></div><details class="advanced" ${expanded?'open':''} ontoggle="expanded=this.open"><summary><b>Дополнительные настройки</b><span>${routes[mode][1]}</span></summary>${mode==='school'&&!ageMode?termPicker():''}<div class="routes">${Object.entries(routes).map(([k,[n,t,d]])=>btn(`<small>МАРШРУТ / ${n}</small><b>${t}</b><span>${d}</span>`,mode===k,`mode='${k}';setup()`)).join('')}</div></details><div class="action"><span>◷ &nbsp; Вопросов: ${length()} · Без таймера</span><button class="primary" onclick="start()">Начать ${mode==='exams'?'пробник':'диагностику'} →</button></div>`}
+function setup(){heading('НАСТРОЙКА','ПАРАМЕТРЫ ДИАГНОСТИКИ');panel.innerHTML=`<div class="row"><div class="field">${(mode==='school'||mode==='adult')?`<h3><span class="idx">/01</span>${ageMode?'Укажи возраст':'Выбери класс'}</h3>${ageMode&&mode==='school'?`<p><label for="age">ВОЗРАСТ, ЛЕТ</label> <input id="age" type="number" min="11" max="18" value="${age}" oninput="age=this.value"></p>`:`<div class="buttons grades">${[7,8,9,10,11].map(g=>btn(g,mode==='school'&&grade===g,`mode='school';grade=${g};setup()`)).join('')}${btn('Взрослый',mode==='adult',`mode='adult';ageMode=false;setup()`)}</div>`}<button class="link" onclick="mode='school';ageMode=!ageMode;setup()">${ageMode?'Выбрать класс':'Не знаю класс — указать возраст'}</button>`:`<h3>${routes[mode][1]}</h3><p>${{adult:'Начнём с привычных ситуаций: счёт за свет, транспорт и тепло в доме.',olymp:'Начнём с нестандартной задачи. Если сложно, вернёмся к опорным законам.',exams:'Авторские тренировочные задания по мотивам экзаменов, не официальные варианты или прогноз оценки.'}[mode]}</p>${mode==='exams'?`<div class="buttons">${['all','IGCSE','CSAT','AP Physics 1','IB Physics'].map(x=>btn(x==='all'?'Смешанный набор':x==='CSAT'?'CSAT · 수능':x,examTrack===x,`examTrack='${x}';setup()`)).join('')}</div>`:''}`}</div><div class="field"><h3><span class="idx">/02</span>Длительность</h3><div class="buttons times">${[10,20,30].map(m=>btn(m+' мин',minutes===m,`minutes=${m};setup()`)).join('')}</div></div></div><details class="advanced" ${expanded?'open':''} ontoggle="expanded=this.open"><summary><b>Дополнительные настройки</b><span>${routes[mode][1]}</span></summary>${mode==='school'&&!ageMode?termPicker():''}<div class="routes">${Object.entries(routes).map(([k,[n,t,d]])=>btn(`<small>МАРШРУТ / ${n}</small><b>${t}</b><span>${d}</span>`,mode===k,`mode='${k}';setup()`)).join('')}</div></details><div class="action"><span>◷ &nbsp; Вопросов: ${length()} · Без таймера</span><button class="primary" onclick="start()">Начать ${mode==='exams'?'пробник':'диагностику'} →</button></div>`}
 const shuffle=a=>{let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
 function start(){attemptId=crypto.randomUUID();if(mode==='school'&&ageMode){if(!$('#age').value||!$('#age').checkValidity()){$('#age').required=true;$('#age').reportValidity();return}grade=Math.max(7,Math.min(11,Math.round(age)-6))}drills.clear();activeDrill=null;log=[];target=mode==='olymp'?9:mode==='adult'?2:(grade-7)*2+1;deck=shuffle(mode==='adult'?[...life,...basic.filter(x=>x.grade<=9)]:mode==='olymp'?[...challenges,...olympBookTasks,...basic.filter(x=>x.grade>=9)]:mode==='exams'?basic.filter(x=>x.grade>=9):basic);deck=shuffle([...deck,...visualTasks.filter(x=>mode==='school'&&x.grade===grade),...reasoning.filter(x=>mode==='adult'?x.grade<=9:mode==='school'||x.grade>=9),...multipleChoice.filter(x=>mode==='adult'?x.grade<=9:mode==='school'||x.grade>=9),...numberTasks().map(x=>({...x,skill:'Расчёт'}))]);if(mode==='exams')deck=shuffle(examPool());initialTopics=[...new Set((mode==='school'?basic.filter(x=>x.grade===grade):mode==='adult'?life:mode==='olymp'?challenges:deck.slice(0,length())).map(x=>x.topic))];if(scoped()){deck=shuffle(termPool());initialTopics=[...curriculum[grade][quarter-1]]}question();focusPanel()}
 let shownAt=0;

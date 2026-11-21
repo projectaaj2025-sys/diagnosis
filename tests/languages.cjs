@@ -3,7 +3,7 @@ const {test}=require('node:test');const assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
 const node={querySelector(){return this},innerHTML:''};
 const ctx=vm.createContext({document:{querySelector(){return node}}});
-for(const file of ['bank.js','olympiad.js','app.js','locales/catalog.js']){
+for(const file of ['bank.js','paragraphs-data.js','paragraph-activities.js','lesson-reference.js','olympiad.js','app.js','locales/catalog.js']){
  vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),ctx,{filename:file});
 }
 test('all prose questions and worked solutions have both translations',()=>{
@@ -32,5 +32,6 @@ test('chapter filter keeps original exercise indices and hides the chapter-one c
  vm.runInContext('workbook()',ctx);assert.equal(node.hidden,false);assert.equal((node.innerHTML.match(/№ /g)||[]).length,55);
 });
 test('exam tracks are distinct, translated, and never request more than their available items',()=>{
- for(const track of ['IGCSE','CSAT','all']){ctx.track=track;const r=vm.runInContext(`(()=>{mode='exams';examTrack=track;minutes=20;return [length(),...examPool().map(x=>Boolean(languageCatalog[x.raw.split('|')[0]]&&languageCatalog[x.solution]&&Number.isFinite(x.key)))]})()`,ctx);assert.equal(r[0],track==='all'?16:8);assert(r.slice(1).every(Boolean));}
+ for(const track of ['IGCSE','CSAT','AP Physics 1','IB Physics','all']){ctx.track=track;const r=vm.runInContext(`(()=>{mode='exams';examTrack=track;minutes=20;return [length(),...examPool().map(x=>Boolean(languageCatalog[x.raw.split('|')[0]]&&languageCatalog[x.solution]&&Number.isFinite(x.key)))]})()`,ctx);assert.equal(r[0],track==='all'?25:track.startsWith('AP')||track.startsWith('IB')?6:8);assert(r.slice(1).every(Boolean));}
 });
+test('every grade and quarter has at least 15 distinct prompts and valid answer choices',()=>{const pools=vm.runInContext(`Object.keys(curriculum).flatMap(g=>[1,2,3,4].map(q=>{grade=+g;quarter=q;return termPool()}))`,ctx);for(const pool of pools){assert(pool.length>=15);assert.equal(new Set(pool.map(x=>x.raw.split('|')[0])).size,pool.length);for(const x of pool)assert(x.raw.split('|').length>=2)}});
