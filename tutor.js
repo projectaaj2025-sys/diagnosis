@@ -93,7 +93,7 @@ function setupTutor(){
     modelList.replaceChildren();
     const svc=tutorServices[id];
     if(!svc) {
-      if(providerHint) providerHint.textContent='Не удалось определить поставщика — выбери вручную. Для OpenAI: gpt-4o-mini, для Gemini: выбери ключ AIza...';
+      if(providerHint) providerHint.textContent='Не удалось определить поставщика — выбери вручную. Для Gemini ключ начинается с AIza или AQ., для OpenAI — с sk-proj / sk-...';
       if(modelHint) modelHint.textContent='Введи точный API ID модели из консоли поставщика.';
       return;
     }
@@ -104,8 +104,8 @@ function setupTutor(){
       btn.onclick=()=>{ model.value=m.id; update(); model.focus(); };
       presetWrap.append(btn);
     }
-    if(providerHint) providerHint.textContent=`Префикс ключа распознан как ${svc.name}. Можно изменить вручную.`;
-    if(modelHint) modelHint.textContent='Выбери быстрый вариант ниже или введи свой ID. Для Gemini подойдёт gemini-flash-latest.';
+    if(providerHint) providerHint.textContent=`Префикс ключа распознан как ${svc.name} (${id==='gemini'&&key.value.trim().startsWith('AQ.')?'AQ. — Google Cloud ключ':id==='gemini'?'AIza — AI Studio ключ':svc.name}). Можно изменить вручную.`;
+    if(modelHint) modelHint.textContent='Выбери быстрый вариант ниже или введи свой ID. Для Gemini подойдёт gemini-2.5-flash.';
   }
   function update(){
     const id=service(),known=detectTutor(key.value.trim());
