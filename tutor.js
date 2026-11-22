@@ -93,7 +93,7 @@ function setupTutor(){
     modelList.replaceChildren();
     const svc=tutorServices[id];
     if(!svc) {
-      if(providerHint) providerHint.textContent='Выбери поставщика вручную — по префиксу ключа определить не удалось.';
+      if(providerHint) providerHint.textContent='Не удалось определить поставщика — выбери вручную. Для OpenAI: gpt-4o-mini, для Gemini: выбери ключ AIza...';
       if(modelHint) modelHint.textContent='Введи точный API ID модели из консоли поставщика.';
       return;
     }
@@ -127,9 +127,11 @@ function setupTutor(){
     } else if(!key.value.trim()){
       setConnection('idle','Ключ не введён. Вставь ключ и нажми «Проверить подключение».');
     } else if(!id){
-      setConnection('warn','Поставщик не определён — выбери вручную.');
+      setConnection('warn','Поставщик не определён — выбери из списка.');
     } else if(!model.value.trim()){
-      setConnection('warn','Укажи API ID модели.');
+      setConnection('warn','Укажи API ID модели — выбери чип ниже.');
+    } else if(ready){
+      setConnection('idle','Готово к проверке — нажми «Проверить подключение».');
     }
     // Auto checkbox availability
     auto.disabled=!ready;if(!ready)auto.checked=false;
@@ -169,7 +171,7 @@ function setupTutor(){
     update();if(active||(check?test:send).disabled)return;
     const label=planner.cells.length?mapLabel():'',mapAtSend=currentMap;const id=service(),q=question.value.trim(),text=check?'Reply with OK.':preview.value;
     if(!check&&key.value.trim()&&text.includes(key.value.trim())){setDialogStatus('error','Удали API-ключ из текста вопроса.');return}
-    let req;try{req=tutorRequest(id,key.value.trim(),id==='gemini'?model.value.trim().replace(/^models\//,''):model.value.trim(),text)}catch{setDialogStatus('error','Проверь идентификатор модели.');setConnection('error','Неверный ID модели.');return}
+    let req;try{req=tutorRequest(id,key.value.trim(),id==='gemini'?model.value.trim().replace(/^models\//,''):model.value.trim(),text)}catch(e){const isProvider=e.message==='provider';const msg=isProvider?'Выбери поставщика вручную.':'Проверь идентификатор модели. Допустимы буквы, цифры, . : - _';setDialogStatus('error',msg);setConnection('error',msg);return}
     const ctl=new AbortController();active=ctl;update();
     if(check){ setDialogStatus('checking','Проверяем подключение…'); setConnection('checking','Проверяем подключение…'); }
     else { setDialogStatus('checking','Ожидаем ответ модели…'); }
@@ -181,7 +183,7 @@ function setupTutor(){
       if(check){const ok='✓ Подключение работает: модель ответила.'; setDialogStatus('ok',ok); setConnection('ok',ok+' Квота расходуется.');return}
       if(mode.value==='plan'){renderTutorAnswer(reply,answer);if(mapAtSend===currentMap&&planner.cells.length)publishPlan(answer,label)}else{turns.push({role:'student',text:q},{role:'teacher',text:answer.slice(0,6000)});turns=turns.slice(-8);for(const [label,value] of [['Вопрос',q],['Наставник',answer]]){const h=document.createElement('b'),p=document.createElement('p');h.textContent=label;if(label==='Наставник')renderTutorAnswer(p,value);else p.textContent=value;reply.append(h,p)}if(question.value.trim()===q)question.value=''}
       setDialogStatus('ok','Рекомендации модели. Сверяй расчёты с учебником.');
-    }catch{if(active===ctl){const msg=ctl.signal.aborted?'Время ожидания истекло.':'Не удалось связаться с API. Проверь сеть и доступ из браузера.'; setDialogStatus('error',msg); if(check) setConnection('error',msg);}}
+    }catch(e){if(active===ctl){const msg=ctl.signal.aborted?'Время ожидания истекло.':(e&&e.message?'Сеть: '+e.message:'Не удалось связаться с API. Проверь сеть, VPN и CORS.'); setDialogStatus('error',msg); if(check) setConnection('error',msg);}}
     finally{clearTimeout(timer);if(active===ctl){active=null;update()}}
   }
   // No provider call on key entry or page load. One opt-in automatic request per completed attempt.
@@ -193,7 +195,7 @@ function setupTutor(){
       const res=await fetch(req.url,{method:'POST',headers:req.headers,body:JSON.stringify(req.body),signal:ctl.signal,credentials:'omit',redirect:'error',referrerPolicy:id==='gemini'?'strict-origin':'no-referrer',cache:'no-store'});
       if(mapJob!==ctl)return;let data;try{data=await res.json()}catch{}if(mapJob!==ctl)return;
       if(!res.ok){state.textContent=`HTTP ${res.status} · `+tutorError(res.status,data);return}const answer=tutorText(id,data);if(typeof answer!=='string'||!answer.trim()){state.textContent='Модель не вернула текст.';return}publishPlan(answer,label);
-    }catch{if(mapJob===ctl)state.textContent=ctl.signal.aborted?'Время ожидания истекло.':'Не удалось связаться с API. Проверь сеть и доступ из браузера.'}finally{clearTimeout(timer);if(mapJob===ctl)mapJob=null}
+    }catch(e){if(mapJob===ctl)state.textContent=ctl.signal.aborted?'Время ожидания истекло.':(e&&e.message?'Сеть: '+e.message:'Не удалось связаться с API. Проверь сеть, VPN и CORS.')}finally{clearTimeout(timer);if(mapJob===ctl)mapJob=null}
   }
   window.addEventListener('physlab:map-ready',e=>{if(e.detail===currentMap)return;cancelMap();currentMap=e.detail;out.replaceChildren();desk('summary').textContent=mapLabel();state.textContent='Карта готова. Можно запросить разбор.';update();autoPlan()});
   auto.onchange=()=>{if(auto.checked)autoPlan();else cancelMap()};
