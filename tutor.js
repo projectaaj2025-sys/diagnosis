@@ -1,7 +1,7 @@
 // BYOK: requests go to one fixed HTTPS origin only after explicit submission.
 const tutorServices = {
-  gemini:{name:'Google Gemini',model:'gemini-flash-latest',models:[
-    {id:'gemini-flash-latest',label:'Flash — быстро и недорого (рекомендуется)'},
+  gemini:{name:'Google Gemini',model:'gemini-2.5-flash',models:[
+    {id:'gemini-2.5-flash',label:'2.5 Flash — быстро и недорого (рекомендуется)'},
     {id:'gemini-2.0-flash',label:'Gemini 2.0 Flash'},
     {id:'gemini-2.5-flash',label:'Gemini 2.5 Flash'},
     {id:'gemini-2.5-pro',label:'Gemini 2.5 Pro — сильнее'}
@@ -65,8 +65,8 @@ function setupTutor(){
   const reveal=document.getElementById('ai-reveal');
   let mapJob=null,lastAuto=null,currentMap=null,opener=null;
   function cancelMap(){if(mapJob){mapJob.abort();mapJob=null;state.textContent='Карта готова. Можно запросить разбор.'}}
-  function mapLabel(){return `${planner.scope} · ${planner.cells.reduce((n,c)=>n+c.n,0)} · ${planner.weeks} × ${45*planner.hours} min`}
-  function mapPrompt(){const language=({ru:'Russian',en:'English',kk:'Kazakh'})[document.documentElement.lang]||'Russian';return `Reply in ${language}. Use only the checked topics. Start with one actionable recommendation, distinguish insufficient evidence from repeated mistakes, then give a week-by-week schedule with minutes and an independent transfer problem.\n${aiBrief(makeSchedule())}`}
+  function mapLabel(){try{return `${planner.scope} · ${planner.cells.reduce((n,c)=>n+c.n,0)} · ${planner.weeks} × ${45*planner.hours} min`}catch{return ''}}
+  function mapPrompt(){const language=({ru:'Russian',en:'English',kk:'Kazakh'})[document.documentElement.lang]||'Russian';try{return `Reply in ${language}. Use only the checked topics. Start with one actionable recommendation, distinguish insufficient evidence from repeated mistakes, then give a week-by-week schedule with minutes and an independent transfer problem.\n${aiBrief(makeSchedule())}`}catch{return `Reply in ${language}. Hello`}}
   function publishPlan(answer,label){renderTutorAnswer(out,answer);desk('summary').textContent=label;state.textContent='План по карте готов.'}
   el('settings-link').onclick=()=>{ui.close();requestAnimationFrame(()=>key.focus())};
 
@@ -139,7 +139,8 @@ function setupTutor(){
     el('stop').hidden=!active;
     el('starters').hidden=mode.value==='plan';
     test.disabled=!ready||!!active;
-    send.disabled=test.disabled||(mode.value==='plan'?!planner.cells.length:!question.value.trim());
+    const hasPlanner=typeof planner!=='undefined'&&planner&&Array.isArray(planner.cells);
+    send.disabled=test.disabled||(mode.value==='plan'?!hasPlanner||!planner.cells.length:!question.value.trim());
     el('question-label').hidden=mode.value==='plan';
     el('topic').textContent=mode.value==='plan'?'':topic()?.title||'';
     preview.value=prompt();
@@ -170,7 +171,7 @@ function setupTutor(){
   el('clear').onclick=()=>{key.value='';model.value='';credentialsChanged();newDialog();setConnection('idle','Ключ очищен.');};
   async function submit(check){
     update();if(active||(check?test:send).disabled)return;
-    const label=planner.cells.length?mapLabel():'',mapAtSend=currentMap;const id=service(),q=question.value.trim(),text=check?'Reply with OK.':preview.value;
+    let label=''; try{label=(typeof planner!=='undefined'&&planner&&planner.cells&&planner.cells.length)?mapLabel():'';}catch{} const mapAtSend=currentMap;const id=service(),q=question.value.trim(),text=check?'Reply with OK.':preview.value;
     if(!check&&key.value.trim()&&text.includes(key.value.trim())){setDialogStatus('error','Удали API-ключ из текста вопроса.');return}
     let req;try{req=tutorRequest(id,key.value.trim(),id==='gemini'?model.value.trim().replace(/^models\//,''):model.value.trim(),text)}catch(e){const isProvider=e.message==='provider';const msg=isProvider?'Выбери поставщика вручную.':'Проверь идентификатор модели. Допустимы буквы, цифры, . : - _';setDialogStatus('error',msg);setConnection('error',msg);return}
     const ctl=new AbortController();active=ctl;update();
@@ -182,14 +183,14 @@ function setupTutor(){
       if(!res.ok){let data;try{data=await res.json()}catch{}if(active===ctl){const msg=`HTTP ${res.status} · `+tutorError(res.status,data); setDialogStatus('error',msg); if(check) setConnection('error',msg);}return}
       const answer=tutorText(id,await res.json());if(active!==ctl)return;if(typeof answer!=='string'||!answer.trim()){setDialogStatus('error','Модель не вернула текст.'); if(check) setConnection('error','Модель не вернула текст.');return}
       if(check){const ok='✓ Подключение работает: модель ответила.'; setDialogStatus('ok',ok); setConnection('ok',ok+' Квота расходуется.');return}
-      if(mode.value==='plan'){renderTutorAnswer(reply,answer);if(mapAtSend===currentMap&&planner.cells.length)publishPlan(answer,label)}else{turns.push({role:'student',text:q},{role:'teacher',text:answer.slice(0,6000)});turns=turns.slice(-8);for(const [label,value] of [['Вопрос',q],['Наставник',answer]]){const h=document.createElement('b'),p=document.createElement('p');h.textContent=label;if(label==='Наставник')renderTutorAnswer(p,value);else p.textContent=value;reply.append(h,p)}if(question.value.trim()===q)question.value=''}
+      if(mode.value==='plan'){const okPlanner=typeof planner!=='undefined'&&planner&&planner.cells&&planner.cells.length; renderTutorAnswer(reply,answer);if(mapAtSend===currentMap&&okPlanner)publishPlan(answer,label)}else{turns.push({role:'student',text:q},{role:'teacher',text:answer.slice(0,6000)});turns=turns.slice(-8);for(const [label,value] of [['Вопрос',q],['Наставник',answer]]){const h=document.createElement('b'),p=document.createElement('p');h.textContent=label;if(label==='Наставник')renderTutorAnswer(p,value);else p.textContent=value;reply.append(h,p)}if(question.value.trim()===q)question.value=''}
       setDialogStatus('ok','Рекомендации модели. Сверяй расчёты с учебником.');
     }catch(e){if(active===ctl){const msg=ctl.signal.aborted?'Время ожидания истекло.':(e&&e.message?'Сеть: '+e.message:'Не удалось связаться с API. Проверь сеть, VPN и CORS.'); setDialogStatus('error',msg); if(check) setConnection('error',msg);}}
     finally{clearTimeout(timer);if(active===ctl){active=null;update()}}
   }
   // No provider call on key entry or page load. One opt-in automatic request per completed attempt.
   async function autoPlan(){
-    if(!currentMap||!auto.checked||auto.disabled||lastAuto===currentMap||!planner.cells.length)return;
+    const _hasCells=typeof planner!=='undefined'&&planner&&planner.cells&&planner.cells.length; if(!currentMap||!auto.checked||auto.disabled||lastAuto===currentMap||!_hasCells)return;
     cancelMap();const ctl=new AbortController(),label=mapLabel(),id=service();mapJob=ctl;lastAuto=currentMap;state.textContent='Ожидаем план модели…';
     const timer=setTimeout(()=>ctl.abort(),60000);
     try{const req=tutorRequest(id,key.value.trim(),id==='gemini'?model.value.trim().replace(/^models\//,''):model.value.trim(),mapPrompt());
