@@ -3,7 +3,6 @@ const tutorServices = {
   gemini:{name:'Google Gemini',model:'gemini-2.5-flash',models:[
     {id:'gemini-2.5-flash',label:'2.5 Flash — быстро и недорого (рекомендуется)'},
     {id:'gemini-2.0-flash',label:'Gemini 2.0 Flash'},
-    {id:'gemini-2.5-flash',label:'Gemini 2.5 Flash'},
     {id:'gemini-2.5-pro',label:'Gemini 2.5 Pro — сильнее'}
   ]},
   openai:{name:'OpenAI',model:'gpt-4o-mini',models:[
