@@ -1,9 +1,11 @@
 // BYOK: requests go to one fixed HTTPS origin only after explicit submission.
 const tutorServices = {
-  gemini:{name:'Google Gemini',model:'gemini-2.5-flash',models:[
-    {id:'gemini-2.5-flash',label:'2.5 Flash — быстро и недорого (рекомендуется)'},
-    {id:'gemini-2.0-flash',label:'Gemini 2.0 Flash'},
-    {id:'gemini-2.5-pro',label:'Gemini 2.5 Pro — сильнее'}
+  gemini:{name:'Google Gemini',model:'gemini-2.0-flash',models:[
+    {id:'gemini-2.0-flash',label:'2.0 Flash — совместимый (рекомендуется)'},
+    {id:'gemini-2.5-flash',label:'2.5 Flash — новее'},
+    {id:'gemini-1.5-flash',label:'1.5 Flash — запасной'},
+    {id:'gemini-2.5-pro',label:'2.5 Pro — сильнее'},
+    {id:'gemini-flash-latest',label:'flash-latest — авто'}
   ]},
   openai:{name:'OpenAI',model:'gpt-4o-mini',models:[
     {id:'gpt-4o-mini',label:'GPT-4o mini — быстро'},
@@ -48,7 +50,7 @@ function tutorError(status,data){
   if(reasons.includes('API_KEY_INVALID'))return 'Ключ отклонён. Проверь поставщика и ключ.';
   if(reasons.includes('API_KEY_HTTP_REFERRER_BLOCKED'))return 'Для ключа не разрешён этот сайт. Проверь список разрешённых сайтов в настройках ключа.';
   if(reasons.includes('SERVICE_DISABLED')||reasons.includes('API_KEY_SERVICE_BLOCKED'))return 'Для этого проекта или ключа не разрешён Gemini API.';
-  const errors={400:'Проверь ключ, модель и настройки API.',401:'Ключ отклонён. Проверь поставщика и ключ.',403:'Нет доступа. Проверь ограничения ключа и разрешения.',404:'Модель недоступна. Укажи модель из своего кабинета.',429:'Лимит запросов или квота исчерпаны. Подожди или проверь тариф.',500:'Сервер модели вернул ошибку (500). Подожди минуту и попробуй снова.',502:'Шлюз модели недоступен (502). Попробуй позже.',503:'Сервис перегружен или модель недоступна (503). Подожди 1–2 минуты, проверь ID модели и регион.'};
+  const errors={400:'Проверь ключ, модель и настройки API.',401:'Ключ отклонён. Проверь поставщика и ключ.',403:'Нет доступа. Проверь ограничения ключа и разрешения.',404:'Модель недоступна для этого ключа. Попробуй другой чип: 2.0 Flash или 1.5 Flash. Проверь список моделей в AI Studio / Cloud Console.',429:'Лимит запросов или квота исчерпаны. Подожди или проверь тариф.',500:'Сервер модели вернул ошибку (500). Подожди минуту и попробуй снова.',502:'Шлюз модели недоступен (502). Попробуй позже.',503:'Сервис перегружен или модель недоступна (503). Подожди 1–2 минуты, проверь ID модели и регион.'};
   return errors[status]||(status>=500?'Сервис временно недоступен ('+status+'). Попробуй позже.':'Сервис временно недоступен. Попробуй позже.');
 }
 function renderTutorAnswer(node,text){
@@ -104,7 +106,7 @@ function setupTutor(){
       presetWrap.append(btn);
     }
     if(providerHint) providerHint.textContent=`Префикс ключа распознан как ${svc.name} (${id==='gemini'&&key.value.trim().startsWith('AQ.')?'AQ. — Google Cloud ключ':id==='gemini'?'AIza — AI Studio ключ':svc.name}). Можно изменить вручную.`;
-    if(modelHint) modelHint.textContent='Выбери быстрый вариант ниже или введи свой ID. Для Gemini подойдёт gemini-2.5-flash.';
+    if(modelHint) modelHint.textContent='Выбери быстрый вариант ниже или введи свой ID. Если 404 — попробуй 2.0 Flash или 1.5 Flash.';
   }
   function update(){
     const id=service(),known=detectTutor(key.value.trim());
