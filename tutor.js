@@ -131,7 +131,8 @@ function setupTutor(){
     } else if(!model.value.trim()){
       setConnection('warn','Укажи API ID модели — выбери чип ниже.');
     } else if(ready){
-      setConnection('idle','Готово к проверке — нажми «Проверить подключение».');
+      const keep=['ok','error','checking'].includes(connection.dataset.state);
+      if(!keep) setConnection('idle','Готово к проверке — нажми «Проверить подключение».');
     }
     // Auto checkbox availability
     auto.disabled=!ready;if(!ready)auto.checked=false;
